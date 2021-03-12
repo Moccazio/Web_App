@@ -459,6 +459,9 @@ if ticker_radio == 'DAX':
         st.pyplot(fig1)
         
         
+        
+        
+        
     st.subheader('Aktienkursprognose')  
     
     if st.checkbox("Markov Chain Monte Carlo"):
@@ -504,6 +507,7 @@ if ticker_radio == 'Tickersuche':
             plt.plot(close)
             st.pyplot(fig1)
 
+
         st.header('Handelsstrategien')    
         st.subheader('Aktienkurs')  
         st.subheader('Renditerechner')       
@@ -526,7 +530,7 @@ if ticker_radio == 'Tickersuche':
             plt.plot(stock_df[['Buy&Hold_Rendite']])
             st.pyplot(fig2)
             st.dataframe(stock_df[['Buy&Hold_Rendite']])
-        
+                  
         st.subheader('Aktienkursprognose') 
         
         if st.checkbox("Prophet Kursprognose (Markov Chain Monte Carlo)"):

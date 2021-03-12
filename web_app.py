@@ -7,7 +7,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import streamlit as st 
-import ffn
 from fbprophet import Prophet
 import fbprophet.plot as fplt
 from fbprophet.plot import plot_plotly, plot_components_plotly
@@ -311,11 +310,6 @@ def filter_by_moneyness(df, pct_cutoff=0.2):
     crit1 = (1-pct_cutoff)*df.Strike < df.Underlying_Price
     crit2 = df.Underlying_Price < (1+pct_cutoff)*df.Strike
     return (df.loc[crit1 & crit2].reset_index(drop=True))
-    
-def ffn_stk_performance():
-    prices = ffn.get(ticker_input, start='2015-01-01')
-    stats = prices.calc_stats()
-    return stats
 
 def read_dax_ticker():
     dax = pd.read_excel('DAX.xlsx', index_col='Index')

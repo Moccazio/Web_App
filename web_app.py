@@ -491,6 +491,7 @@ if ticker_radio == 'Tickersuche':
         if st.checkbox("Finanzkennzahlen"):
             company = get_company_data()
             st.dataframe(company.inputs)  
+        stock = get_stock_data()    
         close = stock.df.Close
         if st.checkbox("Graphischer Kursverlauf"):
             font_1 = {

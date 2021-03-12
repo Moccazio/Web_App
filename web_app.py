@@ -373,10 +373,6 @@ if ticker_radio == 'S&P500':
     st.header('Datenanalyse')
     
         
-    if st.checkbox("Finanzkennzahlen"):
-        company = get_company_data()
-        st.dataframe(company.inputs)
-        
     stock = snp_stock_data()    
     close = stock.df.Close
     if st.checkbox("Graphischer Kursverlauf"):
@@ -448,10 +444,6 @@ if ticker_radio == 'DAX':
     st.markdown('** Industry **: ' + info['industry'])
 
     st.header('Datenanalyse')
-        
-    if st.checkbox("Finanzkennzahlen"):
-        company = get_company_data()
-        st.dataframe(company.inputs)      
     
     stock = dax_stock_data()   
     close = stock.df.Close

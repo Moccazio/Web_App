@@ -371,6 +371,12 @@ if ticker_radio == 'S&P500':
     st.markdown('** Sector **: ' + info['sector'])
     st.markdown('** Industry **: ' + info['industry'])
     st.header('Datenanalyse')
+    
+        
+    if st.checkbox("Finanzkennzahlen"):
+        company = get_company_data()
+        st.dataframe(company.inputs)
+        
     stock = snp_stock_data()    
     close = stock.df.Close
     if st.checkbox("Graphischer Kursverlauf"):
@@ -435,16 +441,18 @@ if ticker_radio == 'DAX':
     'DAX Aktien',
       dax_ticker)  
     st.subheader("Ticker Info")
-    stock = snp_stock_data()
     stock_i = yf.Ticker(DAX_ticker)
     info = stock_i.info 
     st.subheader(info['longName'])
     st.markdown('** Sector **: ' + info['sector'])
     st.markdown('** Industry **: ' + info['industry'])
+
     st.header('Datenanalyse')
-    stock = snp_stock_data()    
-    close = stock.df.Close
-    st.header('Datenanalyse')
+        
+    if st.checkbox("Finanzkennzahlen"):
+        company = get_company_data()
+        st.dataframe(company.inputs)      
+    
     stock = dax_stock_data()   
     close = stock.df.Close
     if st.checkbox("Graphischer Kursverlauf"):
@@ -484,6 +492,8 @@ if ticker_radio == 'Tickersuche':
         st.subheader(info['longName'])
         st.markdown('** Sector **: ' + info['sector'])
         st.markdown('** Industry **: ' + info['industry'])
+        st.header('Datenanalyse')
+        
         st.header('Datenanalyse')
         
         if st.checkbox("Finanzkennzahlen"):

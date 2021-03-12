@@ -312,11 +312,11 @@ def filter_by_moneyness(df, pct_cutoff=0.2):
     return (df.loc[crit1 & crit2].reset_index(drop=True))
 
 def read_dax_ticker():
-    dax = pd.read_excel('DAX.xlsx', index_col='Index')
+    dax = pd.read_csv('DAX.csv', index_col='Index')
     return dax
 
 def read_sp500_ticker():
-    sp500 = pd.read_excel('GSPC.xlsx', index_col='Index')
+    sp500 = pd.read_csv('GSPC.csv', index_col='Index')
     return sp500
 
 # ========================================

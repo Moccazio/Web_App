@@ -12,3 +12,4 @@ fbprophet==0.7.1
 plotly==4.14.3
 QuantLib==1.21
 translate==3.5.0
+deep-translator==1.4.1

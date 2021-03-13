@@ -340,7 +340,7 @@ def read_internet_ticker():
 
 
 def read_software_ticker():
-    software = pd.read_csv('koyfin_stocks/Software_Stocks.csv')
+    software = pd.read_csv('koyfin_stocks/SAAS_Stocks.csv')
     software = software[1:]
     return software
 

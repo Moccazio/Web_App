@@ -437,7 +437,7 @@ if ticker_radio == 'S&P500':
     st.subheader('Derivate')  
     
     if st.checkbox("Optionscheine"):
-        options = Options_Chain()
+        options = get_option_data()
         st.dataframe(options)   
             
         

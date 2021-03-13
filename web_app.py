@@ -16,6 +16,8 @@ import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
+from translate import Translator
+translator= Translator(to_lang="German")
 # ========================================  
 # Company Data 
 # ========================================    
@@ -239,7 +241,7 @@ def options_chain(symbol):
     
     options = filter_by_moneyness(options)
     options_filtered  = options [['CALL', 'contractSymbol', 'expirationDate', 'dte' , 'lastPrice', 'strike', 'bid', 'ask', 'mark', 'spread', 'spread_pct', 'volume', 'openInterest', 'impliedVolatility', 'inTheMoney', 'stockPrice', 'intrinicValue']]
-    options_filtered.columns =  [['Call=1, Put=0)', 'Ticker', 'Einlösetermin','Ablaufdatum in Jahren', 'Preis', 'Basispreis','Bid', 'Ask', 'Mark', 'Spread', 'Spreadanteil', 'Volumen', 'Open Intrest', 'implizite Volatilität', 'im Geld', 'Kurswert', 'Substanzwert']]   
+    options_filtered.columns =  [['Call=1, Put=0', 'Ticker', 'Einlösetermin','Ablaufdatum in Jahren', 'Preis', 'Basispreis','Bid', 'Ask', 'Mark', 'Spread', 'Spreadanteil', 'Volumen', 'Open Intrest', 'implizite Volatilität', 'im Geld', 'Kurswert', 'Substanzwert']]   
         
 
     return options_filtered 
@@ -397,9 +399,11 @@ if ticker_radio == 'S&P500':
     stock = snp_stock_data()
     stock_i = yf.Ticker(SNP_ticker)
     info = stock_i.info 
+    translation_1 = translator.translate(info['sector'])
+    translation_2 = translator.translate(info['industry'])
     st.subheader(info['longName'])
-    st.markdown('** Sector **: ' + info['sector'])
-    st.markdown('** Industry **: ' + info['industry'])
+    st.markdown('** Sektor **: ' + translation_1)
+    st.markdown('** Industrie **: ' + translation_2)
     st.header('Datenanalyse')
     
         

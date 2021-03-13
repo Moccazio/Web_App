@@ -86,23 +86,23 @@ class Company:
 
         df.loc['Einnahmen'] = prior_revenue_list
         df.loc['Einnahmenwachstum'] = (df.loc['totalRevenue'] - df.loc['Einnahmen']) / df.loc['Einnahmen']
-        df.loc['EBIT Marge'] = df.loc['ebit']/df.loc['totalRevenue'] 
+        df.loc['EBIT-Marge'] = df.loc['ebit']/df.loc['totalRevenue'] 
         df.loc['Steueranteil'] = df.loc['incomeTaxExpense']/df.loc['incomeBeforeTax'] 
-        df.loc['Netto Geldausgaben über Verkauf'] = (- df.loc['capitalExpenditures'] - df.loc['depreciation']) / df.loc['totalRevenue']
+        df.loc['Nettogeldausgaben über Verkauf'] = (- df.loc['capitalExpenditures'] - df.loc['depreciation']) / df.loc['totalRevenue']
         try:
             df.loc['nwc'] = (df.loc['totalCurrentAssets'] - df.loc['cash']) - (df.loc['totalCurrentLiabilities'] - df.loc['shortLongTermDebt'])
         except KeyError:
             df.loc['nwc'] = (df.loc['totalCurrentAssets'] - df.loc['cash']) - (df.loc['totalCurrentLiabilities'])
-        df.loc['NWC über Verkauf'] = df.loc['nwc']/df.loc['totalRevenue']
+        df.loc['nwc über Verkauf'] = df.loc['nwc']/df.loc['totalRevenue']
         try:
-            df.loc['Netto Schulden'] = df.loc['shortLongTermDebt'] + df.loc['longTermDebt'] - df.loc['cash']
+            df.loc['Nettoschulden'] = df.loc['shortLongTermDebt'] + df.loc['longTermDebt'] - df.loc['cash']
         except KeyError:
             try:
-                df.loc['Netto Schulden'] = df.loc['longTermDebt'] - df.loc['cash']
+                df.loc['Nettoschulden'] = df.loc['longTermDebt'] - df.loc['cash']
             except KeyError:
-                df.loc['Netto Schulden'] = - df.loc['cash']
+                df.loc['Nettoschulden'] = - df.loc['cash']
         df = df[12:len(df)].drop('nwc')
-        df['Historischer Durchschnitt'] = [df.iloc[i].mean() for i in range(len(df))]
+        df['Historischerdurchschnitt'] = [df.iloc[i].mean() for i in range(len(df))]
         return df
 
     def get_free_cash_flow_forecast(self, parameter_list):

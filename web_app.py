@@ -383,7 +383,6 @@ def predict_with_prophet_dax():
 # ========================================
 st.success("Zugang gewährt") 
 st.header('Die Aktien Gruppe')
-   
     
 st.subheader('Aktienanalyse')
 
@@ -474,10 +473,11 @@ if ticker_radio == 'DAX':
     st.subheader("Ticker Info")
     stock_i = yf.Ticker(DAX_ticker)
     info = stock_i.info 
+    translation_1 = translator.translate(info['sector'])
+    translation_2 = translator.translate(info['industry'])
     st.subheader(info['longName'])
-    st.markdown('** Sector **: ' + info['sector'])
-    st.markdown('** Industry **: ' + info['industry'])
-
+    st.markdown('** Sektor **: ' + translation_1)
+    st.markdown('** Industrie **: ' + translation_2)
     st.header('Datenanalyse')
     
     stock = dax_stock_data()   
@@ -519,10 +519,11 @@ if ticker_radio == 'Tickersuche':
         
         stock_i = yf.Ticker(ticker_input)
         info = stock_i.info 
+        translation_1 = translator.translate(info['sector'])
+        translation_2 = translator.translate(info['industry'])
         st.subheader(info['longName'])
-        st.markdown('** Sector **: ' + info['sector'])
-        st.markdown('** Industry **: ' + info['industry'])
-        st.header('Datenanalyse')
+        st.markdown('** Sektor **: ' + translation_1)
+        st.markdown('** Industrie **: ' + translation_2)
         
         st.header('Datenanalyse')
         

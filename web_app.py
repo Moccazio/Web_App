@@ -235,10 +235,11 @@ def options_chain(symbol):
     options['intrinicValue'] = (options['strike'] - current_price)
     
     # Drop unnecessary and meaningless columns
-    options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate', 'lastPrice'])
+    options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate'])
     
     options = filter_by_moneyness(options)
-    options_filtered  = options [['CALL', 'contractSymbol', 'expirationDate', 'dte', 'strike', 'bid', 'ask', 'bid', 'ask', 'mark', 'spread', 'spread_pct', 'volume', 'openInterest', 'impliedVolatility', 'inTheMoney', 'stockPrice', 'intrinicValue']]
+    options_filtered  = options [['CALL', 'contractSymbol', 'expirationDate', 'dte' , 'lastPrice', 'strike', 'bid', 'ask', 'mark', 'spread', 'spread_pct', 'volume', 'openInterest', 'impliedVolatility', 'inTheMoney', 'stockPrice', 'intrinicValue']]
+    options_filtered.columns =  [['Call=1, Put=0)', 'Ticker', 'Einlösetermin','Ablaufdatum in Jahren', 'Preis', 'Basispreis','Bid', 'Ask', 'Mark', 'Spread', 'Spreadanteil', 'Volumen', 'Open Intrest', 'implizite Volatilität', 'im Geld', 'Kurswert', 'Substanzwert']]   
         
 
     return options_filtered 

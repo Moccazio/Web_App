@@ -318,6 +318,32 @@ def get_unempger_data():
 # ========================================
 # Stock Data Funktions
 # ========================================
+
+def read_dax_ticker():
+    dax = pd.read_csv('index_stocks/DAX.csv', index_col='Index')
+    return dax
+
+def read_sp500_ticker():
+    sp500 = pd.read_csv('index_stocks/GSPC.csv', index_col='Index')
+    return sp500
+
+
+def read_ganja_ticker():
+    ganja = pd.read_csv('koyfin_stocks/Marijuana_Stocks.csv')
+    ganja = ganja[1:]
+    return ganja
+
+def read_internet_ticker():
+    internet = pd.read_csv('koyfin_stocks/Internet_Stocks.csv')
+    internet = internet[1:]
+    return internet
+
+
+def read_software_ticker():
+    software = pd.read_csv('koyfin_stocks/Software_Stocks.csv')
+    software = software[1:]
+    return software
+
 def get_stock_data():
     stock = Stock(ticker_input)
     return stock
@@ -333,6 +359,15 @@ def snp_stock_data():
 def ganja_stock_data():
     stock = Stock(ganja_ticker)
     return stock
+
+
+def internet_stock_data():
+    stock = Stock(internet_ticker)
+    return stock
+
+def software_stock_data():
+    stock = Stock(software_ticker)
+    return stock
     
 def get_quote_data():
     quote = pdr.get_quote_yahoo(ticker_input)
@@ -346,19 +381,6 @@ def get_option_data():
     options_df = Options_Chain(SNP_ticker)
     return options_df
 
-def read_dax_ticker():
-    dax = pd.read_csv('index_stocks/DAX.csv', index_col='Index')
-    return dax
-
-def read_sp500_ticker():
-    sp500 = pd.read_csv('index_stocks/GSPC.csv', index_col='Index')
-    return sp500
-
-
-def read_ganja_ticker():
-    ganja = pd.read_csv('koyfin_stocks/Marijuana_Stocks.csv')
-    ganja = ganja[1:]
-    return ganja
 
 # ========================================
 # Prophet
@@ -394,6 +416,18 @@ def predict_with_prophet_ganja():
     df = prophet_df(stk_df)
     return df
 
+def predict_with_prophet_internet():
+    stk = internet_stock_data()
+    stk_df = stk.df["2010":]
+    df = prophet_df(stk_df)
+    return df
+
+def predict_with_prophet_software():
+    stk = software_stock_data()
+    stk_df = stk.df["2010":]
+    df = prophet_df(stk_df)
+    return df
+
 # ========================================
 # Launche App
 # ========================================
@@ -405,6 +439,133 @@ st.subheader('Aktienanalyse')
 ticker_radio = st.radio('Aktien', ('', 'Tickersuche'))     
 ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX'))    
 ticker_radio_2 = st.radio('Spekulationsaktien', ('','Internet', 'Software', 'Marijuana'))
+
+if ticker_radio_2 == 'Internet':
+    internet=read_internet_ticker()
+    ticker_i = internet['Ticker'].sort_values().tolist()      
+    internet_ticker = st.selectbox(
+    'Marijuana Ticker auswählen',
+      ticker_i)  
+    st.subheader("Ticker Info")
+    stock_i = yf.Ticker(internet_ticker)
+    info = stock_i.info 
+    to_translate_1 = info['sector']
+    to_translate_2 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    st.subheader(info['longName'])
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
+    st.header('Datenanalyse')
+    stock = internet_stock_data()
+    close = stock.df.Close
+    if st.checkbox("Graphischer Kursverlauf"):
+        font_1 = {
+                    'family' : 'Arial',
+                         'size' : 12
+                    }
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(internet_ticker + ' Kursverlauf', fontdict = font_1)
+        plt.plot(close)
+        st.pyplot(fig1)
+    st.header('Handelsstrategien')    
+    st.subheader('Renditerechner')       
+    if st.checkbox("Kaufen und Halten"):
+        year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
+        st.header('Kaufen und Halten Renditerechner')
+        stock = internet_stock_data()
+        stock_df = stock.df[year:]
+        stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
+        stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
+        stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
+        font_1 = {
+                'family' : 'Arial',
+                 'size' : 12
+                        }
+        fig2 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(internet_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.plot(stock_df[['Buy&Hold_Rendite']])
+        st.pyplot(fig2)
+        st.dataframe(stock_df[['Buy&Hold_Rendite']])    
+        
+    st.subheader('Aktienkursprognose')  
+    
+    if st.checkbox("Markov Chain Monte Carlo"):
+        df  = predict_with_prophet_internet()
+        fbp = Prophet(daily_seasonality = True)
+        fbp.fit(df)
+        fut = fbp.make_future_dataframe(periods=252) 
+        forecast = fbp.predict(fut)
+        fig2 = fbp.plot(forecast)
+        st.pyplot(fig2)
+        st.dataframe(forecast)        
+        
+    
+if ticker_radio_2 == 'Marijuana':
+    ganja=read_ganja_ticker()
+    ticker_g = ganja['Ticker'].sort_values().tolist()      
+    ganja_ticker = st.selectbox(
+    'Marijuana Ticker auswählen',
+      ticker_g)  
+    st.subheader("Ticker Info")
+    stock_i = yf.Ticker(ganja_ticker)
+    info = stock_i.info 
+    to_translate_1 = info['sector']
+    to_translate_2 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    st.subheader(info['longName'])
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
+    st.header('Datenanalyse')
+    stock = ganja_stock_data()
+    close = stock.df.Close
+    if st.checkbox("Graphischer Kursverlauf"):
+        font_1 = {
+                    'family' : 'Arial',
+                         'size' : 12
+                    }
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(ganja_ticker + ' Kursverlauf', fontdict = font_1)
+        plt.plot(close)
+        st.pyplot(fig1)
+    st.header('Handelsstrategien')    
+    st.subheader('Renditerechner')       
+    if st.checkbox("Kaufen und Halten"):
+        year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
+        st.header('Kaufen und Halten Renditerechner')
+        stock = ganja_stock_data()
+        stock_df = stock.df[year:]
+        stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
+        stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
+        stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
+        font_1 = {
+                'family' : 'Arial',
+                 'size' : 12
+                        }
+        fig2 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(ganja_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.plot(stock_df[['Buy&Hold_Rendite']])
+        st.pyplot(fig2)
+        st.dataframe(stock_df[['Buy&Hold_Rendite']])    
+        
+    st.subheader('Aktienkursprognose')  
+    
+    if st.checkbox("Markov Chain Monte Carlo"):
+        df  = predict_with_prophet_ganja()
+        fbp = Prophet(daily_seasonality = True)
+        fbp.fit(df)
+        fut = fbp.make_future_dataframe(periods=252) 
+        forecast = fbp.predict(fut)
+        fig2 = fbp.plot(forecast)
+        st.pyplot(fig2)
+        st.dataframe(forecast)        
+        
+        
 
 if ticker_radio_2 == 'Marijuana':
     ganja=read_ganja_ticker()

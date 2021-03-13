@@ -503,14 +503,14 @@ if ticker_radio_2 == 'Internet':
         st.dataframe(forecast)        
         
     
-if ticker_radio_2 == 'Marijuana':
-    ganja=read_ganja_ticker()
-    ticker_g = ganja['Ticker'].sort_values().tolist()      
-    ganja_ticker = st.selectbox(
+if ticker_radio_2 == 'Software':
+    software=read_software_ticker()
+    ticker_s = software['Ticker'].sort_values().tolist()      
+    software_ticker = st.selectbox(
     'Marijuana Ticker auswählen',
-      ticker_g)  
+      ticker_s)  
     st.subheader("Ticker Info")
-    stock_i = yf.Ticker(ganja_ticker)
+    stock_i = yf.Ticker(software_ticker)
     info = stock_i.info 
     to_translate_1 = info['sector']
     to_translate_2 = info['industry']
@@ -520,7 +520,7 @@ if ticker_radio_2 == 'Marijuana':
     st.markdown('** Sektor **: ' + translated_1)
     st.markdown('** Industrie **: ' + translated_2)
     st.header('Datenanalyse')
-    stock = ganja_stock_data()
+    stock = software_stock_data()
     close = stock.df.Close
     if st.checkbox("Graphischer Kursverlauf"):
         font_1 = {
@@ -529,7 +529,7 @@ if ticker_radio_2 == 'Marijuana':
                     }
         fig1 = plt.figure()
         plt.style.use('seaborn-whitegrid')
-        plt.title(ganja_ticker + ' Kursverlauf', fontdict = font_1)
+        plt.title(software_ticker + ' Kursverlauf', fontdict = font_1)
         plt.plot(close)
         st.pyplot(fig1)
     st.header('Handelsstrategien')    
@@ -537,7 +537,7 @@ if ticker_radio_2 == 'Marijuana':
     if st.checkbox("Kaufen und Halten"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
         st.header('Kaufen und Halten Renditerechner')
-        stock = ganja_stock_data()
+        stock = software_stock_data()
         stock_df = stock.df[year:]
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
         stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
@@ -548,7 +548,7 @@ if ticker_radio_2 == 'Marijuana':
                         }
         fig2 = plt.figure()
         plt.style.use('seaborn-whitegrid')
-        plt.title(ganja_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.title(software_ticker + ' Kaufen und Halten', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Rendite']])
         st.pyplot(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])    
@@ -556,7 +556,7 @@ if ticker_radio_2 == 'Marijuana':
     st.subheader('Aktienkursprognose')  
     
     if st.checkbox("Markov Chain Monte Carlo"):
-        df  = predict_with_prophet_ganja()
+        df  = predict_with_prophet_software()
         fbp = Prophet(daily_seasonality = True)
         fbp.fit(df)
         fut = fbp.make_future_dataframe(periods=252) 

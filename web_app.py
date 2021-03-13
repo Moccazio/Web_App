@@ -391,7 +391,7 @@ st.header('Die Aktien Gruppe')
     
 st.subheader('Aktienanalyse')
 
-ticker_radio = st.radio('Aktien', ('Tickersuche', ''))     
+ticker_radio = st.radio('Aktien', ('', 'Tickersuche'))     
 ticker_radio_1 = st.radio('Indizes', ( 'S&P500', 'DAX'))    
 ticker_radio_2 = st.radio('Spekulationsaktien', ('Internet', 'Software', 'Marijuana'))
 
@@ -414,7 +414,7 @@ if ticker_radio_1 == 'S&P500':
     stock_i = yf.Ticker(SNP_ticker)
     info = stock_i.info 
     to_translate_1 = info['sector']
-    to_translate_1 = info['industry']
+    to_translate_2 = info['industry']
     translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
     translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
     st.subheader(info['longName'])
@@ -491,7 +491,7 @@ if ticker_radio_1 == 'DAX':
     stock_i = yf.Ticker(DAX_ticker)
     info = stock_i.info 
     to_translate_1 = info['sector']
-    to_translate_1 = info['industry']
+    to_translate_2 = info['industry']
     translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
     translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
     st.subheader(info['longName'])
@@ -539,7 +539,7 @@ if ticker_radio == 'Tickersuche':
         stock_i = yf.Ticker(ticker_input)
         info = stock_i.info 
         to_translate_1 = info['sector']
-        to_translate_1 = info['industry']
+        to_translate_2 = info['industry']
         translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
         translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
         st.subheader(info['longName'])

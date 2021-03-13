@@ -93,7 +93,7 @@ class Company:
             df.loc['nwc'] = (df.loc['totalCurrentAssets'] - df.loc['cash']) - (df.loc['totalCurrentLiabilities'] - df.loc['shortLongTermDebt'])
         except KeyError:
             df.loc['nwc'] = (df.loc['totalCurrentAssets'] - df.loc['cash']) - (df.loc['totalCurrentLiabilities'])
-        df.loc['nwc über Verkauf'] = df.loc['nwc']/df.loc['totalRevenue']
+        df.loc['NWC über Verkauf'] = df.loc['nwc']/df.loc['totalRevenue']
         try:
             df.loc['Nettoschulden'] = df.loc['shortLongTermDebt'] + df.loc['longTermDebt'] - df.loc['cash']
         except KeyError:

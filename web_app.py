@@ -239,8 +239,8 @@ def options_chain(symbol):
     options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate'])
     
     options = filter_by_moneyness(options)
-    options_filtered  = options [['CALL', 'contractSymbol', 'expirationDate', 'dte' , 'lastPrice', 'strike', 'bid', 'ask', 'mark', 'spread', 'spread_pct', 'volume', 'openInterest', 'impliedVolatility', 'inTheMoney', 'stockPrice', 'intrinicValue']]
-    options_filtered.columns =  [['Call=1, Put=0', 'Ticker', 'Einlösetermin','Ablaufdatum in Jahren', 'Preis', 'Basispreis','Bid', 'Ask', 'Mark', 'Spread', 'Spreadanteil', 'Volumen', 'Open Intrest', 'implizite Volatilität', 'im Geld', 'Kurswert', 'Substanzwert']]   
+    options_filtered  = options [['stockPrice','contractSymbol', 'CALL', 'expirationDate', 'dte' ,'strike', 'lastPrice',  'bid', 'ask', 'mark', 'spread', 'spread_pct', 'volume', 'openInterest', 'impliedVolatility', 'inTheMoney', 'intrinicValue']]
+    options_filtered.columns =  [[ 'Kurswert', 'OptionTicker', 'Call=1, Put=0', 'Einlösetermin', 'Ablaufdatum', 'Basispreis', 'Last', 'Bid', 'Ask', 'Mark', 'Spread', 'Spreadanteil', 'Volumen', 'Open Intrest', 'IV', 'im Geld', 'Kurswert', 'Substanzwert']]   
         
 
     return options_filtered 
@@ -329,6 +329,10 @@ def dax_stock_data():
 def snp_stock_data():
     stock = Stock(SNP_ticker)
     return stock
+
+def ganja_stock_data():
+    stock = Stock(ganja_ticker)
+    return stock
     
 def get_quote_data():
     quote = pdr.get_quote_yahoo(ticker_input)
@@ -383,6 +387,13 @@ def predict_with_prophet_dax():
     stk_df = stk.df["2010":]
     df = prophet_df(stk_df)
     return df
+
+def predict_with_prophet_ganja():
+    stk = ganja_stock_data()
+    stk_df = stk.df["2010":]
+    df = prophet_df(stk_df)
+    return df
+
 # ========================================
 # Launche App
 # ========================================
@@ -401,6 +412,62 @@ if ticker_radio_2 == 'Marijuana':
     ganja_ticker = st.selectbox(
     'Marijuana Ticker auswählen',
       ticker_g)  
+    st.subheader("Ticker Info")
+    stock_i = yf.Ticker(ganja_ticker)
+    info = stock_i.info 
+    to_translate_1 = info['sector']
+    to_translate_2 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    st.subheader(info['longName'])
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
+    st.header('Datenanalyse')
+    stock = ganja_stock_data()
+    close = stock.df.Close
+    if st.checkbox("Graphischer Kursverlauf"):
+        font_1 = {
+                    'family' : 'Arial',
+                         'size' : 12
+                    }
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(ganja_ticker + ' Kursverlauf', fontdict = font_1)
+        plt.plot(close)
+        st.pyplot(fig1)
+    st.header('Handelsstrategien')    
+    st.subheader('Renditerechner')       
+    if st.checkbox("Kaufen und Halten"):
+        year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
+        st.header('Kaufen und Halten Renditerechner')
+        stock = ganja_stock_data()
+        stock_df = stock.df[year:]
+        stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
+        stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
+        stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
+        font_1 = {
+                'family' : 'Arial',
+                 'size' : 12
+                        }
+        fig2 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(ganja_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.plot(stock_df[['Buy&Hold_Rendite']])
+        st.pyplot(fig2)
+        st.dataframe(stock_df[['Buy&Hold_Rendite']])    
+        
+    st.subheader('Aktienkursprognose')  
+    
+    if st.checkbox("Markov Chain Monte Carlo"):
+        df  = predict_with_prophet_ganja()
+        fbp = Prophet(daily_seasonality = True)
+        fbp.fit(df)
+        fut = fbp.make_future_dataframe(periods=252) 
+        forecast = fbp.predict(fut)
+        fig2 = fbp.plot(forecast)
+        st.pyplot(fig2)
+        st.dataframe(forecast)        
+        
     
 
 if ticker_radio_1 == 'S&P500':
@@ -410,7 +477,6 @@ if ticker_radio_1 == 'S&P500':
     'S&P 500 Ticker auswählen',
       ticker_snp)  
     st.subheader("Ticker Info")
-    stock = snp_stock_data()
     stock_i = yf.Ticker(SNP_ticker)
     info = stock_i.info 
     to_translate_1 = info['sector']
@@ -473,7 +539,7 @@ if ticker_radio_1 == 'S&P500':
         df  = predict_with_prophet_snp()
         fbp = Prophet(daily_seasonality = True)
         fbp.fit(df)
-        fut = fbp.make_future_dataframe(periods=365) 
+        fut = fbp.make_future_dataframe(periods=252) 
         forecast = fbp.predict(fut)
         fig2 = fbp.plot(forecast)
         st.pyplot(fig2)
@@ -522,7 +588,7 @@ if ticker_radio_1 == 'DAX':
         df  = predict_with_prophet_dax()
         fbp = Prophet(daily_seasonality = True)
         fbp.fit(df)
-        fut = fbp.make_future_dataframe(periods=365) 
+        fut = fbp.make_future_dataframe(periods=252) 
         forecast = fbp.predict(fut)
         fig2 = fbp.plot(forecast)
         st.pyplot(fig2)
@@ -594,7 +660,7 @@ if ticker_radio == 'Tickersuche':
             df  = predict_with_prophet()
             fbp = Prophet(daily_seasonality = True)
             fbp.fit(df)
-            fut = fbp.make_future_dataframe(periods=365) 
+            fut = fbp.make_future_dataframe(periods=252) 
             forecast = fbp.predict(fut)
             fig2 = fbp.plot(forecast)
             st.pyplot(fig2)

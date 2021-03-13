@@ -238,9 +238,10 @@ def options_chain(symbol):
     options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate', 'lastPrice'])
     
     options = filter_by_moneyness(options)
+    options_filtered  = options [['CALL', 'contractSymbol', 'expirationDate', 'dte', 'strike', 'bid', 'ask', 'bid', 'ask', 'mark', 'spread', 'spread_pct', 'volume', 'openInterest', 'impliedVolatility', 'inTheMoney', 'stockPrice', 'intrinicValue']]
         
 
-    return options
+    return options_filtered 
 
 def Options_Chain(ticker):
     opt_chain = options_chain(ticker)

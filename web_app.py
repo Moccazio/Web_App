@@ -392,8 +392,8 @@ st.header('Die Aktien Gruppe')
 st.subheader('Aktienanalyse')
 
 ticker_radio = st.radio('Aktien', ('', 'Tickersuche'))     
-ticker_radio_1 = st.radio('Indizes', ( 'S&P500', 'DAX'))    
-ticker_radio_2 = st.radio('Spekulationsaktien', ('Internet', 'Software', 'Marijuana'))
+ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX'))    
+ticker_radio_2 = st.radio('Spekulationsaktien', ('','Internet', 'Software', 'Marijuana'))
 
 if ticker_radio_2 == 'Marijuana':
     ganja=read_ganja_ticker()

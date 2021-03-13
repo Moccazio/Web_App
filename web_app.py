@@ -342,11 +342,11 @@ def get_option_data():
     return options_df
 
 def read_dax_ticker():
-    dax = pd.read_csv('DAX.csv', index_col='Index')
+    dax = pd.read_csv('index_stocks/DAX.csv', index_col='Index')
     return dax
 
 def read_sp500_ticker():
-    sp500 = pd.read_csv('GSPC.csv', index_col='Index')
+    sp500 = pd.read_csv('index_stocks/GSPC.csv', index_col='Index')
     return sp500
 
 # ========================================

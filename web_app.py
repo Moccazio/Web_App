@@ -163,14 +163,14 @@ class Stock:
         except Exception as err:
             print(err)
 # ========================================    
-# Know your Options - Data
+# Know your Options 
 # ========================================    
 def create_spread_percent(df):
     return (df.assign(spread_pct = lambda df: df.spread / df.ask))
 
 def filter_by_moneyness(df, pct_cutoff=0.2):
-    crit1 = (1-pct_cutoff)*df.Strike < df.Underlying_Price
-    crit2 = df.Underlying_Price < (1+pct_cutoff)*df.Strike
+    crit1 = (1-pct_cutoff)*df.strike < df.stockPrice
+    crit2 = df.stockPrice < (1+pct_cutoff)*df.strike
     return (df.loc[crit1 & crit2].reset_index(drop=True))
 
 def call_options(sym):
@@ -236,6 +236,8 @@ def options_chain(symbol):
     
     # Drop unnecessary and meaningless columns
     options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate', 'lastPrice'])
+    
+    options = filter_by_moneyness(options)
         
 
     return options

@@ -85,7 +85,7 @@ class Company:
                 prior_revenue_list.append(df.loc['totalRevenue'][i-1])
 
         df.loc['Einnahmen'] = prior_revenue_list
-        df.loc['Einnahmenwachstum'] = (df.loc['totalRevenue'] - df.loc['priorRevenue']) / df.loc['priorRevenue']
+        df.loc['Einnahmenwachstum'] = (df.loc['totalRevenue'] - df.loc['Einnahmen']) / df.loc['Einnahmen']
         df.loc['EBIT Marge'] = df.loc['ebit']/df.loc['totalRevenue'] 
         df.loc['Steueranteil'] = df.loc['incomeTaxExpense']/df.loc['incomeBeforeTax'] 
         df.loc['Netto Geldausgaben über Verkauf'] = (- df.loc['capitalExpenditures'] - df.loc['depreciation']) / df.loc['totalRevenue']

@@ -16,8 +16,7 @@ import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
-from translate import Translator
-translator= Translator(to_lang="German")
+from deep_translator import GoogleTranslator
 # ========================================  
 # Company Data 
 # ========================================    
@@ -351,6 +350,12 @@ def read_sp500_ticker():
     sp500 = pd.read_csv('index_stocks/GSPC.csv', index_col='Index')
     return sp500
 
+
+def read_ganja_ticker():
+    ganja = pd.read_csv('koyfin_stocks/Marijuana_Stocks.csv')
+    ganja = ganja[1:]
+    return ganja
+
 # ========================================
 # Prophet
 # ========================================
@@ -386,9 +391,19 @@ st.header('Die Aktien Gruppe')
     
 st.subheader('Aktienanalyse')
 
-ticker_radio = st.radio('Aktienticker', ('Tickersuche', 'S&P500', 'DAX'))     
+ticker_radio = st.radio('Aktien', ('Tickersuche'))     
+ticker_radio_1 = st.radio('Indizes', ( 'S&P500', 'DAX'))    
+ticker_radio_2 = st.radio('Spekulationsaktien', ('Internet', 'Software', 'Marijuana'))
 
-if ticker_radio == 'S&P500':
+if ticker_radio_2 == 'Marijuana':
+    ganja=read_ganja_ticker()
+    ticker_g = ganja['Ticker'].sort_values().tolist()      
+    ganja_ticker = st.selectbox(
+    'Marijuana Ticker auswählen',
+      ticker_g)  
+    
+
+if ticker_radio_1 == 'S&P500':
     snp500 = read_sp500_ticker()  
     ticker_snp = snp500['ticker'].sort_values().tolist()      
     SNP_ticker = st.selectbox(
@@ -398,11 +413,13 @@ if ticker_radio == 'S&P500':
     stock = snp_stock_data()
     stock_i = yf.Ticker(SNP_ticker)
     info = stock_i.info 
-    translation_1 = translator.translate(info['sector'])
-    translation_2 = translator.translate(info['industry'])
+    to_translate_1 = info['sector']
+    to_translate_1 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
     st.subheader(info['longName'])
-    st.markdown('** Sektor **: ' + translation_1)
-    st.markdown('** Industrie **: ' + translation_2)
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
     st.header('Datenanalyse')
     
         
@@ -464,7 +481,7 @@ if ticker_radio == 'S&P500':
             
     
                 
-if ticker_radio == 'DAX':
+if ticker_radio_1 == 'DAX':
     dax_ticker = read_dax_ticker()  
     ticker_dax = dax_ticker['ticker'].sort_values().tolist()  
     DAX_ticker = st.selectbox(
@@ -473,11 +490,13 @@ if ticker_radio == 'DAX':
     st.subheader("Ticker Info")
     stock_i = yf.Ticker(DAX_ticker)
     info = stock_i.info 
-    translation_1 = translator.translate(info['sector'])
-    translation_2 = translator.translate(info['industry'])
+    to_translate_1 = info['sector']
+    to_translate_1 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
     st.subheader(info['longName'])
-    st.markdown('** Sektor **: ' + translation_1)
-    st.markdown('** Industrie **: ' + translation_2)
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
     st.header('Datenanalyse')
     
     stock = dax_stock_data()   
@@ -519,11 +538,13 @@ if ticker_radio == 'Tickersuche':
         
         stock_i = yf.Ticker(ticker_input)
         info = stock_i.info 
-        translation_1 = translator.translate(info['sector'])
-        translation_2 = translator.translate(info['industry'])
+        to_translate_1 = info['sector']
+        to_translate_1 = info['industry']
+        translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+        translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
         st.subheader(info['longName'])
-        st.markdown('** Sektor **: ' + translation_1)
-        st.markdown('** Industrie **: ' + translation_2)
+        st.markdown('** Sektor **: ' + translated_1)
+        st.markdown('** Industrie **: ' + translated_2)
         
         st.header('Datenanalyse')
         

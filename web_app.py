@@ -84,25 +84,25 @@ class Company:
             if i != 0 and i != len(df.loc['totalRevenue']):
                 prior_revenue_list.append(df.loc['totalRevenue'][i-1])
 
-        df.loc['priorRevenue'] = prior_revenue_list
-        df.loc['revenueGrowth'] = (df.loc['totalRevenue'] - df.loc['priorRevenue']) / df.loc['priorRevenue']
-        df.loc['ebitMargin'] = df.loc['ebit']/df.loc['totalRevenue'] 
-        df.loc['taxRate'] = df.loc['incomeTaxExpense']/df.loc['incomeBeforeTax'] 
-        df.loc['netCapexOverSales'] = (- df.loc['capitalExpenditures'] - df.loc['depreciation']) / df.loc['totalRevenue']
+        df.loc['Einnahmen'] = prior_revenue_list
+        df.loc['Einnahmenwachstum'] = (df.loc['totalRevenue'] - df.loc['priorRevenue']) / df.loc['priorRevenue']
+        df.loc['EBIT Marge'] = df.loc['ebit']/df.loc['totalRevenue'] 
+        df.loc['Steueranteil'] = df.loc['incomeTaxExpense']/df.loc['incomeBeforeTax'] 
+        df.loc['Netto Geldausgaben über Verkauf'] = (- df.loc['capitalExpenditures'] - df.loc['depreciation']) / df.loc['totalRevenue']
         try:
             df.loc['nwc'] = (df.loc['totalCurrentAssets'] - df.loc['cash']) - (df.loc['totalCurrentLiabilities'] - df.loc['shortLongTermDebt'])
         except KeyError:
             df.loc['nwc'] = (df.loc['totalCurrentAssets'] - df.loc['cash']) - (df.loc['totalCurrentLiabilities'])
-        df.loc['nwcOverSales'] = df.loc['nwc']/df.loc['totalRevenue']
+        df.loc['NWC über Verkauf'] = df.loc['nwc']/df.loc['totalRevenue']
         try:
-            df.loc['netDebt'] = df.loc['shortLongTermDebt'] + df.loc['longTermDebt'] - df.loc['cash']
+            df.loc['Netto Schulden'] = df.loc['shortLongTermDebt'] + df.loc['longTermDebt'] - df.loc['cash']
         except KeyError:
             try:
-                df.loc['netDebt'] = df.loc['longTermDebt'] - df.loc['cash']
+                df.loc['Netto Schulden'] = df.loc['longTermDebt'] - df.loc['cash']
             except KeyError:
-                df.loc['netDebt'] = - df.loc['cash']
+                df.loc['Netto Schulden'] = - df.loc['cash']
         df = df[12:len(df)].drop('nwc')
-        df['Historical average'] = [df.iloc[i].mean() for i in range(len(df))]
+        df['Historischer Durchschnitt'] = [df.iloc[i].mean() for i in range(len(df))]
         return df
 
     def get_free_cash_flow_forecast(self, parameter_list):

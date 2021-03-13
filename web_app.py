@@ -165,7 +165,7 @@ class Stock:
 # Know your Options - Data
 # ========================================    
 def create_spread_percent(df):
-    return (df.assign(Spread_Pct = lambda df: df.Spread / df.Ask))
+    return (df.assign(spread_pct = lambda df: df.spread / df.ask))
 
 def filter_by_moneyness(df, pct_cutoff=0.2):
     crit1 = (1-pct_cutoff)*df.Strike < df.Underlying_Price
@@ -199,16 +199,49 @@ def put_options(sym):
     puts_df = pd.concat(puts_merged, axis=0) 
     return puts_df
 
-def options_(data):
-    options_df = data.copy()
-    options_df['Spread'] = [options_df.Ask - options_df.Bid]
-    options_df['DateToday'] = dt.date.today()
-    options_df['Expiry'] = pd.to_datetime(options_df.Expiry)
-    options_df['DateToday'] = pd.to_datetime(options_df.DateToday)
-    options_df['DaysToExpiration'] = (options_df['Expiry'] - options_df['DateToday']).dt.days
-    options_df["Intrinsic_Value"] = [options_df.Strike-options_df.Underlying_Price]
-    options_df=options_df.dropna()
-    return options_df
+def options_chain(symbol):
+
+    tk = yf.Ticker(symbol)
+    
+    info = get_quote_table(symbol)
+    current_price = info["Quote Price"]
+
+    # Expiration dates
+    exps = tk.options
+
+    # Get options for each expiration
+    options = pd.DataFrame()
+    for e in exps:
+        opt = tk.option_chain(e)
+        opt = pd.DataFrame().append(opt.calls).append(opt.puts)
+        opt['expirationDate'] = e
+        options = options.append(opt, ignore_index=True)
+
+    # Bizarre error in yfinance that gives the wrong expiration date
+    # Add 1 day to get the correct expiration date
+    options['expirationDate'] = pd.to_datetime(options['expirationDate']) + datetime.timedelta(days = 1)
+    options['dte'] = (options['expirationDate'] - datetime.datetime.today()).dt.days / 365
+    
+    # Boolean column if the option is a CALL
+    options['CALL'] = options['contractSymbol'].str[4:].apply(
+        lambda x: "C" in x)
+    
+    options[['bid', 'ask', 'strike']] = options[['bid', 'ask', 'strike']].apply(pd.to_numeric)
+    options['mark'] = (options['bid'] + options['ask']) / 2 # Calculate the midpoint of the bid-ask
+    options['spread'] = (options['ask'] - options['bid'])
+    options = create_spread_percent(options)
+    options['stockPrice'] = current_price
+    options['intrinicValue'] = (options['strike'] - current_price)
+    
+    # Drop unnecessary and meaningless columns
+    options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate', 'lastPrice'])
+        
+
+    return options
+
+def Options_Chain(ticker):
+    opt_chain = options_chain(ticker)
+    return opt_chain
 
 def Option(ticker):
     _call = call_options(ticker)
@@ -300,16 +333,8 @@ def get_company_data():
     return company
 
 def get_option_data():
-    options_df = Option(SNP_ticker)
+    options_df = Options_Chain(SNP_ticker)
     return options_df
-
-def create_spread_percent(df):
-    return (df.assign(Spread_Pct = lambda df: df.Spread / df.Ask))
-
-def filter_by_moneyness(df, pct_cutoff=0.2):
-    crit1 = (1-pct_cutoff)*df.Strike < df.Underlying_Price
-    crit2 = df.Underlying_Price < (1+pct_cutoff)*df.Strike
-    return (df.loc[crit1 & crit2].reset_index(drop=True))
 
 def read_dax_ticker():
     dax = pd.read_csv('DAX.csv', index_col='Index')
@@ -320,7 +345,7 @@ def read_sp500_ticker():
     return sp500
 
 # ========================================
-# Strategies
+# Prophet
 # ========================================
 
 def prophet_df(stk_price):
@@ -412,8 +437,9 @@ if ticker_radio == 'S&P500':
     st.subheader('Derivate')  
     
     if st.checkbox("Optionscheine"):
-        options = get_option_data()
+        options = Options_Chain()
         st.dataframe(options)   
+            
         
         
     st.subheader('Aktienkursprognose')  

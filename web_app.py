@@ -240,7 +240,7 @@ def options_chain(symbol):
     
     options = filter_by_moneyness(options)
     options_filtered  = options [['stockPrice','contractSymbol', 'CALL', 'expirationDate', 'dte' ,'strike', 'lastPrice',  'bid', 'ask', 'mark', 'spread', 'spread_pct', 'volume', 'openInterest', 'impliedVolatility', 'inTheMoney', 'intrinicValue']]
-    options_filtered.columns =  [[ 'Kurswert', 'OptionTicker', 'Call=1, Put=0', 'Einlösetermin', 'Ablaufdatum', 'Basispreis', 'Last', 'Bid', 'Ask', 'Mark', 'Spread', 'Spreadanteil', 'Volumen', 'Open Intrest', 'IV', 'im Geld', 'Kurswert', 'Substanzwert']]   
+    options_filtered.columns =  [[ 'Kurswert', 'OptionTicker', 'Call=1, Put=0', 'Einlösetermin', 'Ablaufdatum', 'Basispreis', 'Last', 'Bid', 'Ask', 'Mark', 'Spread', 'Spreadanteil', 'Volumen', 'Open Intrest', 'IV', 'im Geld', 'Substanzwert']]   
         
 
     return options_filtered 

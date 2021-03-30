@@ -7,9 +7,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import streamlit as st 
-from fbprophet import Prophet
-import fbprophet.plot as fplt
-from fbprophet.plot import plot_plotly, plot_components_plotly
+from prophet import Prophet
+import prophet.plot as fplt
+from prophet.plot import plot_plotly, plot_components_plotly
 import datetime as dt
 from datetime import datetime
 import datetime

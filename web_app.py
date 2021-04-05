@@ -456,7 +456,6 @@ if ticker_radio_2 == 'Internet':
     st.subheader('Renditerechner')       
     if st.checkbox("Kaufen und Halten"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-        st.header('Kaufen und Halten Renditerechner')
         stock = internet_stock_data()
         stock_df = stock.df[year:]
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
@@ -519,7 +518,6 @@ if ticker_radio_2 == 'Software':
     st.subheader('Renditerechner')       
     if st.checkbox("Kaufen und Halten"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-        st.header('Kaufen und Halten Renditerechner')
         stock = software_stock_data()
         stock_df = stock.df[year:]
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
@@ -585,7 +583,6 @@ if ticker_radio_1 == 'S&P500':
     st.subheader('Renditerechner')       
     if st.checkbox("Kaufen und Halten"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-        st.header('Kaufen und Halten Renditerechner')
         stock = snp_stock_data()
         stock_df = stock.df[year:]
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
@@ -661,7 +658,6 @@ if ticker_radio_1 == 'DAX':
     
     if st.checkbox("Kaufen und Halten"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-        st.header('Kaufen und Halten Renditerechner')
         stock = dax_stock_data()
         stock_df = stock.df[year:]
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
@@ -738,7 +734,6 @@ if ticker_radio == 'Tickersuche':
         
         if st.checkbox("Kaufen und Halten"):
             year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-            st.header('Kaufen und Halten Renditerechner')
             stock = get_stock_data()
             stock_df = stock.df[year:]
             stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))

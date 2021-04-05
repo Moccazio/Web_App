@@ -13,3 +13,5 @@ plotly==4.14.3
 QuantLib==1.21
 translate==3.5.0
 deep-translator==1.4.1
+nltk==3.5
+bs4==0.0.1 

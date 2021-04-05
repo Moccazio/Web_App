@@ -597,7 +597,7 @@ if ticker_radio_1 == 'S&P500':
                         }
         fig2 = plt.figure()
         plt.style.use('seaborn-whitegrid')
-        plt.title(DAX_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.title(SNP_ticker + ' Kaufen und Halten', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Rendite']])
         st.pyplot(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])    
@@ -673,7 +673,7 @@ if ticker_radio_1 == 'DAX':
                         }
         fig2 = plt.figure()
         plt.style.use('seaborn-whitegrid')
-        plt.title(SNP_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.title(DAX_ticker + ' Kaufen und Halten', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Rendite']])
         st.pyplot(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])    

@@ -417,7 +417,7 @@ st.success("Zugang gewährt")
 st.header('Die Aktien Gruppe')
     
 st.subheader('Aktienanalyse')
-st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ an Börsen gelistet ist, z.B. DPW.DE als Ticker für Deutsche Post AG")
+st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
 
 ticker_radio = st.radio('Aktien', ('', 'Tickersuche'))     
 ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX'))    

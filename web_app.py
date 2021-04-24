@@ -427,7 +427,6 @@ except ModuleNotFoundError:
 
 
 def main():
-    state = _get_state()
     pages = {
         "Dashboard": page_dashboard,
         "Einzelaktien": page_stocks,
@@ -439,12 +438,9 @@ def main():
     page = st.sidebar.radio("Select your page", tuple(pages.keys()))
 
     # Display the selected page with the session state
-    pages[page](state)
-
-    # Mandatory to avoid rollbacks with widgets, must be called at the end of your app
-    state.sync()
+    pages[page]
     
-def page_dashboard(state):
+def page_dashboard():
     st.title(":chart_with_upwards_trend: Dashboard page")
     st.success("Zugang gewährt") 
     st.header('Die Aktien Gruppe')
@@ -453,7 +449,7 @@ def page_dashboard(state):
     st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
 
     
-def page_stocks(state):
+def page_stocks():
     st.title(":chart_with_upwards_trend:  Einzelaktienanalyse")
     ticker_input = st.text_input('Ticker')
     status_radio = st.radio('Suche anklicken um zu starten.', ('Eingabe', 'Suche'))          
@@ -524,7 +520,7 @@ def page_stocks(state):
             st.pyplot(fig2)
             st.dataframe(forecast) 
             
-def page_index(state):
+def page_index():
     
     ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX'))       
     if ticker_radio_1 == 'S&P500':
@@ -672,7 +668,7 @@ def page_index(state):
             st.pyplot(fig2)
             st.dataframe(forecast)    
             
-def page_eco(state):
+def page_eco():
     st.subheader('Wirtschaft')
     if st.checkbox("Wirschaftsindikatoren"):
         status = st.radio("Wirschaftsindikatoren: ", ('','Crude Oil Prices: West Texas Intermediate (WTI)', 'US Treasury Anleihe: 10 Jahre',  'Deutsche Staatsanleihen: 10-Jahre', 'Inflationsrate Deutschland', 'Arbeitslosenquote Deutschland', 'Inflationsrate Eurozone')) 
@@ -754,10 +750,13 @@ def page_eco(state):
             plt.plot(df)
             st.pyplot(fig1)
             st.dataframe(df)      
-    
-        
+
+
+
 if __name__ == "__main__":
-    main()        
+    main()    
+        
+   
         
 
     

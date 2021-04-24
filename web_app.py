@@ -424,22 +424,7 @@ except ModuleNotFoundError:
     # After Streamlit 0.65
     from streamlit.report_thread import get_report_ctx
     from streamlit.server.server import Server
-
-def pages():
-    pages = {"Dashboard": page_dashboard,
-        "Einzelaktien": page_stocks,
-        "Indizes": page_index,
-        "Wirtschaft": page_eco}
-    return pages
-
-st.sidebar.title(":chart_with_upwards_trend: Page states")
-
-
-
-page = st.sidebar.radio("Select your page", tuple(pages().keys()))
-
-# Display the selected page with the session state
-pages[page]
+    
     
 def page_dashboard():
     st.title(":chart_with_upwards_trend: Dashboard page")
@@ -755,7 +740,19 @@ def page_eco():
 
 
         
-   
+def pages():
+    pages = {"Dashboard": page_dashboard,
+        "Einzelaktien": page_stocks,
+        "Indizes": page_index,
+        "Wirtschaft": page_eco}
+    return pages
+
+st.sidebar.title(":chart_with_upwards_trend: Page states")
+
+page = st.sidebar.radio("Select your page", tuple(pages().keys()))
+
+# Display the selected page with the session state
+pages[page]   
         
 
     

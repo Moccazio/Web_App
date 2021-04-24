@@ -747,7 +747,7 @@ pages = {"Dashboard": page_dashboard,
 
 st.sidebar.title(":chart_with_upwards_trend: Page states")
 
-page = st.sidebar.radio("Select your page", tuple(pages.keys()))
+page = st.sidebar.radio("Select your page", ("Dashboard", "Einzelaktien", "Indizes","Wirtschaft"))
 
 # Display the selected page with the session state
 pages[page]   

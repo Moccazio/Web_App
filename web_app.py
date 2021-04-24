@@ -740,12 +740,10 @@ def page_eco():
 
 
         
-def pages():
-    pages = {"Dashboard": page_dashboard,
+pages = {"Dashboard": page_dashboard,
         "Einzelaktien": page_stocks,
         "Indizes": page_index,
         "Wirtschaft": page_eco}
-    return pages
 
 st.sidebar.title(":chart_with_upwards_trend: Page states")
 

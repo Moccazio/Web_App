@@ -454,12 +454,9 @@ if ticker_radio == 'Tickersuche':
             plt.style.use('seaborn-whitegrid')
             plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
             plt.plot(close)
-            st.pyplot(fig1)
-
- 
-        st.subheader('Renditerechner')       
+            st.pyplot(fig1)      
         
-        if st.checkbox("Kaufen und Halten"):
+        if st.checkbox("Renditerechner"):
             year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
             stock = get_stock_data()
             stock_df = stock.df[year:]
@@ -479,7 +476,7 @@ if ticker_radio == 'Tickersuche':
                   
         st.subheader('Aktienkursprognose') 
         
-        if st.checkbox("Prophet Kursprognose (Markov Chain Monte Carlo)"):
+        if st.checkbox("Aktienkursprognose (Markov Chain Monte Carlo)"):
             df  = predict_with_prophet()
             fbp = Prophet(daily_seasonality = True)
             fbp.fit(df)
@@ -522,9 +519,11 @@ if ticker_radio_1 == 'S&P500':
         plt.plot(close)
         st.pyplot(fig1)
 
-    
-    st.subheader('Renditerechner')       
-    if st.checkbox("Kaufen und Halten"):
+    if st.checkbox("Optionscheine"):
+        options = get_option_data()
+        st.dataframe(options)
+        
+    if st.checkbox("Renditerechner"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
         stock = snp_stock_data()
         stock_df = stock.df[year:]
@@ -541,19 +540,8 @@ if ticker_radio_1 == 'S&P500':
         plt.plot(stock_df[['Buy&Hold_Rendite']])
         st.pyplot(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])    
-    
-    
-    st.subheader('Derivate')  
-    
-    if st.checkbox("Optionscheine"):
-        options = get_option_data()
-        st.dataframe(options)   
-            
         
-        
-    st.subheader('Aktienkursprognose')  
-    
-    if st.checkbox("Markov Chain Monte Carlo"):
+    if st.checkbox("Aktienkursprognose (Markov Chain Monte Carlo)"):
         df  = predict_with_prophet_snp()
         fbp = Prophet(daily_seasonality = True)
         fbp.fit(df)
@@ -593,10 +581,8 @@ if ticker_radio_1 == 'DAX':
         plt.title(DAX_ticker + ' Kursverlauf', fontdict = font_1)
         plt.plot(close)
         st.pyplot(fig1)
-        
-    st.subheader('Renditerechner')       
     
-    if st.checkbox("Kaufen und Halten"):
+    if st.checkbox("Renditerechner"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
         stock = dax_stock_data()
         stock_df = stock.df[year:]
@@ -614,14 +600,7 @@ if ticker_radio_1 == 'DAX':
         st.pyplot(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])    
     
-        
-        
-        
-        
-        
-    st.subheader('Aktienkursprognose')  
-    
-    if st.checkbox("Markov Chain Monte Carlo"):
+    if st.checkbox("Aktienkursprognose (Markov Chain Monte Carlo)"):
         df  = predict_with_prophet_dax()
         fbp = Prophet(daily_seasonality = True)
         fbp.fit(df)

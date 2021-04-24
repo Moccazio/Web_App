@@ -413,30 +413,286 @@ def predict_with_prophet_software():
 # ========================================
 # Launche App
 # ========================================
-import streamlit as st
-from streamlit.hashing import _CodeHasher
+st.success("Zugang gewährt") 
+st.header('Die Aktien Gruppe')
+    
+st.subheader('Aktienanalyse')
+st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
 
-try:
-    # Before Streamlit 0.65
-    from streamlit.ReportThread import get_report_ctx
-    from streamlit.server.Server import Server
-except ModuleNotFoundError:
-    # After Streamlit 0.65
-    from streamlit.report_thread import get_report_ctx
-    from streamlit.server.server import Server
-    
-    
-def page_dashboard():
-    st.title(":chart_with_upwards_trend: Dashboard page")
-    st.success("Zugang gewährt") 
-    st.header('Die Aktien Gruppe')
-    
-    st.subheader('Aktienanalyse')
-    st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
+ticker_radio = st.radio('Aktien', ('', 'Tickersuche'))     
+ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX'))    
+ticker_radio_2 = st.radio('Spekulationsaktien', ('','Internet', 'Software'))
 
+if ticker_radio_2 == 'Internet':
+    internet=read_internet_ticker()
+    ticker_i = internet['Ticker'].sort_values().tolist()      
+    internet_ticker = st.selectbox(
+    'Ticker auswählen',
+      ticker_i)  
+    st.subheader("Ticker Info")
+    stock_i = yf.Ticker(internet_ticker)
+    info = stock_i.info 
+    to_translate_1 = info['sector']
+    to_translate_2 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    st.subheader(info['longName'])
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
+    st.header('Datenanalyse')
+    stock = internet_stock_data()
+    close = stock.df.Close
+    if st.checkbox("Graphischer Kursverlauf"):
+        font_1 = {
+                    'family' : 'Arial',
+                         'size' : 12
+                    }
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(internet_ticker + ' Kursverlauf', fontdict = font_1)
+        plt.plot(close)
+        st.pyplot(fig1)
+    st.header('Handelsstrategien')    
+    st.subheader('Renditerechner')       
+    if st.checkbox("Kaufen und Halten"):
+        year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
+        stock = internet_stock_data()
+        stock_df = stock.df[year:]
+        stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
+        stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
+        stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
+        font_1 = {
+                'family' : 'Arial',
+                 'size' : 12
+                        }
+        fig2 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(internet_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.plot(stock_df[['Buy&Hold_Rendite']])
+        st.pyplot(fig2)
+        st.dataframe(stock_df[['Buy&Hold_Rendite']])    
+        
+    st.subheader('Aktienkursprognose')  
     
-def page_stocks():
-    st.title(":chart_with_upwards_trend:  Einzelaktienanalyse")
+    if st.checkbox("Markov Chain Monte Carlo"):
+        df  = predict_with_prophet_internet()
+        fbp = Prophet(daily_seasonality = True)
+        fbp.fit(df)
+        fut = fbp.make_future_dataframe(periods=365) 
+        forecast = fbp.predict(fut)
+        fig2 = fbp.plot(forecast)
+        st.pyplot(fig2)
+        st.dataframe(forecast)        
+        
+    
+if ticker_radio_2 == 'Software':
+    software=read_software_ticker()
+    ticker_s = software['Ticker'].sort_values().tolist()      
+    software_ticker = st.selectbox(
+    'Ticker auswählen',
+      ticker_s)  
+    st.subheader("Ticker Info")
+    stock_i = yf.Ticker(software_ticker)
+    info = stock_i.info 
+    to_translate_1 = info['sector']
+    to_translate_2 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    st.subheader(info['longName'])
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
+    st.header('Datenanalyse')
+    stock = software_stock_data()
+    close = stock.df.Close
+    if st.checkbox("Graphischer Kursverlauf"):
+        font_1 = {
+                    'family' : 'Arial',
+                         'size' : 12
+                    }
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(software_ticker + ' Kursverlauf', fontdict = font_1)
+        plt.plot(close)
+        st.pyplot(fig1)
+    st.header('Handelsstrategien')    
+    st.subheader('Renditerechner')       
+    if st.checkbox("Kaufen und Halten"):
+        year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
+        stock = software_stock_data()
+        stock_df = stock.df[year:]
+        stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
+        stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
+        stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
+        font_1 = {
+                'family' : 'Arial',
+                 'size' : 12
+                        }
+        fig2 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(software_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.plot(stock_df[['Buy&Hold_Rendite']])
+        st.pyplot(fig2)
+        st.dataframe(stock_df[['Buy&Hold_Rendite']])    
+        
+    st.subheader('Aktienkursprognose')  
+    
+    if st.checkbox("Markov Chain Monte Carlo"):
+        df  = predict_with_prophet_software()
+        fbp = Prophet(daily_seasonality = True)
+        fbp.fit(df)
+        fut = fbp.make_future_dataframe(periods=365) 
+        forecast = fbp.predict(fut)
+        fig2 = fbp.plot(forecast)
+        st.pyplot(fig2)
+        st.dataframe(forecast)        
+
+if ticker_radio_1 == 'S&P500':
+    snp500 = read_sp500_ticker()  
+    ticker_snp = snp500['ticker'].sort_values().tolist()      
+    SNP_ticker = st.selectbox(
+    'S&P 500 Ticker auswählen',
+      ticker_snp)  
+    st.subheader("Ticker Info")
+    stock_i = yf.Ticker(SNP_ticker)
+    info = stock_i.info 
+    to_translate_1 = info['sector']
+    to_translate_2 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    st.subheader(info['longName'])
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
+    st.header('Datenanalyse')
+    
+        
+    stock = snp_stock_data()    
+    close = stock.df.Close
+    if st.checkbox("Graphischer Kursverlauf"):
+        font_1 = {
+                    'family' : 'Arial',
+                         'size' : 12
+                    }
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(SNP_ticker + ' Kursverlauf', fontdict = font_1)
+        plt.plot(close)
+        st.pyplot(fig1)
+
+    st.header('Handelsstrategien')    
+    
+    st.subheader('Renditerechner')       
+    if st.checkbox("Kaufen und Halten"):
+        year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
+        stock = snp_stock_data()
+        stock_df = stock.df[year:]
+        stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
+        stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
+        stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
+        font_1 = {
+                'family' : 'Arial',
+                 'size' : 12
+                        }
+        fig2 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(SNP_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.plot(stock_df[['Buy&Hold_Rendite']])
+        st.pyplot(fig2)
+        st.dataframe(stock_df[['Buy&Hold_Rendite']])    
+    
+    
+    st.subheader('Derivate')  
+    
+    if st.checkbox("Optionscheine"):
+        options = get_option_data()
+        st.dataframe(options)   
+            
+        
+        
+    st.subheader('Aktienkursprognose')  
+    
+    if st.checkbox("Markov Chain Monte Carlo"):
+        df  = predict_with_prophet_snp()
+        fbp = Prophet(daily_seasonality = True)
+        fbp.fit(df)
+        fut = fbp.make_future_dataframe(periods=365) 
+        forecast = fbp.predict(fut)
+        fig2 = fbp.plot(forecast)
+        st.pyplot(fig2)
+        st.dataframe(forecast)    
+            
+    
+                
+if ticker_radio_1 == 'DAX':
+    dax_ticker = read_dax_ticker()  
+    ticker_dax = dax_ticker['ticker'].sort_values().tolist()  
+    DAX_ticker = st.selectbox(
+    'DAX Aktien',
+      dax_ticker)  
+    st.subheader("Ticker Info")
+    stock_i = yf.Ticker(DAX_ticker)
+    info = stock_i.info 
+    to_translate_1 = info['sector']
+    to_translate_2 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    st.subheader(info['longName'])
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
+    st.header('Datenanalyse')
+    
+    stock = dax_stock_data()   
+    close = stock.df.Close
+    if st.checkbox("Graphischer Kursverlauf"):
+        font_1 = {
+                    'family' : 'Arial',
+                         'size' : 12
+                    }
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(DAX_ticker + ' Kursverlauf', fontdict = font_1)
+        plt.plot(close)
+        st.pyplot(fig1)
+        
+    st.header('Handelsstrategien')     
+    st.subheader('Renditerechner')       
+    
+    if st.checkbox("Kaufen und Halten"):
+        year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
+        stock = dax_stock_data()
+        stock_df = stock.df[year:]
+        stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
+        stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
+        stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
+        font_1 = {
+                'family' : 'Arial',
+                 'size' : 12
+                        }
+        fig2 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(DAX_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.plot(stock_df[['Buy&Hold_Rendite']])
+        st.pyplot(fig2)
+        st.dataframe(stock_df[['Buy&Hold_Rendite']])    
+    
+        
+        
+        
+        
+        
+    st.subheader('Aktienkursprognose')  
+    
+    if st.checkbox("Markov Chain Monte Carlo"):
+        df  = predict_with_prophet_dax()
+        fbp = Prophet(daily_seasonality = True)
+        fbp.fit(df)
+        fut = fbp.make_future_dataframe(periods=365) 
+        forecast = fbp.predict(fut)
+        fig2 = fbp.plot(forecast)
+        st.pyplot(fig2)
+        st.dataframe(forecast)    
+                
+
+if ticker_radio == 'Tickersuche':
     ticker_input = st.text_input('Ticker')
     status_radio = st.radio('Suche anklicken um zu starten.', ('Eingabe', 'Suche'))          
     
@@ -504,253 +760,93 @@ def page_stocks():
             forecast = fbp.predict(fut)
             fig2 = fbp.plot(forecast)
             st.pyplot(fig2)
-            st.dataframe(forecast) 
-            
-def page_index():
-    
-    ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX'))       
-    if ticker_radio_1 == 'S&P500':
-        snp500 = read_sp500_ticker()  
-        ticker_snp = snp500['ticker'].sort_values().tolist()      
-        SNP_ticker = st.selectbox(
-        'S&P 500 Ticker auswählen',
-          ticker_snp)  
-        st.subheader("Ticker Info")
-        stock_i = yf.Ticker(SNP_ticker)
-        info = stock_i.info 
-        to_translate_1 = info['sector']
-        to_translate_2 = info['industry']
-        translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
-        translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
-        st.subheader(info['longName'])
-        st.markdown('** Sektor **: ' + translated_1)
-        st.markdown('** Industrie **: ' + translated_2)
-        st.header('Datenanalyse')
-    
-        
-        stock = snp_stock_data()    
-        close = stock.df.Close
-        if st.checkbox("Graphischer Kursverlauf"):
-            font_1 = {
-                    'family' : 'Arial',
-                         'size' : 12
-                        }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title(SNP_ticker + ' Kursverlauf', fontdict = font_1)
-            plt.plot(close)
-            st.pyplot(fig1)
-
-        st.header('Handelsstrategien')    
-    
-        st.subheader('Renditerechner')       
-        if st.checkbox("Kaufen und Halten"):
-            year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-            stock = snp_stock_data()
-            stock_df = stock.df[year:]
-            stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
-            stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
-            stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
-            font_1 = {
-                'family' : 'Arial',
-                 'size' : 12
-                        }
-            fig2 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title(SNP_ticker + ' Kaufen und Halten', fontdict = font_1)
-            plt.plot(stock_df[['Buy&Hold_Rendite']])
-            st.pyplot(fig2)
-            st.dataframe(stock_df[['Buy&Hold_Rendite']])    
-    
-    
-        st.subheader('Derivate')  
-    
-        if st.checkbox("Optionscheine"):
-            options = get_option_data()
-            st.dataframe(options)   
-            
-        
-        
-        st.subheader('Aktienkursprognose')  
-    
-        if st.checkbox("Markov Chain Monte Carlo"):
-            df  = predict_with_prophet_snp()
-            fbp = Prophet(daily_seasonality = True)
-            fbp.fit(df)
-            fut = fbp.make_future_dataframe(periods=365) 
-            forecast = fbp.predict(fut)
-            fig2 = fbp.plot(forecast)
-            st.pyplot(fig2)
-            st.dataframe(forecast)    
-                
-    
-                
-    if ticker_radio_1 == 'DAX':
-        dax_ticker = read_dax_ticker()  
-        ticker_dax = dax_ticker['ticker'].sort_values().tolist()  
-        DAX_ticker = st.selectbox(
-        'DAX Aktien',
-          dax_ticker)  
-        st.subheader("Ticker Info")
-        stock_i = yf.Ticker(DAX_ticker)
-        info = stock_i.info 
-        to_translate_1 = info['sector']
-        to_translate_2 = info['industry']
-        translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
-        translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
-        st.subheader(info['longName'])
-        st.markdown('** Sektor **: ' + translated_1)
-        st.markdown('** Industrie **: ' + translated_2)
-        st.header('Datenanalyse')
-    
-        stock = dax_stock_data()   
-        close = stock.df.Close
-        if st.checkbox("Graphischer Kursverlauf"):
-            font_1 = {
-                    'family' : 'Arial',
-                         'size' : 12
-                        }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title(DAX_ticker + ' Kursverlauf', fontdict = font_1)
-            plt.plot(close)
-            st.pyplot(fig1)
-        
-        st.header('Handelsstrategien')     
-        st.subheader('Renditerechner')       
-    
-        if st.checkbox("Kaufen und Halten"):
-            year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-            stock = dax_stock_data()
-            stock_df = stock.df[year:]
-            stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
-            stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
-            stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
-            font_1 = {
-                'family' : 'Arial',
-                 'size' : 12
-                        }
-            fig2 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title(DAX_ticker + ' Kaufen und Halten', fontdict = font_1)
-            plt.plot(stock_df[['Buy&Hold_Rendite']])
-            st.pyplot(fig2)
-            st.dataframe(stock_df[['Buy&Hold_Rendite']])    
-    
-        
-        
-        
-        
-        
-        st.subheader('Aktienkursprognose')  
-    
-        if st.checkbox("Markov Chain Monte Carlo"):
-            df  = predict_with_prophet_dax()
-            fbp = Prophet(daily_seasonality = True)
-            fbp.fit(df)
-            fut = fbp.make_future_dataframe(periods=365) 
-            forecast = fbp.predict(fut)
-            fig2 = fbp.plot(forecast)
-            st.pyplot(fig2)
             st.dataframe(forecast)    
             
-def page_eco():
-    st.subheader('Wirtschaft')
-    if st.checkbox("Wirschaftsindikatoren"):
-        status = st.radio("Wirschaftsindikatoren: ", ('','Crude Oil Prices: West Texas Intermediate (WTI)', 'US Treasury Anleihe: 10 Jahre',  'Deutsche Staatsanleihen: 10-Jahre', 'Inflationsrate Deutschland', 'Arbeitslosenquote Deutschland', 'Inflationsrate Eurozone')) 
 
-        if (status == 'Crude Oil Prices: West Texas Intermediate (WTI)'): 
-            df=get_wti_data()
-            font_1 = {
+st.subheader('Wirtschaft')
+if st.checkbox("Wirschaftsindikatoren"):
+    status = st.radio("Wirschaftsindikatoren: ", ('','Crude Oil Prices: West Texas Intermediate (WTI)', 'US Treasury Anleihe: 10 Jahre',  'Deutsche Staatsanleihen: 10-Jahre', 'Inflationsrate Deutschland', 'Arbeitslosenquote Deutschland', 'Inflationsrate Eurozone')) 
+
+    if (status == 'Crude Oil Prices: West Texas Intermediate (WTI)'): 
+        df=get_wti_data()
+        font_1 = {
             'family' : 'Arial',
               'size' : 12
                 }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title('Crude Oil Prices: West Texas Intermediate (WTI) - Cushing, Oklahoma', fontdict = font_1)
-            plt.plot(df)
-            st.pyplot(fig1)
-            st.write(df)  
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title('Crude Oil Prices: West Texas Intermediate (WTI) - Cushing, Oklahoma', fontdict = font_1)
+        plt.plot(df)
+        st.pyplot(fig1)
+        st.write(df)  
            
-        if (status == 'US Treasury Anleihe: 10 Jahre'): 
-            df=get_tres10_data()
-            font_1 = {
-             'family' : 'Arial',
+    if (status == 'US Treasury Anleihe: 10 Jahre'): 
+        df=get_tres10_data()
+        font_1 = {
+         'family' : 'Arial',
+         'size' : 12
+          }
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title('US Treasury Anleihe: 10 Jahre', fontdict = font_1)
+        plt.plot(df)
+        st.pyplot(fig1)
+        st.write(df)  
+    
+    if (status == 'Deutsche Staatsanleihen: 10-Jahre'): 
+        df=get_ggov_data()
+        font_1 = {
+        'family' : 'Arial',
              'size' : 12
               }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title('US Treasury Anleihe: 10 Jahre', fontdict = font_1)
-            plt.plot(df)
-            st.pyplot(fig1)
-            st.write(df)  
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title('Deutsche Staatsanleihen: 10-Jahre', fontdict = font_1)
+        plt.plot(df)
+        st.pyplot(fig1)
+        st.write(df)  
     
-        if (status == 'Deutsche Staatsanleihen: 10-Jahre'): 
-            df=get_ggov_data()
-            font_1 = {
-            'family' : 'Arial',
-             'size' : 12
-                  }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title('Deutsche Staatsanleihen: 10-Jahre', fontdict = font_1)
-            plt.plot(df)
-            st.pyplot(fig1)
-            st.write(df)  
-    
-        if (status == 'Inflationsrate Deutschland'): 
-            df=get_ginfl_data()
-            font_1 = {
+    if (status == 'Inflationsrate Deutschland'): 
+        df=get_ginfl_data()
+        font_1 = {
                      'family' : 'Arial',
                         'size' : 12
-                     }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title('Inflationsrate - Deutschland', fontdict = font_1)
-            plt.plot(df)
-            st.pyplot(fig1)
-            st.write(df)    
+                 }
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title('Inflationsrate - Deutschland', fontdict = font_1)
+        plt.plot(df)
+        st.pyplot(fig1)
+        st.write(df)    
     
-        if (status == 'Arbeitslosenquote Deutschland'): 
-            df=get_unempger_data()
-            font_1 = {
+    if (status == 'Arbeitslosenquote Deutschland'): 
+        df=get_unempger_data()
+        font_1 = {
              'family' : 'Arial',
                      'size' : 12
                 }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title('Arbeitslosenquote - Deutschland', fontdict = font_1)
-            plt.plot(df)
-            st.pyplot(fig1)
-            st.dataframe(df)
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title('Arbeitslosenquote - Deutschland', fontdict = font_1)
+        plt.plot(df)
+        st.pyplot(fig1)
+        st.dataframe(df)
     
-        if (status == 'Inflationsrate Eurozone'): 
-            df=get_ginfl_data()
-            font_1 = {
+    if (status == 'Inflationsrate Eurozone'): 
+        df=get_ginfl_data()
+        font_1 = {
                     'family' : 'Arial',
                      'size' : 12
                  }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title('Inflationsrate Eurozone', fontdict = font_1)
-            plt.plot(df)
-            st.pyplot(fig1)
-            st.dataframe(df)      
-
-
-
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title('Inflationsrate Eurozone', fontdict = font_1)
+        plt.plot(df)
+        st.pyplot(fig1)
+        st.dataframe(df)      
+    
         
-pages = {"Dashboard": page_dashboard,
-        "Einzelaktien": page_stocks,
-        "Indizes": page_index,
-        "Wirtschaft": page_eco}
-
-st.sidebar.title(":chart_with_upwards_trend: Page states")
-
-page = st.sidebar.radio("Select your page", ("Dashboard", "Einzelaktien", "Indizes","Wirtschaft"))
-
-# Display the selected page with the session state
-pages[page]   
+        
         
 
     

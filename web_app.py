@@ -456,8 +456,7 @@ if ticker_radio == 'Tickersuche':
             plt.plot(close)
             st.pyplot(fig1)
 
-
-        st.header('Handelsstrategien')    
+ 
         st.subheader('Renditerechner')       
         
         if st.checkbox("Kaufen und Halten"):
@@ -523,7 +522,6 @@ if ticker_radio_1 == 'S&P500':
         plt.plot(close)
         st.pyplot(fig1)
 
-    st.header('Handelsstrategien')    
     
     st.subheader('Renditerechner')       
     if st.checkbox("Kaufen und Halten"):
@@ -596,7 +594,6 @@ if ticker_radio_1 == 'DAX':
         plt.plot(close)
         st.pyplot(fig1)
         
-    st.header('Handelsstrategien')     
     st.subheader('Renditerechner')       
     
     if st.checkbox("Kaufen und Halten"):
@@ -635,7 +632,7 @@ if ticker_radio_1 == 'DAX':
         st.dataframe(forecast)     
             
 
-st.subheader('Wirtschaft')
+st.header('Wirtschaft')
 if st.checkbox("Wirschaftsindikatoren"):
     status = st.radio("Wirschaftsindikatoren: ", ('','Crude Oil Prices: West Texas Intermediate (WTI)', 'US Treasury Anleihe: 10 Jahre',  'Deutsche Staatsanleihen: 10-Jahre', 'Inflationsrate Deutschland', 'Arbeitslosenquote Deutschland', 'Inflationsrate Eurozone')) 
 

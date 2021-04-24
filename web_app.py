@@ -433,9 +433,12 @@ def pages():
     return pages
 
 st.sidebar.title(":chart_with_upwards_trend: Page states")
-page = st.sidebar.radio("Select your page", tuple(pages.keys()))
 
-    # Display the selected page with the session state
+
+
+page = st.sidebar.radio("Select your page", tuple(pages().keys()))
+
+# Display the selected page with the session state
 pages[page]
     
 def page_dashboard():

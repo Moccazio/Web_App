@@ -430,7 +430,7 @@ def main():
     pages = {
         "Dashboard": page_dashboard,
         "Einzelaktien": page_stocks,
-        "Indizes": page_settings,
+        "Indizes": page_index,
         "Wirtschaft": page_eco
     }
 

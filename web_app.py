@@ -425,10 +425,12 @@ except ModuleNotFoundError:
     from streamlit.report_thread import get_report_ctx
     from streamlit.server.server import Server
 
-pages = {"Dashboard": page_dashboard,
+def pages():
+    pages = {"Dashboard": page_dashboard,
         "Einzelaktien": page_stocks,
         "Indizes": page_index,
         "Wirtschaft": page_eco}
+    return pages
 
 st.sidebar.title(":chart_with_upwards_trend: Page states")
 page = st.sidebar.radio("Select your page", tuple(pages.keys()))

@@ -423,6 +423,75 @@ ticker_radio = st.radio('Aktien', ('', 'Tickersuche'))
 ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX'))    
 ticker_radio_2 = st.radio('Spekulationsaktien', ('','Internet', 'Software'))
 
+if ticker_radio == 'Tickersuche':
+    ticker_input = st.text_input('Ticker')
+    status_radio = st.radio('Suche anklicken um zu starten.', ('Eingabe', 'Suche'))          
+    
+    
+    if status_radio == 'Suche':
+        
+        stock_i = yf.Ticker(ticker_input)
+        info = stock_i.info 
+        to_translate_1 = info['sector']
+        to_translate_2 = info['industry']
+        translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+        translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+        st.subheader(info['longName'])
+        st.markdown('** Sektor **: ' + translated_1)
+        st.markdown('** Industrie **: ' + translated_2)
+        
+        st.header('Datenanalyse')
+        
+        if st.checkbox("Finanzkennzahlen"):
+            company = get_company_data()
+            st.dataframe(company.inputs)  
+        stock = get_stock_data()    
+        close = stock.df.Close
+        if st.checkbox("Graphischer Kursverlauf"):
+            font_1 = {
+                    'family' : 'Arial',
+                         'size' : 12
+                    }
+            fig1 = plt.figure()
+            plt.style.use('seaborn-whitegrid')
+            plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
+            plt.plot(close)
+            st.pyplot(fig1)
+
+
+        st.header('Handelsstrategien')    
+        st.subheader('Renditerechner')       
+        
+        if st.checkbox("Kaufen und Halten"):
+            year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
+            stock = get_stock_data()
+            stock_df = stock.df[year:]
+            stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
+            stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
+            stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
+            font_1 = {
+                'family' : 'Arial',
+                 'size' : 12
+                        }
+            fig2 = plt.figure()
+            plt.style.use('seaborn-whitegrid')
+            plt.title(ticker_input + ' Kaufen und Halten', fontdict = font_1)
+            plt.plot(stock_df[['Buy&Hold_Rendite']])
+            st.pyplot(fig2)
+            st.dataframe(stock_df[['Buy&Hold_Rendite']])
+                  
+        st.subheader('Aktienkursprognose') 
+        
+        if st.checkbox("Prophet Kursprognose (Markov Chain Monte Carlo)"):
+            df  = predict_with_prophet()
+            fbp = Prophet(daily_seasonality = True)
+            fbp.fit(df)
+            fut = fbp.make_future_dataframe(periods=365) 
+            forecast = fbp.predict(fut)
+            fig2 = fbp.plot(forecast)
+            st.pyplot(fig2)
+            st.dataframe(forecast)   
+            
 if ticker_radio_2 == 'Internet':
     internet=read_internet_ticker()
     ticker_i = internet['Ticker'].sort_values().tolist()      
@@ -689,78 +758,7 @@ if ticker_radio_1 == 'DAX':
         forecast = fbp.predict(fut)
         fig2 = fbp.plot(forecast)
         st.pyplot(fig2)
-        st.dataframe(forecast)    
-                
-
-if ticker_radio == 'Tickersuche':
-    ticker_input = st.text_input('Ticker')
-    status_radio = st.radio('Suche anklicken um zu starten.', ('Eingabe', 'Suche'))          
-    
-    
-    if status_radio == 'Suche':
-        
-        stock_i = yf.Ticker(ticker_input)
-        info = stock_i.info 
-        to_translate_1 = info['sector']
-        to_translate_2 = info['industry']
-        translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
-        translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
-        st.subheader(info['longName'])
-        st.markdown('** Sektor **: ' + translated_1)
-        st.markdown('** Industrie **: ' + translated_2)
-        
-        st.header('Datenanalyse')
-        
-        if st.checkbox("Finanzkennzahlen"):
-            company = get_company_data()
-            st.dataframe(company.inputs)  
-        stock = get_stock_data()    
-        close = stock.df.Close
-        if st.checkbox("Graphischer Kursverlauf"):
-            font_1 = {
-                    'family' : 'Arial',
-                         'size' : 12
-                    }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
-            plt.plot(close)
-            st.pyplot(fig1)
-
-
-        st.header('Handelsstrategien')    
-        st.subheader('Aktienkurs')  
-        st.subheader('Renditerechner')       
-        
-        if st.checkbox("Kaufen und Halten"):
-            year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-            stock = get_stock_data()
-            stock_df = stock.df[year:]
-            stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
-            stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
-            stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
-            font_1 = {
-                'family' : 'Arial',
-                 'size' : 12
-                        }
-            fig2 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title(ticker_input + ' Kaufen und Halten', fontdict = font_1)
-            plt.plot(stock_df[['Buy&Hold_Rendite']])
-            st.pyplot(fig2)
-            st.dataframe(stock_df[['Buy&Hold_Rendite']])
-                  
-        st.subheader('Aktienkursprognose') 
-        
-        if st.checkbox("Prophet Kursprognose (Markov Chain Monte Carlo)"):
-            df  = predict_with_prophet()
-            fbp = Prophet(daily_seasonality = True)
-            fbp.fit(df)
-            fut = fbp.make_future_dataframe(periods=365) 
-            forecast = fbp.predict(fut)
-            fig2 = fbp.plot(forecast)
-            st.pyplot(fig2)
-            st.dataframe(forecast)    
+        st.dataframe(forecast)     
             
 
 st.subheader('Wirtschaft')

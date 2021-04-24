@@ -756,7 +756,8 @@ def page_eco(state):
             st.dataframe(df)      
     
         
-        
+if __name__ == "__main__":
+    main()        
         
 
     

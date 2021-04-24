@@ -413,8 +413,8 @@ def predict_with_prophet_software():
 # ========================================
 # Launche App
 # ========================================
-st.header('Die Aktien Gruppe')
 st.success("Zugang gewährt")     
+st.header('Die Aktien Gruppe')  
 st.subheader('Aktienanalyse')
 st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
 

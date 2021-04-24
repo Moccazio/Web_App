@@ -430,7 +430,7 @@ def main():
     state = _get_state()
     pages = {
         "Dashboard": page_dashboard,
-        "Einzelaktien": page_stocks
+        "Einzelaktien": page_stocks,
         "Indizes": page_settings,
         "Wirtschaft": page_eco
     }

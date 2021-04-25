@@ -419,7 +419,9 @@ st.subheader('Aktienanalyse')
 st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
 
 ticker_radio = st.radio('Einzelaktien', ('', 'Tickersuche'))     
-ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX'))    
+ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX')) 
+
+
 
 if ticker_radio == 'Tickersuche':
     ticker_input = st.text_input('Ticker')
@@ -697,8 +699,3 @@ if st.checkbox("Wirschaftsindikatoren"):
         
         
 
-    
-    
-    
-    
-    

@@ -10,4 +10,4 @@ boto3==1.14.2
 plotly==4.4.1
 python_bcrypt==0.3.2
 scikit_learn==0.24.1
-## add binance and coingecko
+lxml==4.6.3 

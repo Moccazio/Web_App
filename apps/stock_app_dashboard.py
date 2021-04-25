@@ -25,9 +25,9 @@ def get_stocks_df(db_file):
 
 
 def dashboard_process(state):
-    st.title(":chart_with_upwards_trend: Dashboard page")
-    st.header("Welcome "+ state.user_name + "!")
-    st.write('Stock Overview')
+    st.title(":chart_with_upwards_trend: Dashboard")
+    st.header("Willkommen "+ state.user_name + "!")
+    st.write('Transaktionen')
     stock_table = st.empty()
     try:
         dataframe = create_df(get_stocks_df(DATABASE_FILE_LOCATION))
@@ -36,19 +36,19 @@ def dashboard_process(state):
     except: 
         pass
 
-    st.header("Stock Purchase")
+    st.header("Orders")
     stock_name = st.empty()
     stock_quantity = st.empty()
     stock_bought_price = st.empty()
     stock_fees = st.empty()
 
-    stock_name = str(stock_name.text_input("Stock Code E.g AAPL, BABA").strip().upper())
-    stock_quantity = stock_quantity.text_input("Quantity").strip()
-    stock_bought_price = stock_bought_price.text_input("Bought Price (Stock Market's Currency: e.g STI in SGD, BABA in USD)").strip()
-    stock_fees = stock_fees.text_input("Extra Fees (Commissions etc)").strip()
+    stock_name = str(stock_name.text_input("Aktienticker Bsp. AAPL, BABA").strip().upper())
+    stock_quantity = stock_quantity.text_input("Quantität").strip()
+    stock_bought_price = stock_bought_price.text_input("Kaufpreis (Aktienmarktwährung: Bsp. DB1.DE in EUR, BABA in USD)").strip()
+    stock_fees = stock_fees.text_input("Fremdkostenzuschlag (Kommissionen usw.)").strip()
     
     add_button = st.empty()
-    add_button_state = add_button.button("Submit")
+    add_button_state = add_button.button("Abschicken")
 
 
     if add_button_state:
@@ -79,14 +79,14 @@ def dashboard_process(state):
 
         #Clear text input
         if stock_name and stock_quantity and stock_bought_price and stock_fees:
-            stock_name.text_input("Stock Code E.g AAPL, BABA",key="stock_name").strip().upper()
-            stock_quantity.text_input("Quantity",key="stock_quantity").strip()
-            stock_bought_price.text_input("Bought Price (Stock Market's Currency: e.g STI in SGD, BABA in USD)",key="stock_price").strip()
-            stock_fees.text_input("Extra Fees (Commissions etc)",key="stock_fees").strip()
+            stock_name.text_input("Aktienticker Bsp. AAPL, BABA",key="stock_name").strip().upper()
+            stock_quantity.text_input("Quantität",key="stock_quantity").strip()
+            stock_bought_price.text_input("Kaufpreis (Aktienmarktwährung: Bsp. DB1.DE in EUR, BABA in USD)",key="stock_price").strip()
+            stock_fees.text_input("Fremdkostenzuschlag (Kommissionen usw.))",key="stock_fees").strip()
 
         #Notify successfully added to database
         added_stock_msg = st.empty()
-        added_stock_msg.write(stock_name+" added Successfully!")
+        added_stock_msg.write(stock_name+" Änderungen gespeichert!")
         time.sleep(5)
         added_stock_msg = added_stock_msg.empty()
 

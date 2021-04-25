@@ -10,7 +10,7 @@ from main_stock_app import DATABASE_FILE_LOCATION
 import sqlite3
 import pandas as pd
 from sqlite3 import Error
-from binance.client import Client
+#from binance.client import Client
 
 
 def get_stocks_df(db_file):

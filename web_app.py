@@ -414,11 +414,9 @@ def predict_with_prophet_software():
 # Launche App
 # ========================================
 st.success("Zugang gewährt") 
-st.markdown('......................................................................................................\
-    .........................................................')
+st.markdown('...............................................................................................................................................................')
 st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")
-st.markdown('......................................................................................................\
-    .........................................................')
+st.markdown('...............................................................................................................................................................')
 st.header('Die Aktien Gruppe')  
 st.subheader('Aktienanalyse')
 st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
@@ -687,13 +685,11 @@ if st.checkbox("Wirschaftsindikatoren"):
         st.pyplot(fig1)
         st.dataframe(df)      
         
-st.markdown('......................................................................................................\
-    .........................................................')
+st.markdown('...............................................................................................................................................................')
 st.markdown("*Kursinformationen:* Für die aufgeführten Inhalte kann keine Gewährleistung für die Vollständigkeit, Richtigkeit und Genauigkeit übernommen werden. Der Handel mit Wertpapieren und Finanzinstrumenten ist mit enormen Risken verbunden. Bevor Sie eigenständig mit dem Handel beginnen, lassen Sie sich von einem unabhängigen qualifizierten Finanzanlagenfachmann beraten.")
 
 st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")
-st.markdown('.....................................................................................................\
-    .........................................................')        
+st.markdown('..............................................................................................................................................................')        
 #st.sidebar.markdown('<a href="mailto:">Contact me !</a>', unsafe_allow_html=True)    
         
 

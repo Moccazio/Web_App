@@ -687,8 +687,6 @@ if st.checkbox("Wirschaftsindikatoren"):
         
 st.markdown('...............................................................................................................................................................')
 st.markdown("*Kursinformationen:* Für die aufgeführten Inhalte kann keine Gewährleistung für die Vollständigkeit, Richtigkeit und Genauigkeit übernommen werden. Der Handel mit Wertpapieren und Finanzinstrumenten ist mit enormen Risken verbunden. Bevor Sie eigenständig mit dem Handel beginnen, lassen Sie sich von einem unabhängigen qualifizierten Finanzanlagenfachmann beraten.")
-
-st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")
 st.markdown('..............................................................................................................................................................')        
 #st.sidebar.markdown('<a href="mailto:">Contact me !</a>', unsafe_allow_html=True)    
         

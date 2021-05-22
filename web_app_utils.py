@@ -17,11 +17,9 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
 from deep_translator import GoogleTranslator
-
 # ========================================  
 # Company Data 
 # ========================================    
-
 def comma_format(number):
     if not pd.isna(number) and number != 0:
         return '{:,.0f}'.format(number)

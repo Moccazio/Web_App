@@ -272,6 +272,9 @@ def get_dax_data():
     dax = Stock("^GDAXI").df.Close
     return dax
 
+def get_vix_data():
+    vix = Stock("^VIX")
+
 def get_wti_data():
     start = '1900-01-01'
     end = dt.datetime.now()

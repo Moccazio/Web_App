@@ -3,7 +3,7 @@
 # ========================================
 import streamlit as st 
 import streamlit_theme as stt
-stt.set_theme({'primary': '#F63366'}, {'background': '#FFFFFF'}{'secondaryBackground': '#F0F2F6'}, {'text': '#262730'}, {'font': 'sans serif'})
+stt.set_theme({'primary': '#F63366'}, {'background': '#FFFFFF'},{'secondaryBackground': '#F0F2F6'}, {'text': '#262730'}, {'font': 'sans serif'})
 import time
 from web_app_utils import *
 # ========================================

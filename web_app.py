@@ -9,20 +9,13 @@ from web_app_utils import *
 # ========================================
 # Launche App
 # ========================================
-st.success("Zugang gewährt") 
-st.markdown('...............................................................................................................................................................')
-st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")
-st.markdown('...............................................................................................................................................................')
-st.header('Die Aktien Gruppe')  
-st.subheader('Aktienanalyse')
-st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
-
-st.title(":chart_with_upwards_trend: Dashboard page")
 
 ticker_radio = st.sidebar.radio('Modus auswählen', ('Dashboard', 'Tickersuche', 'S&P500', 'DAX'))
 
 
 if ticker_radio == 'Tickersuche':
+    st.subheader('Aktienanalyse')
+    st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
     ticker_input = st.text_input('Ticker')
     status_radio = st.radio('Suche anklicken um zu starten.', ('Eingabe', 'Suche'))          
     
@@ -213,6 +206,15 @@ if ticker_radio == 'DAX':
             
 
 if ticker_radio == 'Dashboard':
+    st.title(":chart_with_upwards_trend: Dashboard")
+    st.success("Zugang gewährt")
+    st.header('Die Aktiengruppe')  
+    st.markdown('...............................................................................................................................................................')
+    st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")
+    st.markdown('...............................................................................................................................................................')
+    df=get_sp500_data()
+    st.line_chart(df)
+    
     st.header('Wirtschaft')
     status = st.radio("Wirschaftsindikatoren: ", ('','Crude Oil Prices: West Texas Intermediate (WTI)', 'US Treasury Anleihe: 10 Jahre',  'Deutsche Staatsanleihen: 10-Jahre', 'Inflationsrate Deutschland', 'Arbeitslosenquote Deutschland', 'Inflationsrate Eurozone')) 
 

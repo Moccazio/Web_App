@@ -17,9 +17,9 @@ st.header('Die Aktien Gruppe')
 st.subheader('Aktienanalyse')
 st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
 
-ticker_radio = st.radio('Einzelaktien', ('', 'Tickersuche'))     
-ticker_radio_1 = st.radio('Indizes', ('','S&P500', 'DAX')) 
+st.title(":chart_with_upwards_trend: Dashboard page")
 
+ticker_radio = st.sidebar.radio('Modus auswählen', ('Dashboard', 'Tickersuche', 'S&P500', 'DAX'))
 
 
 if ticker_radio == 'Tickersuche':
@@ -88,7 +88,7 @@ if ticker_radio == 'Tickersuche':
             st.dataframe(forecast)   
             
 
-if ticker_radio_1 == 'S&P500':
+if ticker_radio == 'S&P500':
     snp500 = read_sp500_ticker()  
     ticker_snp = snp500['ticker'].sort_values().tolist()      
     SNP_ticker = st.selectbox(
@@ -152,7 +152,7 @@ if ticker_radio_1 == 'S&P500':
         st.pyplot(fig2)
         st.dataframe(forecast)        
                 
-if ticker_radio_1 == 'DAX':
+if ticker_radio == 'DAX':
     dax_ticker = read_dax_ticker()  
     ticker_dax = dax_ticker['ticker'].sort_values().tolist()  
     DAX_ticker = st.selectbox(
@@ -212,8 +212,8 @@ if ticker_radio_1 == 'DAX':
         st.dataframe(forecast)     
             
 
-st.header('Wirtschaft')
-if st.checkbox("Wirschaftsindikatoren"):
+if ticker_radio == 'Dashboard':
+    st.header('Wirtschaft')
     status = st.radio("Wirschaftsindikatoren: ", ('','Crude Oil Prices: West Texas Intermediate (WTI)', 'US Treasury Anleihe: 10 Jahre',  'Deutsche Staatsanleihen: 10-Jahre', 'Inflationsrate Deutschland', 'Arbeitslosenquote Deutschland', 'Inflationsrate Eurozone')) 
 
     if (status == 'Crude Oil Prices: West Texas Intermediate (WTI)'): 
@@ -282,7 +282,7 @@ if st.checkbox("Wirschaftsindikatoren"):
         st.dataframe(df)      
         
 st.markdown('...............................................................................................................................................................')
-st.markdown("*Informationen:* Für die aufgeführten Inhalte kann keine Gewährleistung für die Vollständigkeit, Richtigkeit und Genauigkeit übernommen werden. Der Handel mit Wertpapieren und Finanzinstrumenten ist mit enormen Risken verbunden. Bevor Sie eigenständig mit dem Handel beginnen, lassen Sie sich von einem unabhängigen qualifizierten Finanzanlagenfachmann beraten.")
+st.markdown("*Informationen:* Für die aufgeführten Inhalte kann keine Gewährleistung für die Vollständigkeit, Richtigkeit und Genauigkeit übernommen werden.")
 st.markdown('..............................................................................................................................................................')        
 #st.sidebar.markdown('<a href="mailto:">Contact me !</a>', unsafe_allow_html=True)    
         

@@ -42,7 +42,6 @@ if ticker_radio == 'Aktienanalyse':
     st.subheader('Aktienanalyse')
     st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
     ticker_input = st.text_input('Ticker')
-    status_radio = st.radio('Suche anklicken um zu starten.', ('Eingabe', 'Suche'))          
     stock_i = yf.Ticker(ticker_input)
     info = stock_i.info 
     to_translate_1 = info['sector']

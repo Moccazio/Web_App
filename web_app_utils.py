@@ -265,27 +265,23 @@ def Option(ticker):
 # ========================================   
 
 def get_sp500_data():
-    sp500 = pd.DataFrame(Stock("^GSPC").df.Close, columns=["S&P500"])
+    sp500 = Stock("^GSPC").df.Close
     return sp500
 
 def get_vix_data():
     vix = Stock("^VIX").df.Close
-    vix.columns = ["VIX"]
     return vix
 
 def get_dax_data():
     dax = Stock("^GDAXI").df.Close
-    dax.columns = ["DAX"]
     return dax
 
 def get_mdax_data():
     mdax = Stock("^MDAXI").df.Close
-    mdax.columns = ["MDAX"]
     return mdax
 
 def get_sdax_data():
     sdax = Stock("^SDAXI").df.Close
-    sdax.columns = ["SDAX"]
     return sdax
 
 def get_wti_data():

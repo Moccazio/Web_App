@@ -10,7 +10,7 @@ from web_app_utils import *
 # Launche App
 # ========================================
 
-ticker_radio = st.sidebar.radio('Datenanalyse', ('Dashboard', 'Aktienticker', 'S&P500', 'DAX'))
+ticker_radio = st.sidebar.radio('Datenanalyse', ('Dashboard', 'Aktien', 'S&P500', 'DAX'))
 
 if ticker_radio == 'Dashboard':
     st.title(":chart_with_upwards_trend: Die Aktiengruppe")
@@ -19,11 +19,12 @@ if ticker_radio == 'Dashboard':
     st.markdown('...............................................................................................................................................................')
     st.markdown("S&P 500 Historische Wertentwicklung")        
     df=get_sp500_data()
-    st.line_chart(df)
+    chart_data = pd.DataFrame(df,columns=['S&P 500']
+    st.area_chart(chart_data)
     st.markdown('...............................................................................................................................................................')
  
         
-if ticker_radio == 'Tickersuche':
+if ticker_radio == 'Aktien':
     st.subheader('Aktienanalyse')
     st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
     ticker_input = st.text_input('Ticker')

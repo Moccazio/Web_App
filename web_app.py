@@ -18,9 +18,11 @@ if ticker_radio == 'Dashboard':
     st.markdown('...............................................................................................................................................................')
     st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")                
     st.markdown('...............................................................................................................................................................')
+    st.markdown("S&P 500 Historische Wertentwicklung")        
+    st.markdown('...............................................................................................................................................................')
     df=get_sp500_data()
     st.line_chart(df)
-    
+    st.markdown('...............................................................................................................................................................')
     st.header('Wirtschaft')
     status = st.radio("Wirschaftsindikatoren: ", ('','Crude Oil Prices: West Texas Intermediate (WTI)', 'US Treasury Anleihe: 10 Jahre',  'Deutsche Staatsanleihen: 10-Jahre', 'Inflationsrate Deutschland', 'Arbeitslosenquote Deutschland', 'Inflationsrate Eurozone')) 
 

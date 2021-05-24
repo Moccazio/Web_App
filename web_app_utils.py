@@ -265,33 +265,28 @@ def Option(ticker):
 # ========================================   
 
 def get_sp500_data():
-    sp500 = Stock("^GSPC").df
-    sp500.rename(columns={'Close': 'S&P500'}, inplace=True)
-    sp500=sp500.SP500
+    sp500 = Stock("^GSPC").df.Close
+    sp500.columns = ["S&P500"]
     return sp500
 
 def get_vix_data():
-    vix = Stock("^VIX").df
-    vix.rename(columns={'Close': 'VIX'}, inplace=True)
-    vix=vix.VIX
+    vix = Stock("^VIX").df.Close
+    vix.columns = ["VIX"]
     return vix
 
 def get_dax_data():
-    dax = Stock("^GDAXI").df
-    dax.rename(columns={'Close': 'DAX'}, inplace=True)
-    dax=dax.DAX
+    dax = Stock("^GDAXI").df.Close
+    dax.columns = ["DAX"]
     return dax
 
 def get_mdax_data():
-    mdax = Stock("^MDAXI").df
-    mdax.rename(columns={'Close': 'MDAX'}, inplace=True)
-    mdax=mdax.MDAX
+    mdax = Stock("^MDAXI").df.Close
+    mdax.columns = ["MDAX"]
     return mdax
 
 def get_sdax_data():
-    sdax = Stock("^SDAXI").df
-    sdax.rename(columns={'Close': 'SDAX'}, inplace=True)
-    sdax = sdax.SDAX
+    sdax = Stock("^SDAXI").df.Close
+    sdax.columns = ["SDAX"]
     return sdax
 
 def get_wti_data():

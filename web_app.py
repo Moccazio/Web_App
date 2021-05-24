@@ -53,12 +53,9 @@ if ticker_radio == 'Aktienanalyse':
     st.markdown('** Industrie **: ' + translated_2)
         
     st.header('Datenanalyse')
-        
-    if st.checkbox("Finanzkennzahlen"):
-        company = get_company_data()
-        st.dataframe(company.inputs)  
     stock = get_stock_data()    
     close = stock.df.Close
+    
     if st.checkbox("Graphischer Kursverlauf"):
         font_1 = {
                     'family' : 'Arial',
@@ -68,7 +65,7 @@ if ticker_radio == 'Aktienanalyse':
         plt.style.use('seaborn-whitegrid')
         plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
         plt.plot(close)
-        st.pyplot(fig1)      
+        st.line_chart(fig1)      
         
     if st.checkbox("Renditerechner"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
@@ -85,7 +82,7 @@ if ticker_radio == 'Aktienanalyse':
         plt.style.use('seaborn-whitegrid')
         plt.title(ticker_input + ' Kaufen und Halten', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Rendite']])
-        st.pyplot(fig2)
+        st.line_chart(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])
                   
     st.subheader('Aktienkursprognose') 

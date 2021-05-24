@@ -23,73 +23,7 @@ if ticker_radio == 'Dashboard':
     df=get_sp500_data()
     st.line_chart(df)
     st.markdown('...............................................................................................................................................................')
-    st.header('Wirtschaft')
-    status = st.radio("Wirschaftsindikatoren: ", ('','Crude Oil Prices: West Texas Intermediate (WTI)', 'US Treasury Anleihe: 10 Jahre',  'Deutsche Staatsanleihen: 10-Jahre', 'Inflationsrate Deutschland', 'Arbeitslosenquote Deutschland', 'Inflationsrate Eurozone')) 
-
-    if (status == 'Crude Oil Prices: West Texas Intermediate (WTI)'): 
-        df=get_wti_data()
-        font_1 = {
-            'family' : 'Arial',
-              'size' : 12
-                }
-        fig1 = plt.figure()
-        plt.style.use('seaborn-whitegrid')
-        plt.title('Crude Oil Prices: West Texas Intermediate (WTI) - Cushing, Oklahoma', fontdict = font_1)
-        plt.plot(df)
-        st.pyplot(fig1)
-        st.write(df)  
-           
-    if (status == 'US Treasury Anleihe: 10 Jahre'): 
-        df=get_tres10_data()
-        font_1 = {
-         'family' : 'Arial',
-         'size' : 12
-          }
-        fig1 = plt.figure()
-        plt.style.use('seaborn-whitegrid')
-        plt.title('US Treasury Anleihe: 10 Jahre', fontdict = font_1)
-        plt.plot(df)
-        st.pyplot(fig1)
-        st.write(df)  
-    
-    if (status == 'Deutsche Staatsanleihen: 10-Jahre'): 
-        df=get_ggov_data()
-        font_1 = {
-        'family' : 'Arial',
-             'size' : 12
-              }
-        fig1 = plt.figure()
-        plt.style.use('seaborn-whitegrid')
-        plt.title('Deutsche Staatsanleihen: 10-Jahre', fontdict = font_1)
-        plt.plot(df)
-        st.pyplot(fig1)
-        st.write(df)  
-    
-    if (status == 'Inflationsrate Deutschland'): 
-        df=get_ginfl_data()
-        font_1 = {
-                     'family' : 'Arial',
-                        'size' : 12
-                 }
-        fig1 = plt.figure()
-        plt.style.use('seaborn-whitegrid')
-        plt.title('Inflationsrate - Deutschland', fontdict = font_1)
-        plt.plot(df)
-        st.pyplot(fig1)
-        st.write(df)    
-    
-    if (status == 'Inflationsrate Eurozone'): 
-        df=get_ginfl_data()
-        font_1 = {
-                    'family' : 'Arial',
-                     'size' : 12
-                 }
-        fig1 = plt.figure()
-        plt.style.use('seaborn-whitegrid')
-        plt.title('Inflationsrate Eurozone', fontdict = font_1)
-        plt.plot(df)
-        st.pyplot(fig1)
-        st.dataframe(df)
+ 
         
 if ticker_radio == 'Tickersuche':
     st.subheader('Aktienanalyse')

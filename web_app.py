@@ -17,11 +17,20 @@ if ticker_radio == 'Dashboard':
     st.markdown('...............................................................................................................................................................')
     st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")                
     st.markdown('...............................................................................................................................................................')
-    st.markdown("S&P 500 Historische Wertentwicklung")        
-    df=get_sp500_data()
-    st.area_chart(df)
+    st.subheader("S&P 500 Historische Wertentwicklung")        
+    df_1 = get_sp500_data()
+    st.area_chart(df_1)
+    st.subheader("CBOE Volatility Index Historische Wertentwicklung")
+    st.markdown('Der Volatility Index (VIX) ist eine Zahl, die von den Preisen der Optionsprämie im S&P 500-Index abgeleitet ist. Liegt der VIX unter 20, wird für den Markt ein eher  gesundes und risikoarmes Umfeld prognostiziert.\
+    Wenn der VIX jedoch zu tief fällt, ist dies Ausdruck von stark optimistisch gestimmten Investoren. Wenn der VIX auf über 20 steigt, dann beginnt die Angst in den Markt einzutreten und es wird ein höheres Risikoumfeld\
+    prognostiziert.')
+    df_2 = get_vix_data()
+    st.bar_chart(df_2)
     st.markdown('...............................................................................................................................................................')
- 
+    st.subheader("DAX Historische Wertentwicklung")
+    df_3 = get_dax_data()
+    st.area_chart(df_3)
+    st.markdown('...............................................................................................................................................................')
         
 if ticker_radio == 'Aktien':
     st.subheader('Aktienanalyse')

@@ -16,5 +16,5 @@ deep-translator==1.4.1
 nltk==3.5
 bs4==0.0.1 
 streamlit-pandas-profiling==0.1.2 
-streamlit-analytics==0.2.2 
 streamlit-theme==0.58.0
+altair==4.1.0 

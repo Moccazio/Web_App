@@ -38,7 +38,7 @@ if ticker_radio == 'Dashboard':
     st.area_chart(df_5)
     st.markdown('...............................................................................................................................................................')
         
-if ticker_radio == 'Aktien':
+if ticker_radio == 'Aktienanalyse':
     st.subheader('Aktienanalyse')
     st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
     ticker_input = st.text_input('Ticker')

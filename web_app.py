@@ -10,7 +10,7 @@ from web_app_utils import *
 # Launche App
 # ========================================
 
-ticker_radio = st.sidebar.radio('Datenanalyse', ('Dashboard', 'Aktienanalyse'))
+ticker_radio = st.sidebar.radio('Kapitalmarktanalyse', ('Dashboard', 'Aktienanalyse'))
 
 if ticker_radio == 'Dashboard':
     st.title(":chart_with_upwards_trend: Die Aktiengruppe")

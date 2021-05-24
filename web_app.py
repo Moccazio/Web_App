@@ -43,15 +43,6 @@ if ticker_radio == 'Aktienanalyse':
     st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
     ticker_input = st.text_input('Ticker')
     stock_i = yf.Ticker(ticker_input)
-    info = stock_i.info 
-    to_translate_1 = info['sector']
-    to_translate_2 = info['industry']
-    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
-    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
-    st.subheader(info['longName'])
-    st.markdown('** Sektor **: ' + translated_1)
-    st.markdown('** Industrie **: ' + translated_2)
-        
     st.header('Datenanalyse')
     stock = get_stock_data()    
     close = stock.df.Close

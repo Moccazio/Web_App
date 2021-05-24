@@ -10,7 +10,7 @@ from web_app_utils import *
 # Launche App
 # ========================================
 
-ticker_radio = st.sidebar.radio('Datenanalyse', ('Dashboard', 'Aktien', 'S&P500', 'DAX'))
+ticker_radio = st.sidebar.radio('Datenanalyse', ('Dashboard', 'Aktienanalyse'))
 
 if ticker_radio == 'Dashboard':
     st.title(":chart_with_upwards_trend: Die Aktiengruppe")
@@ -43,67 +43,63 @@ if ticker_radio == 'Aktien':
     st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
     ticker_input = st.text_input('Ticker')
     status_radio = st.radio('Suche anklicken um zu starten.', ('Eingabe', 'Suche'))          
-    
-    
-    if status_radio == 'Suche':
+    stock_i = yf.Ticker(ticker_input)
+    info = stock_i.info 
+    to_translate_1 = info['sector']
+    to_translate_2 = info['industry']
+    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    st.subheader(info['longName'])
+    st.markdown('** Sektor **: ' + translated_1)
+    st.markdown('** Industrie **: ' + translated_2)
         
-        stock_i = yf.Ticker(ticker_input)
-        info = stock_i.info 
-        to_translate_1 = info['sector']
-        to_translate_2 = info['industry']
-        translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
-        translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
-        st.subheader(info['longName'])
-        st.markdown('** Sektor **: ' + translated_1)
-        st.markdown('** Industrie **: ' + translated_2)
+    st.header('Datenanalyse')
         
-        st.header('Datenanalyse')
-        
-        if st.checkbox("Finanzkennzahlen"):
-            company = get_company_data()
-            st.dataframe(company.inputs)  
-        stock = get_stock_data()    
-        close = stock.df.Close
-        if st.checkbox("Graphischer Kursverlauf"):
-            font_1 = {
+    if st.checkbox("Finanzkennzahlen"):
+        company = get_company_data()
+        st.dataframe(company.inputs)  
+    stock = get_stock_data()    
+    close = stock.df.Close
+    if st.checkbox("Graphischer Kursverlauf"):
+        font_1 = {
                     'family' : 'Arial',
                          'size' : 12
                     }
-            fig1 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
-            plt.plot(close)
-            st.pyplot(fig1)      
+        fig1 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
+        plt.plot(close)
+        st.pyplot(fig1)      
         
-        if st.checkbox("Renditerechner"):
-            year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-            stock = get_stock_data()
-            stock_df = stock.df[year:]
-            stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
-            stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
-            stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
-            font_1 = {
+    if st.checkbox("Renditerechner"):
+        year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
+        stock = get_stock_data()
+        stock_df = stock.df[year:]
+        stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
+        stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
+        stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
+        font_1 = {
                 'family' : 'Arial',
                  'size' : 12
                         }
-            fig2 = plt.figure()
-            plt.style.use('seaborn-whitegrid')
-            plt.title(ticker_input + ' Kaufen und Halten', fontdict = font_1)
-            plt.plot(stock_df[['Buy&Hold_Rendite']])
-            st.pyplot(fig2)
-            st.dataframe(stock_df[['Buy&Hold_Rendite']])
+        fig2 = plt.figure()
+        plt.style.use('seaborn-whitegrid')
+        plt.title(ticker_input + ' Kaufen und Halten', fontdict = font_1)
+        plt.plot(stock_df[['Buy&Hold_Rendite']])
+        st.pyplot(fig2)
+        st.dataframe(stock_df[['Buy&Hold_Rendite']])
                   
-        st.subheader('Aktienkursprognose') 
+    st.subheader('Aktienkursprognose') 
         
-        if st.checkbox("Aktienkursprognose (Markov Chain Monte Carlo)"):
-            df  = predict_with_prophet()
-            fbp = Prophet(daily_seasonality = True)
-            fbp.fit(df)
-            fut = fbp.make_future_dataframe(periods=365) 
-            forecast = fbp.predict(fut)
-            fig2 = fbp.plot(forecast)
-            st.pyplot(fig2)
-            st.dataframe(forecast)   
+    if st.checkbox("Aktienkursprognose (Markov Chain Monte Carlo)"):
+        df  = predict_with_prophet()
+        fbp = Prophet(daily_seasonality = True)
+        fbp.fit(df)
+        fut = fbp.make_future_dataframe(periods=365) 
+        forecast = fbp.predict(fut)
+        fig2 = fbp.plot(forecast)
+        st.pyplot(fig2)
+        st.dataframe(forecast)   
             
 
 if ticker_radio == 'S&P500':

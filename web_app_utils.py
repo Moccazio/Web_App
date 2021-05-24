@@ -265,8 +265,7 @@ def Option(ticker):
 # ========================================   
 
 def get_sp500_data():
-    sp500 = Stock("^GSPC").df.Close
-    sp500.columns = ["S&P500"]
+    sp500 = pd.DataFrame(Stock("^GSPC").df.Close, columns=["S&P500"])
     return sp500
 
 def get_vix_data():

@@ -30,6 +30,12 @@ if ticker_radio == 'Dashboard':
     st.subheader("DAX Historische Wertentwicklung")
     df_3 = get_dax_data()
     st.area_chart(df_3)
+    st.subheader("MDAX Historische Wertentwicklung")
+    df_4 = get_mdax_data()
+    st.area_chart(df_4)
+    st.subheader("SDAX Historische Wertentwicklung")
+    df_5 = get_sdax_data()
+    st.area_chart(df_5)
     st.markdown('...............................................................................................................................................................')
         
 if ticker_radio == 'Aktien':

@@ -266,10 +266,12 @@ def Option(ticker):
 
 def get_sp500_data():
     sp500 = Stock("^GSPC").df.Close
+    sp500.rename(columns={'Close': 'S&P 500'}, inplace=True)
     return sp500
 
 def get_dax_data():
     dax = Stock("^GDAXI").df.Close
+    dax.rename(columns={'Close': 'DAX'}, inplace=True)
     return dax
 
 def get_vix_data():

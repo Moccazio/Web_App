@@ -13,13 +13,11 @@ from web_app_utils import *
 ticker_radio = st.sidebar.radio('Datenanalyse', ('Dashboard', 'Aktienticker', 'S&P500', 'DAX'))
 
 if ticker_radio == 'Dashboard':
-    st.title(":chart_with_upwards_trend: Dashboard")
-    st.header('Die Aktiengruppe')
+    st.title(":chart_with_upwards_trend: Die Aktiengruppe")
     st.markdown('...............................................................................................................................................................')
     st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")                
     st.markdown('...............................................................................................................................................................')
     st.markdown("S&P 500 Historische Wertentwicklung")        
-    st.markdown('...............................................................................................................................................................')
     df=get_sp500_data()
     st.line_chart(df)
     st.markdown('...............................................................................................................................................................')

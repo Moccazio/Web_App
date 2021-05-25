@@ -21,7 +21,6 @@ import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
-from deep_translator import GoogleTranslator
 # ========================================    
 # Stock - Data
 # ========================================    

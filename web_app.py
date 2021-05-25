@@ -215,21 +215,17 @@ if ticker_radio == 'Aktienanalyse':
     st.subheader('Aktienanalyse')
     st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
     ticker_input = st.text_input('Ticker')
-    stock_i = yf.Ticker(ticker_input)
     st.header('Datenanalyse')
     stock = get_stock_data()    
     close = stock.df.Close
     
     if st.checkbox("Graphischer Kursverlauf"):
-        font_1 = {
-                    'family' : 'Arial',
-                         'size' : 12
-                    }
+        font_1 = {'family' : 'Arial','size' : 9}
         fig1 = plt.figure()
-        plt.style.use('seaborn-whitegrid')
+        plt.style.use('dark_background')
         plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
         plt.pyplot(close)
-        st.pyplot(fig1)      
+        st.write(fig1)      
         
     if st.checkbox("Renditerechner"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
@@ -243,10 +239,10 @@ if ticker_radio == 'Aktienanalyse':
                  'size' : 12
                         }
         fig2 = plt.figure()
-        plt.style.use('seaborn-whitegrid')
+        plt.style.use('dark_background')
         plt.title(ticker_input + ' Kaufen und Halten', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Rendite']])
-        st.pyplot(fig2)
+        st.write(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])
                   
     st.subheader('Aktienkursprognose') 

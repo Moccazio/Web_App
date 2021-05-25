@@ -109,7 +109,7 @@ def Option(ticker):
                   keys = ['Call', 'Put'], ignore_index = True)
     return _df
 # ========================================     
-# Economic Data Funktions
+# Data Funktions
 # ========================================   
 def get_sp500_data():
     sp500 = Stock("^GSPC").df.Close
@@ -147,6 +147,14 @@ def get_quote_data():
 def get_option_data():
     options_df = Options_Chain(SNP_ticker)
     return options_df
+# ========================================
+# Utils
+# ========================================
+def adj_close_df(stk_df, name):
+    df = stk_df.reset_index()
+    df = df[["Date","Close"]] 
+    df = df.rename(columns = {"Date":"Datum","Close":tname}) 
+    return df
 # ========================================
 # Prophet
 # ========================================
@@ -191,18 +199,21 @@ if ticker_radio == 'Dashboard':
     st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")                
     st.markdown('...............................................................................................................................................................')
     st.subheader("S&P 500 Historische Wertentwicklung")        
-    df_1 = get_sp500_data()
+    df_ = get_sp500_data()
+    df_1 = adj_close_df(df_, name="S&P500")
     st.area_chart(df_1)
     st.subheader("CBOE Volatility Index Historische Wertentwicklung")
     st.markdown('Der Volatility Index (VIX) ist eine Zahl, die von den Preisen der Optionsprämie im S&P 500-Index abgeleitet ist. Liegt der VIX unter 20, wird für den Markt ein eher  gesundes und risikoarmes Umfeld prognostiziert.\
     Wenn der VIX jedoch zu tief fällt, ist dies Ausdruck von stark optimistisch gestimmten Investoren. Wenn der VIX auf über 20 steigt, dann beginnt die Angst in den Markt einzutreten und es wird ein höheres Risikoumfeld\
     prognostiziert.')
-    df_2 = get_vix_data()
+    df_ = get_vix_data()
+    df_2 = adj_close_df(df_, name="S&P500")
     st.line_chart(df_2)
     st.markdown('...............................................................................................................................................................')
     st.subheader("DAX Historische Wertentwicklung")
     df_3 = get_dax_data()
-    st.area_chart(df_3)
+    chart_data_3 = pd.DataFrame({"DAX": df_3})
+    st.area_chart(chart_data_3)
     st.subheader("MDAX Historische Wertentwicklung")
     df_4 = get_mdax_data()
     st.area_chart(df_4)
@@ -217,15 +228,9 @@ if ticker_radio == 'Aktienanalyse':
     ticker_input = st.text_input('Ticker')
     st.header('Datenanalyse')
     stock = get_stock_data()    
-    close = stock.df.Close
-    
-    if st.checkbox("Graphischer Kursverlauf"):
-        font_1 = {'family' : 'Arial','size' : 9}
-        fig1 = plt.figure()
-        plt.style.use('dark_background')
-        plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
-        plt.pyplot(close)
-        st.write(fig1)      
+    adj_close_df()
+    chart_data_stk = pd.DataFrame({"DAX": stock.Close})
+    chart_data_3
         
     if st.checkbox("Renditerechner"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 

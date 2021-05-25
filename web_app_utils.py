@@ -268,35 +268,40 @@ def get_sp500_data():
     start = '1900-01-01'
     end = dt.datetime.now()
     df = pdr.DataReader('^GSPC', 'yahoo', start, end)
-    df.columns = ["S&P500"]
+    df.columns = ["High, Low, Open, Close, Volume, SP500"]
+    sp500=df.SP500
     return sp500
 
 def get_vix_data():
     start = '1900-01-01'
     end = dt.datetime.now()
     df = pdr.DataReader('^VIX', 'yahoo', start, end)
-    df.columns = ["VIX"]
+    df.columns = df.columns = ["High, Low, Open, Close, Volume, VIX"]
+    vix=df.VIX
     return vix
 
 def get_dax_data():
     start = '1900-01-01'
     end = dt.datetime.now()
     df = pdr.DataReader('^GDAXI', 'yahoo', start, end)
-    df.columns = ["DAX"]
+    df.columns = df.columns = ["High, Low, Open, Close, Volume, DAX"]
+    dax=df.DAX
     return dax
 
 def get_mdax_data():
     start = '1900-01-01'
     end = dt.datetime.now()
     df = pdr.DataReader('^MDAXI', 'yahoo', start, end)
-    df.columns = ["MDAX"]
+    df.columns = df.columns = ["High, Low, Open, Close, Volume, MDAX"]
+    mdax=df.MDAX
     return mdax
 
 def get_sdax_data():
     start = '1900-01-01'
     end = dt.datetime.now()
     df = pdr.DataReader('^SDAXI', 'yahoo', start, end)
-    df.columns = ["SDAX"]
+    df.columns = df.columns = ["High, Low, Open, Close, Volume, SDAX"]
+    sdax=df.SDAX
     return sdax
 
 def get_wti_data():

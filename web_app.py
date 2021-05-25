@@ -141,7 +141,7 @@ if ticker_radio == 'Aktienanalyse':
         plt.style.use('seaborn-whitegrid')
         plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
         plt.pyplot(close)
-        st.line_chart(fig1)      
+        st.pyplot(fig1)      
         
     if st.checkbox("Renditerechner"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 

@@ -112,8 +112,11 @@ def Option(ticker):
 # Data Funktions
 # ========================================   
 def get_sp500_data():
-    sp500 = Stock("^GSPC").df.Close
-    return sp500
+    stk_price = Stock("^GSPC").df
+    df= stk_price.reset_index()
+    df = df[["Date","Close"]]
+    df = df.rename(columns = {"Date":"Datum","Close":"S&P500"}) 
+    return df
 def get_vix_data():
     vix = Stock("^VIX").df.Close
     return vix
@@ -147,14 +150,6 @@ def get_quote_data():
 def get_option_data():
     options_df = Options_Chain(SNP_ticker)
     return options_df
-# ========================================
-# Utils
-# ========================================
-def adj_close_df(stk_df, name):
-    df = stk_df.reset_index()
-    df = df[["Date","Close"]] 
-    df = df.rename(columns = {"Date":"Datum","Close":tname}) 
-    return df
 # ========================================
 # Prophet
 # ========================================
@@ -199,15 +194,13 @@ if ticker_radio == 'Dashboard':
     st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")                
     st.markdown('...............................................................................................................................................................')
     st.subheader("S&P 500 Historische Wertentwicklung")        
-    df_ = get_sp500_data()
-    df_1 = adj_close_df(df_, name="S&P500")
+    df_1 = get_sp500_data()
     st.area_chart(df_1)
     st.subheader("CBOE Volatility Index Historische Wertentwicklung")
     st.markdown('Der Volatility Index (VIX) ist eine Zahl, die von den Preisen der Optionsprämie im S&P 500-Index abgeleitet ist. Liegt der VIX unter 20, wird für den Markt ein eher  gesundes und risikoarmes Umfeld prognostiziert.\
     Wenn der VIX jedoch zu tief fällt, ist dies Ausdruck von stark optimistisch gestimmten Investoren. Wenn der VIX auf über 20 steigt, dann beginnt die Angst in den Markt einzutreten und es wird ein höheres Risikoumfeld\
     prognostiziert.')
-    df_ = get_vix_data()
-    df_2 = adj_close_df(df_, name="S&P500")
+    df_2 = get_vix_data()
     st.line_chart(df_2)
     st.markdown('...............................................................................................................................................................')
     st.subheader("DAX Historische Wertentwicklung")

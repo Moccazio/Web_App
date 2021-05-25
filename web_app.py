@@ -140,7 +140,7 @@ if ticker_radio == 'Aktienanalyse':
         fig1 = plt.figure()
         plt.style.use('seaborn-whitegrid')
         plt.title(ticker_input + ' Kursverlauf', fontdict = font_1)
-        plt.plot(close)
+        plt.pyplot(close)
         st.line_chart(fig1)      
         
     if st.checkbox("Renditerechner"):
@@ -158,16 +158,15 @@ if ticker_radio == 'Aktienanalyse':
         plt.style.use('seaborn-whitegrid')
         plt.title(ticker_input + ' Kaufen und Halten', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Rendite']])
-        st.line_chart(fig2)
+        st.pyplot(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])
                   
     st.subheader('Aktienkursprognose') 
-        
     if st.checkbox("Aktienkursprognose (Markov Chain Monte Carlo)"):
         df  = predict_with_prophet()
         fbp = Prophet(daily_seasonality = True)
         fbp.fit(df)
-        fut = fbp.make_future_dataframe(periods=365) 
+        fut = fbp.make_future_dataframe(periods=252) 
         forecast = fbp.predict(fut)
         fig2 = fbp.plot(forecast)
         st.pyplot(fig2)

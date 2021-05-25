@@ -116,6 +116,7 @@ def get_sp500_data():
     df= stk_price.reset_index()
     df = df[["Date","Close"]]
     df = df.rename(columns = {"Date":"Datum","Close":"S&P500"}) 
+    df=df.set_index("Datum")
     return df
 def get_vix_data():
     vix = Stock("^VIX").df.Close
@@ -170,16 +171,6 @@ def predict_with_prophet_snp():
     return df
 def predict_with_prophet_dax():
     stk = dax_stock_data()
-    stk_df = stk.df["2010":]
-    df = prophet_df(stk_df)
-    return df
-def predict_with_prophet_internet():
-    stk = internet_stock_data()
-    stk_df = stk.df["2010":]
-    df = prophet_df(stk_df)
-    return df
-def predict_with_prophet_software():
-    stk = software_stock_data()
     stk_df = stk.df["2010":]
     df = prophet_df(stk_df)
     return df

@@ -265,23 +265,38 @@ def Option(ticker):
 # ========================================   
 
 def get_sp500_data():
-    sp500 = Stock("^GSPC").df.Close
+    start = '1900-01-01'
+    end = dt.datetime.now()
+    df = pdr.DataReader('^GSPC', 'yahoo', start, end)
+    df.columns = ["S&P500"]
     return sp500
 
 def get_vix_data():
-    vix = Stock("^VIX").df.Close
+    start = '1900-01-01'
+    end = dt.datetime.now()
+    df = pdr.DataReader('^VIX', 'yahoo', start, end)
+    df.columns = ["VIX"]
     return vix
 
 def get_dax_data():
-    dax = Stock("^GDAXI").df.Close
+    start = '1900-01-01'
+    end = dt.datetime.now()
+    df = pdr.DataReader('^GDAXI', 'yahoo', start, end)
+    df.columns = ["DAX"]
     return dax
 
 def get_mdax_data():
-    mdax = Stock("^MDAXI").df.Close
+    start = '1900-01-01'
+    end = dt.datetime.now()
+    df = pdr.DataReader('^MDAXI', 'yahoo', start, end)
+    df.columns = ["MDAX"]
     return mdax
 
 def get_sdax_data():
-    sdax = Stock("^SDAXI").df.Close
+    start = '1900-01-01'
+    end = dt.datetime.now()
+    df = pdr.DataReader('^SDAXI', 'yahoo', start, end)
+    df.columns = ["SDAX"]
     return sdax
 
 def get_wti_data():

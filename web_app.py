@@ -105,8 +105,7 @@ def Options_Chain(ticker):
 def Option(ticker):
     _call = call_options(ticker)
     _put = put_options(ticker)
-    _df =  pd.concat([_call, _put],  
-                  keys = ['Call', 'Put'], ignore_index = True)
+    _df =  pd.concat([_call, _put], keys = ['Call', 'Put'], ignore_index = True)
     return _df
 # ========================================     
 # Data Funktions
@@ -119,17 +118,41 @@ def get_sp500_data():
     df=df.set_index("Datum")
     return df
 def get_vix_data():
-    vix = Stock("^VIX").df.Close
-    return vix
+    stk_price = Stock("^VIX").df
+    df= stk_price.reset_index()
+    df = df[["Date","Close"]]
+    df = df.rename(columns = {"Date":"Datum","Close":"VIX"}) 
+    df=df.set_index("Datum")
+    return df
 def get_dax_data():
-    dax = Stock("^GDAXI").df.Close
-    return dax
+    stk_price = Stock("^GDAXI").df
+    df= stk_price.reset_index()
+    df = df[["Date","Close"]]
+    df = df.rename(columns = {"Date":"Datum","Close":"DAX"}) 
+    df=df.set_index("Datum")
+    return df
 def get_mdax_data():
-    mdax = Stock("^MDAXI").df.Close
-    return mdax
+    stk_price = Stock("^MDAXI").df
+    df= stk_price.reset_index()
+    df = df[["Date","Close"]]
+    df = df.rename(columns = {"Date":"Datum","Close":"MDAX"}) 
+    df=df.set_index("Datum")
+    return df
 def get_sdax_data():
-    sdax = Stock("^SDAXI").df.Close
-    return sdax
+    stk_price = Stock("^SDAXI").df
+    df= stk_price.reset_index()
+    df = df[["Date","Close"]]
+    df = df.rename(columns = {"Date":"Datum","Close":"SDAX"}) 
+    df=df.set_index("Datum")
+    return df
+
+def dax_performance():
+    dax=get_dax_data()
+    mdax=get_mdax_data()
+    sdax=get_sdax_data()
+    dax_performance =  pd.concat([dax, mdax, sdax], keys = ['DAX', 'MDAX', 'SDAX'], ignore_index = True)
+    return dax_performance
+    
 def read_dax_ticker():
     dax = pd.read_csv('index_stocks/DAX.csv', index_col='Index')
     return dax

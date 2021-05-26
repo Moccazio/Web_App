@@ -211,7 +211,7 @@ if ticker_radio == 'Dashboard':
     st.markdown('...............................................................................................................................................................')
     st.subheader("DAX Historische Wertentwicklung")
     df_3 = get_dax_data()
-    st.area_chart(chart_data_3)
+    st.area_chart(df_3)
     st.subheader("MDAX Historische Wertentwicklung")
     df_4 = get_mdax_data()
     st.area_chart(df_4)
@@ -226,7 +226,6 @@ if ticker_radio == 'Aktienanalyse':
     ticker_input = st.text_input('Ticker')
     st.header('Datenanalyse')
     stock = get_stock_data()    
-    adj_close_df()
     chart_data_stk = pd.DataFrame({ticker_input: stock.Close})
     st.line_chart(chart_data_stk)
         

@@ -227,8 +227,8 @@ if ticker_radio == 'Aktienanalyse':
     st.header('Datenanalyse')
     stock = get_stock_data()    
     adj_close_df()
-    chart_data_stk = pd.DataFrame({"DAX": stock.Close})
-    chart_data_3
+    chart_data_stk = pd.DataFrame({ticker_input: stock.Close})
+    st.line_chart(chart_data_stk)
         
     if st.checkbox("Renditerechner"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 

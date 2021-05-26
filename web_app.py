@@ -145,10 +145,6 @@ def get_sdax_data():
     df = df.rename(columns = {"Date":"Datum","Close":"SDAX"}) 
     df=df.set_index("Datum")
     return df
-def get_dax_perf():
-    df = yf.download(['^GDAXI','^MDAXI','^SDAXI'], start='1950-01-01')['Adj Close']
-    df = df.rename(columns = {"^GDAXI":"DAX","^MDAXI":"MDAX", "^SDAXI":"SDAX"}) 
-    return df
 def read_dax_ticker():
     dax = pd.read_csv('index_stocks/DAX.csv', index_col='Index')
     return dax
@@ -223,19 +219,15 @@ if ticker_radio == 'Dashboard':
     df_5 = get_sdax_data()
     st.area_chart(df_5)
     st.markdown('...............................................................................................................................................................')
-    st.subheader("Gesamte Historische Wertentwicklung")
-    df_6 = get_dax_perf()
-    st.area_chart(df_6)
-    st.markdown('...............................................................................................................................................................')
         
 if ticker_radio == 'Aktienanalyse':
     st.subheader('Aktienanalyse')
     st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
     ticker_input = st.text_input('Ticker')
-    st.header('Datenanalyse')
+    st.subheader('Chart')
     stock = get_stock_data().df    
     chart_data_stk = pd.DataFrame({ticker_input: stock.Close})
-    st.line_chart(chart_data_stk)
+    st.area_chart(chart_data_stk)
         
     if st.checkbox("Renditerechner"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
@@ -250,7 +242,7 @@ if ticker_radio == 'Aktienanalyse':
                         }
         fig2 = plt.figure()
         plt.style.use('dark_background')
-        plt.title(ticker_input + ' Kaufen und Halten', fontdict = font_1)
+        plt.title(ticker_input + ' Buy & Hold Rendite', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Rendite']])
         st.write(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])

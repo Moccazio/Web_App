@@ -147,7 +147,7 @@ def get_sdax_data():
     return df
 def get_dax_perf():
     df = yf.download(['^GDAXI','^MDAXI','^SDAXI'], start='2014-01-01')['Adj Close']
-    df = df.rename(columns = {"^GDAXI":"DAX","^MDAXI":"MDAX", "^SDAXI", "SDAX"}) 
+    df = df.rename(columns = {"^GDAXI":"DAX","^MDAXI":"MDAX", "^SDAXI":"SDAX"}) 
     return df
     
 def read_dax_ticker():

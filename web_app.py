@@ -210,7 +210,7 @@ if ticker_radio == 'Dashboard':
     st.line_chart(df_2)
     st.markdown('...............................................................................................................................................................')
     st.subheader("DAX Historische Wertentwicklung")
-    df_3 = dax_performance()
+    df_3 = get_dax_data()
     st.area_chart(chart_data_3)
     st.subheader("MDAX Historische Wertentwicklung")
     df_4 = get_mdax_data()

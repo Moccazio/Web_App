@@ -146,10 +146,9 @@ def get_sdax_data():
     df=df.set_index("Datum")
     return df
 def get_dax_perf():
-    df = yf.download(['^GDAXI','^MDAXI','^SDAXI'], start='2014-01-01')['Adj Close']
+    df = yf.download(['^GDAXI','^MDAXI','^SDAXI'], start='1950-01-01')['Adj Close']
     df = df.rename(columns = {"^GDAXI":"DAX","^MDAXI":"MDAX", "^SDAXI":"SDAX"}) 
     return df
-    
 def read_dax_ticker():
     dax = pd.read_csv('index_stocks/DAX.csv', index_col='Index')
     return dax
@@ -224,6 +223,7 @@ if ticker_radio == 'Dashboard':
     df_5 = get_sdax_data()
     st.area_chart(df_5)
     st.markdown('...............................................................................................................................................................')
+    st.subheader("Gesamte Historische Wertentwicklung")
     df_6 = get_dax_perf()
     st.area_chart(df_6)
     st.markdown('...............................................................................................................................................................')
@@ -233,7 +233,7 @@ if ticker_radio == 'Aktienanalyse':
     st.markdown("Es muss ein Aktienticker eingegeben oder ausgewählt werden. Der Aktienticker ist der Kürzel mit dem die Aktie representativ gelistet ist, z.B. DPW.DE als Ticker für die Deutsche Post AG.")
     ticker_input = st.text_input('Ticker')
     st.header('Datenanalyse')
-    stock = get_stock_data()    
+    stock = get_stock_data().df    
     chart_data_stk = pd.DataFrame({ticker_input: stock.Close})
     st.line_chart(chart_data_stk)
         

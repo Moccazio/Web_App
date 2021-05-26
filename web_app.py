@@ -218,6 +218,9 @@ if ticker_radio == 'Dashboard':
     st.subheader("SDAX Historische Wertentwicklung")
     df_5 = get_sdax_data()
     st.area_chart(df_5)
+    
+    chart_data = pd.concat([df_3, df_4, df_5], keys = ['DAX', 'MDAX', 'SDAX'], ignore_index = False)
+    st.area_chart(chart_data)
     st.markdown('...............................................................................................................................................................')
         
 if ticker_radio == 'Aktienanalyse':

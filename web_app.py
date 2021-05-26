@@ -145,6 +145,11 @@ def get_sdax_data():
     df = df.rename(columns = {"Date":"Datum","Close":"SDAX"}) 
     df=df.set_index("Datum")
     return df
+def get_dax_perf():
+    df = yf.download(['^GDAXI','^MDAXI','^SDAXI'], start='2014-01-01')['Adj Close']
+    df = df.rename(columns = {"^GDAXI":"DAX","^MDAXI":"MDAX", "^SDAXI", "SDAX"}) 
+    return df
+    
 def read_dax_ticker():
     dax = pd.read_csv('index_stocks/DAX.csv', index_col='Index')
     return dax
@@ -219,7 +224,7 @@ if ticker_radio == 'Dashboard':
     df_5 = get_sdax_data()
     st.area_chart(df_5)
     
-    chart_data = pd.concat([df_3, df_4, df_5], keys = ['DAX', 'MDAX', 'SDAX'], ignore_index = False)
+    df_6 
     st.area_chart(chart_data)
     st.markdown('...............................................................................................................................................................')
         

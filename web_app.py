@@ -145,14 +145,6 @@ def get_sdax_data():
     df = df.rename(columns = {"Date":"Datum","Close":"SDAX"}) 
     df=df.set_index("Datum")
     return df
-
-def dax_performance():
-    dax=get_dax_data()
-    mdax=get_mdax_data()
-    sdax=get_sdax_data()
-    dax_performance =  pd.concat([dax, mdax, sdax], keys = ['DAX', 'MDAX', 'SDAX'], ignore_index = True)
-    return dax_performance
-    
 def read_dax_ticker():
     dax = pd.read_csv('index_stocks/DAX.csv', index_col='Index')
     return dax
@@ -220,6 +212,12 @@ if ticker_radio == 'Dashboard':
     st.subheader("DAX Historische Wertentwicklung")
     df_3 = dax_performance()
     st.area_chart(chart_data_3)
+    st.subheader("MDAX Historische Wertentwicklung")
+    df_4 = get_mdax_data()
+    st.area_chart(df_4)
+    st.subheader("SDAX Historische Wertentwicklung")
+    df_5 = get_sdax_data()
+    st.area_chart(df_5)
     st.markdown('...............................................................................................................................................................')
         
 if ticker_radio == 'Aktienanalyse':

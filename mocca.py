@@ -195,7 +195,7 @@ def predict_with_prophet_dax():
 ticker_radio = st.sidebar.radio('Kapitalmarktanalyse', ('Dashboard', 'Aktienanalyse'))
 
 if ticker_radio == 'Dashboard':
-    st.title(":chart_with_upwards_trend: Die Aktiengruppe")
+    st.title(":chart_with_upwards_trend: Mocca")
     st.markdown('...............................................................................................................................................................')
     st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")                
     st.markdown('...............................................................................................................................................................')

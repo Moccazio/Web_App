@@ -4,7 +4,7 @@
 import streamlit as st 
 import time
 import pandas as pd
-import  pandas_datareader as pdr
+import pandas_datareader as pdr
 from pandas_datareader.yahoo.options import Options
 from yahoo_fin import stock_info as si
 import yfinance as yf

@@ -39,6 +39,7 @@ class Stock:
 # ========================================     
 # Data Funktions
 # ========================================   
+@st.cache()
 def get_sp500_data():
     stk_price = Stock("^GSPC").df
     df= stk_price.reset_index()
@@ -46,6 +47,7 @@ def get_sp500_data():
     df = df.rename(columns = {"Date":"Datum","Close":"S&P500"}) 
     df=df.set_index("Datum")
     return df
+@st.cache()
 def get_vix_data():
     stk_price = Stock("^VIX").df
     df= stk_price.reset_index()
@@ -53,6 +55,7 @@ def get_vix_data():
     df = df.rename(columns = {"Date":"Datum","Close":"VIX"}) 
     df=df.set_index("Datum")
     return df
+@st.cache()
 def get_dax_data():
     stk_price = Stock("^GDAXI").df
     df= stk_price.reset_index()
@@ -60,6 +63,7 @@ def get_dax_data():
     df = df.rename(columns = {"Date":"Datum","Close":"DAX"}) 
     df=df.set_index("Datum")
     return df
+@st.cache()
 def get_mdax_data():
     stk_price = Stock("^MDAXI").df
     df= stk_price.reset_index()
@@ -67,6 +71,7 @@ def get_mdax_data():
     df = df.rename(columns = {"Date":"Datum","Close":"MDAX"}) 
     df=df.set_index("Datum")
     return df
+@st.cache()
 def get_sdax_data():
     stk_price = Stock("^SDAXI").df
     df= stk_price.reset_index()
@@ -74,6 +79,7 @@ def get_sdax_data():
     df = df.rename(columns = {"Date":"Datum","Close":"SDAX"}) 
     df=df.set_index("Datum")
     return df
+@st.cache()
 def get_stock_data():
     stock = Stock(ticker_input)
     return stock
@@ -85,6 +91,7 @@ def prophet_df(stk_price):
     df = df[["Date","Close"]] 
     df = df.rename(columns = {"Date":"ds","Close":"y"}) 
     return df
+@st.cache(suppress_st_warning=True)
 def predict_with_prophet():
     stk = get_stock_data()
     stk_df = stk.df["2010":]
@@ -96,7 +103,7 @@ def predict_with_prophet():
 ticker_radio = st.sidebar.radio('Seite', ('Dashboard', 'Aktienanalyse'))
 
 if ticker_radio == 'Dashboard':
-    st.title(":chart_with_upwards_trend: Mocca")
+    st.title(":chart_with_upwards_trend: Mocca Dashboard")
     st.markdown('...............................................................................................................................................................')
     st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")                
     st.markdown('...............................................................................................................................................................')

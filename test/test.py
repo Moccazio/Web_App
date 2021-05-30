@@ -3,6 +3,8 @@
 # ========================================
 import streamlit as st 
 import time
+import datetime
+from datetime import datetime
 import pandas as pd
 import pandas_datareader as pdr
 from pandas_datareader.yahoo.options import Options
@@ -15,9 +17,6 @@ import streamlit as st
 from prophet import Prophet
 import prophet.plot as fplt
 from prophet.plot import plot_plotly, plot_components_plotly
-import datetime as dt
-from datetime import datetime
-import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table

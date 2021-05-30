@@ -141,7 +141,7 @@ if ticker_radio == 'Dashboard':
     Wenn der VIX jedoch zu tief fällt, ist dies Ausdruck von stark optimistisch gestimmten Investoren. Wenn der VIX auf über 20 steigt, dann beginnt die Angst in den Markt einzutreten und es wird ein höheres Risikoumfeld\
     prognostiziert.')
     df_2 = get_vix_data()
-    df_2_loc = df_2.iloc[-1]
+    df_2_loc = df_2.loc['VIX'][-1]
     st.line_chart(df_2)
     st.markdown("**Aktueller liegt der VIX bei:** " + df_2_loc)
     

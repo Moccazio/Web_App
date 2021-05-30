@@ -40,73 +40,7 @@ class Stock:
 
         except Exception as err:
             print(err)
-# ========================================    
-# Know your Options 
-# ========================================    
-def create_spread_percent(df):
-    return (df.assign(spread_pct = lambda df: df.spread / df.ask))
-def filter_by_moneyness(df, pct_cutoff=0.2):
-    crit1 = (1-pct_cutoff)*df.strike < df.stockPrice
-    crit2 = df.stockPrice < (1+pct_cutoff)*df.strike
-    return (df.loc[crit1 & crit2].reset_index(drop=True))
-def call_options(sym):
-    stk = Options(sym)
-    dates = stk.expiry_dates
-    calls_merged = []
-    for d in dates:
-            calls_ = stk.get_call_data(expiry=d)
-            calls_filtered = calls_[['Last', 'Bid', 'Ask', 'Chg', 'Vol', 'Open_Int', 'IV', 'Underlying_Price', 'Last_Trade_Date', 'Root']].reset_index()
-            calls_filtered = calls_filtered [['Strike', 'Expiry', 'Type','Last', 'Bid', 'Ask', 'Chg', 'Vol', 'Open_Int', 'IV', 'Underlying_Price', 'Root']]
-            calls_filtered.columns =  [['Strike', 'Expiry', 'Type','Last', 'Bid', 'Ask', 'Chg', 'Vol', 'Open_Int', 'IV', 'Underlying_Price', 'Symbol']]     
-            calls_merged.append(calls_filtered)   
-    calls_df = pd.concat(calls_merged, axis=0) 
-    return calls_df
-def put_options(sym):
-    stk = Options(sym)
-    dates = stk.expiry_dates
-    puts_merged = []
-    for d in dates:
-            puts_ = stk.get_put_data(expiry=d)
-            puts_filtered = puts_[['Last', 'Bid', 'Ask', 'Chg', 'Vol', 'Open_Int', 'IV', 'Underlying_Price', 'Last_Trade_Date', 'Root']].reset_index()
-            puts_filtered = puts_filtered[['Strike', 'Expiry', 'Type','Last', 'Bid', 'Ask', 'Chg', 'Vol', 'Open_Int', 'IV', 'Underlying_Price', 'Root']]
-            puts_filtered.columns =  [['Strike', 'Expiry', 'Type','Last', 'Bid', 'Ask', 'Chg', 'Vol', 'Open_Int', 'IV', 'Underlying_Price', 'Symbol']]    
-            puts_merged.append(puts_filtered)
-    puts_df = pd.concat(puts_merged, axis=0) 
-    return puts_df
-def options_chain(symbol):
-    tk = yf.Ticker(symbol)
-    info = get_quote_table(symbol)
-    current_price = info["Quote Price"]
-    exps = tk.options
-    options = pd.DataFrame()
-    for e in exps:
-        opt = tk.option_chain(e)
-        opt = pd.DataFrame().append(opt.calls).append(opt.puts)
-        opt['expirationDate'] = e
-        options = options.append(opt, ignore_index=True)
-    options['expirationDate'] = pd.to_datetime(options['expirationDate']) + datetime.timedelta(days = 1)
-    options['dte'] = (options['expirationDate'] - datetime.datetime.today()).dt.days / 365
-    options['CALL'] = options['contractSymbol'].str[4:].apply(
-        lambda x: "C" in x)
-    options[['bid', 'ask', 'strike']] = options[['bid', 'ask', 'strike']].apply(pd.to_numeric)
-    options['mark'] = (options['bid'] + options['ask']) / 2 # Calculate the midpoint of the bid-ask
-    options['spread'] = (options['ask'] - options['bid'])
-    options = create_spread_percent(options)
-    options['stockPrice'] = current_price
-    options['intrinicValue'] = (options['strike'] - current_price)
-    options = options.drop(columns = ['contractSize', 'currency', 'change', 'percentChange', 'lastTradeDate'])
-    options = filter_by_moneyness(options)
-    options_filtered  = options [['stockPrice','contractSymbol', 'CALL', 'expirationDate', 'dte' ,'strike', 'lastPrice',  'bid', 'ask', 'mark', 'spread', 'spread_pct', 'volume', 'openInterest', 'impliedVolatility', 'inTheMoney', 'intrinicValue']]
-    options_filtered.columns =  [[ 'Kurswert', 'OptionTicker', 'Call=1, Put=0', 'Einlösetermin', 'Ablaufdatum', 'Basispreis', 'Last', 'Bid', 'Ask', 'Mark', 'Spread', 'Spreadanteil', 'Volumen', 'Open Intrest', 'IV', 'im Geld', 'Substanzwert']]   
-    return options_filtered 
-def Options_Chain(ticker):
-    opt_chain = options_chain(ticker)
-    return opt_chain
-def Option(ticker):
-    _call = call_options(ticker)
-    _put = put_options(ticker)
-    _df =  pd.concat([_call, _put], keys = ['Call', 'Put'], ignore_index = True)
-    return _df
+
 # ========================================     
 # Data Funktions
 # ========================================   

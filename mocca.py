@@ -142,7 +142,7 @@ if ticker_radio == 'Dashboard':
     prognostiziert.')
     df_2 = get_vix_data()
     st.line_chart(df_2)
-    st.table(df_2)
+    st.table(df_2.tail())
     
     
     

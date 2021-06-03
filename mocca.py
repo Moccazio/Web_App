@@ -27,6 +27,7 @@ import pyfolio as pf
 # ========================================     
 # Data Funktions
 # ========================================   
+@st.cache(suppress_st_warning=True)
 def get_sp500_data():
     ticker = yf.Ticker('^GSPC')
     history = ticker.history('max')
@@ -110,7 +111,7 @@ def predict_with_prophet_dax():
 # Launche App
 # ========================================
 ticker_radio = st.sidebar.radio('Seite', ('Dashboard', 'Aktienanalyse'))
-@st.cache(suppress_st_warning=True)
+
 if ticker_radio == 'Dashboard':
     st.title(":chart_with_upwards_trend:")
     st.markdown('...............................................................................................................................................................')
@@ -118,8 +119,8 @@ if ticker_radio == 'Dashboard':
     st.markdown('...............................................................................................................................................................')     
     df_1 = get_sp500_data()
     returns = df_1.Close.pct_change()
-    times_tear_seer= pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True)
-    st.write(times_tear_shit)
+    times=pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True)
+    st.write(times)
         
         
     st.subheader("CBOE Volatility Index Historische Wertentwicklung")

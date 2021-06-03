@@ -21,6 +21,8 @@ import datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
+import warnings
+import pyfolio as pf
 # ========================================    
 # Stock - Data
 # ========================================    
@@ -45,12 +47,11 @@ class Stock:
 # Data Funktions
 # ========================================   
 def get_sp500_data():
-    stk_price = Stock("^GSPC").df
-    df= stk_price.reset_index()
-    df = df[["Date","Close"]]
-    df = df.rename(columns = {"Date":"Datum","Close":"S&P500"}) 
-    df=df.set_index("Datum")
-    return df
+    ticker = yf.Ticker('^GSPC')
+    history = ticker.history('max')
+    history.index = history.index.tz_localize('utc')
+    return history
+
 def get_vix_data():
     stk_price = Stock("^VIX").df
     df= stk_price.reset_index()
@@ -133,9 +134,11 @@ if ticker_radio == 'Dashboard':
     st.markdown('...............................................................................................................................................................')
     st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")                
     st.markdown('...............................................................................................................................................................')
-    st.subheader("S&P 500 Historische Wertentwicklung")        
+    st.subheader("S&P 500 Tear Sheet")        
     df_1 = get_sp500_data()
-    st.area_chart(df_1)
+    returns = df_1.Close.pct_change()
+    fig1 = pf.tears.create_interesting_times_tear_sheet(returns)
+    st.pyplot(fig1)
     st.subheader("CBOE Volatility Index Historische Wertentwicklung")
     st.markdown('Der Volatility Index (VIX) ist eine Zahl, die von den Preisen der Optionsprämie im S&P 500-Index abgeleitet ist. Liegt der VIX unter 20, wird für den Markt ein eher  gesundes und risikoarmes Umfeld prognostiziert.\
     Wenn der VIX jedoch zu tief fällt, ist dies Ausdruck von stark optimistisch gestimmten Investoren. Wenn der VIX auf über 20 steigt, dann beginnt die Angst in den Markt einzutreten und es wird ein höheres Risikoumfeld\

@@ -24,7 +24,6 @@ from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
 import warnings
 import pyfolio as pf
-st.set_option('deprecation.showPyplotGlobalUse', False)
 # ========================================     
 # Data Funktions
 # ========================================   
@@ -120,7 +119,7 @@ if ticker_radio == 'Dashboard':
     st.subheader("S&P 500 Index")        
     df_1 = get_sp500_data()
     returns = df_1.Close.pct_change()
-    times_tear_shit = pf.tears.create_interesting_times_tear_sheet(returns)
+    times_tear_shit = pf.plotting.create_interesting_times_tear_sheet(returns)
     st.write(times_tear_shit)
         
         

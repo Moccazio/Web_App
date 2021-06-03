@@ -15,34 +15,15 @@ import streamlit as st
 from prophet import Prophet
 import prophet.plot as fplt
 from prophet.plot import plot_plotly, plot_components_plotly
+import datetime
 import datetime as dt
 from datetime import datetime
-import datetime
+from datetime import datetime, timedelta 
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
 import warnings
 import pyfolio as pf
-# ========================================    
-# Stock - Data
-# ========================================    
-class Stock:
-    def __init__(self, ticker, start=None, end=None):
-
-        self.ticker = ticker
-
-        try:
-            self._ticker = yf.Ticker(self.ticker)
-
-            if not (start or end):
-                self.df = self.df_ = self._ticker.history(period='max', auto_adjust=True)
-                
-            else:
-                self.df = self.df_ = self._ticker.history(start=start, end=end, auto_adjust=True)
-
-        except Exception as err:
-            print(err)
-
 # ========================================     
 # Data Funktions
 # ========================================   
@@ -124,21 +105,24 @@ def predict_with_prophet_dax():
     stk_df = stk.df["2010":]
     df = prophet_df(stk_df)
     return df
+    
 # ========================================
 # Launche App
 # ========================================
 ticker_radio = st.sidebar.radio('Seite', ('Dashboard', 'Aktienanalyse'))
 
 if ticker_radio == 'Dashboard':
-    st.title(":chart_with_upwards_trend: Mocca Dashboard")
+    st.title(":chart_with_upwards_trend: “Heute kennt man von allem den Preis, von nichts den Wert.“ (Oscar Wilde)")
     st.markdown('...............................................................................................................................................................')
-    st.markdown("“Heute kennt man von allem den Preis, von nichts den Wert.” (Oscar Wilde)")                
+    st.markdown("“")                
     st.markdown('...............................................................................................................................................................')
-    st.subheader("S&P 500 Tear Sheet")        
+    st.subheader("S&P 500 Index")        
     df_1 = get_sp500_data()
     returns = df_1.Close.pct_change()
-    fig1 = pf.tears.create_interesting_times_tear_sheet(returns)
-    st.pyplot(fig1)
+    times_tear_shit = pf.tears.create_interesting_times_tear_sheet(returns)
+    st.write(times_tear_shit)
+        
+        
     st.subheader("CBOE Volatility Index Historische Wertentwicklung")
     st.markdown('Der Volatility Index (VIX) ist eine Zahl, die von den Preisen der Optionsprämie im S&P 500-Index abgeleitet ist. Liegt der VIX unter 20, wird für den Markt ein eher  gesundes und risikoarmes Umfeld prognostiziert.\
     Wenn der VIX jedoch zu tief fällt, ist dies Ausdruck von stark optimistisch gestimmten Investoren. Wenn der VIX auf über 20 steigt, dann beginnt die Angst in den Markt einzutreten und es wird ein höheres Risikoumfeld\
@@ -249,7 +233,7 @@ if ticker_radio == 'S&P500':
                         }
         fig2 = plt.figure()
         plt.style.use('seaborn-whitegrid')
-        plt.title(SNP_ticker + ' Kaufen und Halten', fontdict = font_1)
+        plt.title(SNP_ticker + ' Buy & Hold', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Rendite']])
         st.pyplot(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])    

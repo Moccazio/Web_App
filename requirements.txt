@@ -13,3 +13,4 @@ plotly==4.14.3
 QuantLib==1.21
 nltk==3.5
 bs4==0.0.1 
+pyfolio-reloaded==0.9.3

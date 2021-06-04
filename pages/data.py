@@ -99,7 +99,7 @@ def app():
     # read temp data 
     # data = pd.read_csv('data/2015.csv')
     
-    if st.button("Load Data"):
+    if st.checkbox("Load Data"):
         # Raw data 
         st.dataframe(data)
         #utils.getProfile(data)

@@ -24,18 +24,36 @@ from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
 import warnings
 import pyfolio as pf
+
+# Custom imports 
+from multipage import MultiPage
+from pages import nyse, meta, redundant, data_visualize# import your pages here
+
 # ========================================     
 # Data Funktions
 # ========================================   
-@st.cache(suppress_st_warning=True)
-def get_sp500_data():
-    ticker = yf.Ticker('^GSPC')
+class ticker_data:
+    def __init__(self, ticker, start=None, end=None):
+        time.sleep(6) 
+        self.ticker = ticker
+        try:
+            self._ticker = yf.Ticker(self.ticker)
+            if not (start or end):
+                self.df = self.df_ = self._ticker.history(period='max', auto_adjust=True)
+            else:
+                self.df = self.df_ = self._ticker.history(start=start, end=end, auto_adjust=True)
+        except Exception as err:
+            print(err)
+# ========================================   
+@st.cache
+def pyfolio_data(ticker):
+    ticker = yf.Ticker(ticker)
     history = ticker.history('max')
     history.index = history.index.tz_localize('utc')
     return history
-
+st.cache
 def get_vix_data():
-    stk_price = Stock("^VIX").df
+    stk_price = ticker_data("^VIX").df
     df= stk_price.reset_index()
     df = df[["Date","Close"]]
     df = df.rename(columns = {"Date":"Datum","Close":"VIX"}) 
@@ -110,12 +128,22 @@ def predict_with_prophet_dax():
 # ========================================
 # Launche App
 # ========================================
-ticker_radio = st.sidebar.radio('Seite', ('Dashboard', 'Aktienanalyse'))
 
-if ticker_radio == 'Dashboard':
-    st.title(":chart_with_upwards_trend:")
+# Create an instance of the app 
+app = MultiPage()
+
+st.title(":chart_with_upwards_trend: Data Application")
+# Add all your application here
+app.add_page("NYSE Data", nyse.app)
+app.add_page("Change Metadata", meta.app)
+app.add_page("Data Analysis",data_visualize.app)
+app.add_page("Y-Parameter Optimization",redundant.app)
+
+# The main app
+app.run()
+
     st.markdown('...............................................................................................................................................................')
-    st.subheader("S&P 500")                   
+    st.header("Stress Events")                   
     st.markdown('...............................................................................................................................................................')     
     df_1 = get_sp500_data()
     returns = df_1.Close.pct_change()

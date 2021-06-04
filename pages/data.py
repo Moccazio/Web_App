@@ -71,15 +71,11 @@ def app():
         global nyse_data
         if nyse_ticker is not None:
             nyse_data = nyse_stock_data()
-        except Exception as e:
-            print("No Data")    
     if ticker_radio is ('Ticker'):
         ticker_input = st.text_input('Ticker')
         global ticker_data
         try:
             ticker_data = get_ticker_data()
-        except Exception as e:
-            print("No Data")
         
     
     

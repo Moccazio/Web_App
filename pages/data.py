@@ -64,14 +64,14 @@ def app():
     # Upload the dataset and save as csv
     st.markdown("### select a ticker for analysis.") 
     st.write("\n")   
-    if ticker_radio is ('NYSE'):
+    if ticker_radio == 'NYSE':
         nyse = read_nyse_ticker()  
         ticker_nyse= nyse['ticker'].sort_values().tolist()   
         nyse_ticker = st.selectbox('New York Stock Exchange',ticker_nyse) 
         global data
         if nyse_ticker is not None:
             nyse_data = nyse_stock_data()
-    if ticker_radio is ('Ticker'):
+    if ticker_radio == 'Ticker':
         ticker_input = st.text_input('Ticker')
         global data
         try:

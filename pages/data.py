@@ -68,14 +68,14 @@ def app():
         nyse = read_nyse_ticker()  
         ticker_nyse= nyse['ticker'].sort_values().tolist()   
         nyse_ticker = st.selectbox('New York Stock Exchange',ticker_nyse) 
-        global nyse_data
+        global data
         if nyse_ticker is not None:
             nyse_data = nyse_stock_data()
     if ticker_radio is ('Ticker'):
         ticker_input = st.text_input('Ticker')
-        global ticker_data
+        global data
         try:
-            ticker_data = get_ticker_data()
+            data = get_ticker_data()
         
     
     
@@ -98,10 +98,8 @@ def app():
     
     # read temp data 
     # data = pd.read_csv('data/2015.csv')
-
-
+    
     if st.button("Load Data"):
-        
         # Raw data 
         st.dataframe(data)
         #utils.getProfile(data)

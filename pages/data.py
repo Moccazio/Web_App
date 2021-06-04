@@ -100,8 +100,6 @@ def app():
     # data = pd.read_csv('data/2015.csv')
 
 
-    ''' Load the data and save the columns with categories as a dataframe. 
-    This section also allows changes in the numerical and categorical columns. '''
     if st.button("Load Data"):
         
         # Raw data 

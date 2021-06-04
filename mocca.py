@@ -27,7 +27,7 @@ import pyfolio as pf
 
 # Custom imports 
 from multipage import MultiPage
-from pages import nyse, meta, redundant, data_visualize# import your pages here
+from pages import data, meta, redundant, data_visualize# import your pages here
 
 # ========================================     
 # Data Funktions

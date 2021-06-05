@@ -121,7 +121,6 @@ def predict_with_prophet_dax():
 # Launche App
 # ========================================
 # Create an instance of the app 
-app = MultiPage()
 st.title(":chart_with_upwards_trend: Data Application")
 st.subheader("Ticker Data")  
 st.markdown("### enter a ticker to start analysis.") 

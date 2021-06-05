@@ -43,7 +43,7 @@ class ticker_data:
 def py_data():
     ticker = yf.Ticker(ticker_input)
     history = ticker.history('max')
-    history.index = history.index.tz_localize('utc')
+    history = history.tz_localize('utc')
     return history
 def get_vix_data():
     stk_price = ticker_data("^VIX").df

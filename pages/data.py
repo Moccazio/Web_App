@@ -44,8 +44,8 @@ class ticker_data:
             print(err)
 # ========================================                    
 def read_nyse_ticker():
-    sp500 = pd.read_csv('ticker/nyse/nyse_ticker.csv')
-    return sp500
+    nyse = pd.read_csv('ticker/nyse/nyse_ticker.csv')
+    return nyse
 # ========================================   
 def nyse_stock_data():
     nyse_data = ticker_data(nyse_ticker)
@@ -56,16 +56,11 @@ def get_ticker_data():
     return ticker_data
 # ========================================   
 def app():
-    
-    st.title("Stock Ticker")
-    ticker_radio = st.radio('Ticker', ('', 'Search', 'NYSE'))   
+    st.title("New York Stock Exchange (NYSE)")  
     st.markdown("### select a ticker for analysis.") 
-    st.write("\n")   
-    
-    if ticker_radio == 'NYSE':
-        nyse = read_nyse_ticker()  
-        ticker_nyse= nyse['ticker'].sort_values().tolist()   
-        nyse_ticker = st.selectbox('New York Stock Exchange',ticker_nyse) 
+    nyse = read_nyse_ticker()  
+    ticker_nyse= nyse['ticker'].sort_values().tolist()   
+    nyse_ticker = st.selectbox('New York Stock Exchange',ticker_nyse) 
         data = nyse_stock_data().df
         utils.getProfile(data)
         data.to_csv('data/main_data.csv', index=False)
@@ -80,21 +75,3 @@ def app():
             st.write(f"{i+1}. **{columns_df.iloc[i]['column_name']}** - {columns_df.iloc[i]['type']}")
         st.markdown("""The above are the automated column types detected by the application in the data.\
         In case you wish to change the column types, head over to the **Column Change** section. """)  
-        
-    if ticker_radio == 'Search':
-        ticker_input = st.text_input('Ticker')
-        data = get_ticker_data().df
-        utils.getProfile(data)
-        data.to_csv('data/main_data.csv', index=False)
-        numeric_cols = data.select_dtypes(include=np.number).columns.tolist()
-        categorical_cols = list(set(list(data.columns)) - set(numeric_cols))
-        columns = []
-        columns = utils.genMetaData(data)
-        columns_df = pd.DataFrame(columns, columns = ['column_name', 'type'])
-        columns_df.to_csv('data/metadata/column_type_desc.csv', index = False)
-        st.markdown("**Column Name**-**Type**")
-        for i in range(columns_df.shape[0]):
-            st.write(f"{i+1}. **{columns_df.iloc[i]['column_name']}** - {columns_df.iloc[i]['type']}")
-        st.markdown("""The above are the automated column types detected by the application in the data.\
-        In case you wish to change the column types, head over to the **Column Change** section. """)        
-

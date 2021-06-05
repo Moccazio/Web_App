@@ -61,17 +61,17 @@ def app():
     nyse = read_nyse_ticker()  
     ticker_nyse= nyse['ticker'].sort_values().tolist()   
     nyse_ticker = st.selectbox('New York Stock Exchange',ticker_nyse) 
-        data = nyse_stock_data().df
-        utils.getProfile(data)
-        data.to_csv('data/main_data.csv', index=False)
-        numeric_cols = data.select_dtypes(include=np.number).columns.tolist()
-        categorical_cols = list(set(list(data.columns)) - set(numeric_cols))
-        columns = []
-        columns = utils.genMetaData(data)
-        columns_df = pd.DataFrame(columns, columns = ['column_name', 'type'])
-        columns_df.to_csv('data/metadata/column_type_desc.csv', index = False)
-        st.markdown("**Column Name**-**Type**")
-        for i in range(columns_df.shape[0]):
-            st.write(f"{i+1}. **{columns_df.iloc[i]['column_name']}** - {columns_df.iloc[i]['type']}")
-        st.markdown("""The above are the automated column types detected by the application in the data.\
-        In case you wish to change the column types, head over to the **Column Change** section. """)  
+    data = nyse_stock_data().df
+    utils.getProfile(data)
+    data.to_csv('data/main_data.csv', index=False)
+    numeric_cols = data.select_dtypes(include=np.number).columns.tolist()
+    categorical_cols = list(set(list(data.columns)) - set(numeric_cols))
+    columns = []
+    columns = utils.genMetaData(data)
+    columns_df = pd.DataFrame(columns, columns = ['column_name', 'type'])
+    columns_df.to_csv('data/metadata/column_type_desc.csv', index = False)
+    st.markdown("**Column Name**-**Type**")
+    for i in range(columns_df.shape[0]):
+        st.write(f"{i+1}. **{columns_df.iloc[i]['column_name']}** - {columns_df.iloc[i]['type']}")
+    st.markdown("""The above are the automated column types detected by the application in the data.\
+    In case you wish to change the column types, head over to the **Column Change** section. """)  

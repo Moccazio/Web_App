@@ -30,7 +30,7 @@ import pyfolio as pf
 # ========================================     
 # Data Funktions
 # ========================================   
-@st.cache
+@st.cache()
 class ticker_data:
     def __init__(self, ticker, start=None, end=None):
         time.sleep(6) 
@@ -44,7 +44,7 @@ class ticker_data:
         except Exception as err:
             print(err)
 # ========================================   
-@st.cache                     
+@st.cache()                     
 def read_nyse_ticker():
     sp500 = pd.read_csv('ticker/nyse/nyse_ticer.csv').ticker
     return sp500
@@ -57,7 +57,7 @@ def get_ticker_data():
     ticker_data = ticker_data(ticker_input).df
     return ticker_data
 # ========================================   
-@st.cache
+@st.cache()
 def app():
     
     st.title("Stock Ticker")

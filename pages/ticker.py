@@ -55,16 +55,17 @@ def app():
     st.title("Ticker Data")  
     st.markdown("### enter a ticker to start analysis.") 
     
-    def py_data(ticker):
-        ticker = yf.Ticker(ticker)
+    def py_data():
+        ticker = yf.Ticker(ticker_input)
         history = ticker.history('max')
         history.index = history.index.tz_localize('utc')
         return history
 
     ticker_input = st.text_input('Ticker')
     
-    data_ = pyfolio_data(ticker_input)
+    data_ = py_data(ticker_input)
     returns = data_.Close.pct_change().dropna()
+    
     st.pyplot(pf.plotting.plot_annual_returns(returns))
     st.pyplot(pf.plotting.plot_monthly_returns_heatmap(returns))
     st.pyplot(pf.plotting.plot_rolling_sharpe(returns))

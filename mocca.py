@@ -27,7 +27,7 @@ import pyfolio as pf
 
 # Custom imports 
 from multipage import MultiPage
-from pages import nyse, meta, redundant, data_visualize# import your pages here
+from pages import ticker, meta, redundant, visualize 
 
 # ========================================     
 # Data Funktions
@@ -129,7 +129,7 @@ def predict_with_prophet_dax():
 app = MultiPage()
 st.title(":chart_with_upwards_trend: Data Application")
 # Add all your application here
-app.add_page("Data", nyse.app)
+app.add_page("Data", ticker.app)
 #app.add_page("Change Metadata", meta.app)
 #app.add_page("Data Analysis",data_visualize.app)
 #app.add_page("Y-Parameter Optimization",redundant.app)

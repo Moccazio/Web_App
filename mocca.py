@@ -45,7 +45,6 @@ class ticker_data:
         except Exception as err:
             print(err)
 # ========================================   
-@st.cache
 def pyfolio_data(ticker):
     ticker = yf.Ticker(ticker)
     history = ticker.history('max')

@@ -51,12 +51,18 @@ def pyfolio_data(ticker):
 # ========================================
 # St APP
 # ========================================   
-
-@st.cache(suppress_st_warning=True)
 def app():
     st.title("Ticker Data")  
     st.markdown("### enter a ticker to start analysis.") 
+    
+    def py_data(ticker):
+        ticker = yf.Ticker(ticker)
+        history = ticker.history('max')
+        history.index = history.index.tz_localize('utc')
+        return history
+
     ticker_input = st.text_input('Ticker')
+    
     data_ = pyfolio_data(ticker_input)
     returns = data_.Close.pct_change().dropna()
     st.pyplot(pf.plotting.plot_annual_returns(returns))

@@ -62,13 +62,11 @@ def app():
     ticker = nyse['ticker'].sort_values().tolist()   
     nyse_ticker = st.selectbox('New York Stock Exchange',ticker) 
     data = nyse_stock_data().df
-    utils.getProfile(data)
     numeric_cols = data.select_dtypes(include=np.number).columns.tolist()
     categorical_cols = list(set(list(data.columns)) - set(numeric_cols))
     columns = []
     columns = utils.genMetaData(data)
     columns_df = pd.DataFrame(columns, columns = ['column_name', 'type'])
-    columns_df.to_csv('data/metadata/column_type_desc.csv', index = False)
     st.markdown("**Column Name**-**Type**")
     for i in range(columns_df.shape[0]):
         st.write(f"{i+1}. **{columns_df.iloc[i]['column_name']}** - {columns_df.iloc[i]['type']}")

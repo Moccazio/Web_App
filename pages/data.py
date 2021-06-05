@@ -68,7 +68,6 @@ def app():
         nyse_ticker = st.selectbox('New York Stock Exchange',ticker_nyse) 
         data = nyse_stock_data().df
         utils.getProfile(data)
-        st.markdown("<a href='output.html' download target='_blank' > Download profiling report </a>",unsafe_allow_html=True)
         data.to_csv('data/main_data.csv', index=False)
         numeric_cols = data.select_dtypes(include=np.number).columns.tolist()
         categorical_cols = list(set(list(data.columns)) - set(numeric_cols))
@@ -86,7 +85,6 @@ def app():
         ticker_input = st.text_input('Ticker')
         data = get_ticker_data().df
         utils.getProfile(data)
-        st.markdown("<a href='output.html' download target='_blank' > Download profiling report </a>",unsafe_allow_html=True)
         data.to_csv('data/main_data.csv', index=False)
         numeric_cols = data.select_dtypes(include=np.number).columns.tolist()
         categorical_cols = list(set(list(data.columns)) - set(numeric_cols))

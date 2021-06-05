@@ -60,4 +60,4 @@ def app():
     nyse_data = ticker_data(nyse_ticker)
     data = nyse_data.df
     returns = data.Close.pct_change()
-    st.table(pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True))
+    st.write(pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True))

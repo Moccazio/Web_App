@@ -4,7 +4,7 @@ yahoofinancials==1.6
 yfinance==0.1.59
 prophet==0.1.59
 plotly==4.14.3
-QuantLib=1.22
+QuantLib==1.22
 nltk==3.6.2
 bs4==0.0.1 
 pyfolio-reloaded==0.9.3

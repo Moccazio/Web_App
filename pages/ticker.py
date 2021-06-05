@@ -41,8 +41,7 @@ class ticker_data:
             else:
                 self.df = self.df_ = self._ticker.history(start=start, end=end, auto_adjust=True)
         except Exception as err:
-            print(err)            
-# ========================================       
+            print(err)                
 
 # ========================================
 # St APP
@@ -51,10 +50,10 @@ def app():
     st.title("Ticker Data Analysis")  
     st.markdown("### enter a ticker to start analysis.") 
     ticker_input = st.text_input('Ticker')
-    ticker_data = ticker_data(ticker_input)
-    ticker_df = ticker_data.df
-    ticker_df.index = ticker_df.index.tz_localize('utc')
-    returns = ticker_df.Close.pct_change().dropna()
+    temp_ticker = yf.Ticker(ticker_input)
+    history = temp_ticker.history('max')
+    history.index = history.index.tz_localize('utc')
+    returns = history.Close.pct_change().dropna()
     st.write(pf.plotting.plot_annual_returns(returns))
     st.write(pf.plotting.plot_monthly_returns_heatmap(returns))
     st.write(pf.plotting.plot_rolling_sharpe(returns))

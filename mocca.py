@@ -24,11 +24,6 @@ from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
 import warnings
 import pyfolio as pf
-
-# Custom imports 
-from multipage import MultiPage
-from pages import ticker, meta, redundant, visualize 
-
 # ========================================     
 # Data Funktions
 # ========================================   
@@ -45,8 +40,8 @@ class ticker_data:
         except Exception as err:
             print(err)
 # ========================================   
-def pf_data(ticker):
-    ticker = yf.Ticker(ticker)
+def py_data():
+    ticker = yf.Ticker(ticker_input)
     history = ticker.history('max')
     history.index = history.index.tz_localize('utc')
     return history
@@ -128,10 +123,13 @@ def predict_with_prophet_dax():
 # Create an instance of the app 
 app = MultiPage()
 st.title(":chart_with_upwards_trend: Data Application")
-# Add all your application here
-app.add_page("Data", ticker.app)
-#app.add_page("Change Metadata", meta.app)
-#app.add_page("Data Analysis",data_visualize.app)
-#app.add_page("Y-Parameter Optimization",redundant.app)
-# The main app
-app.run()
+st.subheader("Ticker Data")  
+st.markdown("### enter a ticker to start analysis.") 
+ticker_input = st.text_input('Ticker')
+data_ = py_data()
+returns = data_.Close.pct_change().dropna()
+st.pyplot(pf.plotting.plot_annual_returns(returns))
+st.pyplot(pf.plotting.plot_monthly_returns_heatmap(returns))
+st.pyplot(pf.plotting.plot_rolling_sharpe(returns))
+st.pyplot(pf.plotting.plot_drawdown_underwater(returns))
+st.write(pf.tears.create_interesting_times_tear_sheet(returns))

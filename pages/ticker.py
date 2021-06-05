@@ -37,35 +37,25 @@ class ticker_data:
         try:
             self._ticker = yf.Ticker(self.ticker)
             if not (start or end):
-                self.df = self.df_ = self._ticker.history(period='max', auto_adjust=True).index.tz_localize('utc')
+                self.df = self.df_ = self._ticker.history(period='max', auto_adjust=True)
             else:
                 self.df = self.df_ = self._ticker.history(start=start, end=end, auto_adjust=True)
         except Exception as err:
             print(err)       
-            
-def pyfolio_data(ticker):
-    ticker = yf.Ticker(ticker)
-    history = ticker.history('max')
-    history.index = history.index.tz_localize('utc')
-    return history
 # ========================================
 # St APP
 # ========================================   
 def app():
     st.subheader("Ticker Data")  
     st.markdown("### enter a ticker to start analysis.") 
-    
     def py_data():
         ticker = yf.Ticker(ticker_input)
         history = ticker.history('max')
         history.index = history.index.tz_localize('utc')
         return history
-
     ticker_input = st.text_input('Ticker')
-    
     data_ = py_data()
     returns = data_.Close.pct_change().dropna()
-    
     st.pyplot(pf.plotting.plot_annual_returns(returns))
     st.pyplot(pf.plotting.plot_monthly_returns_heatmap(returns))
     st.pyplot(pf.plotting.plot_rolling_sharpe(returns))

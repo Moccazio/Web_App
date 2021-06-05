@@ -38,7 +38,6 @@ class ticker_data:
             self._ticker = yf.Ticker(self.ticker)
             if not (start or end):
                 self.df = self.df_ = self._ticker.history(period='max', auto_adjust=True)
-                self.df.index = self.index.tz_localize('utc')
             else:
                 self.df = self.df_ = self._ticker.history(start=start, end=end, auto_adjust=True)
         except Exception as err:
@@ -46,7 +45,7 @@ class ticker_data:
             
 def pyfolio_data(ticker):
     ticker = yf.Ticker(ticker)
-    history = ticker.history('max')
+    history = ticker.history('max',auto_adjust=True)
     history.index = history.index.tz_localize('utc')
     return history
 # ========================================

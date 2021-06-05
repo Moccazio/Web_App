@@ -47,21 +47,14 @@ def read_nyse_ticker():
     nyse = pd.read_csv('ticker/nyse/nyse_ticker.csv', index_col = None)
     return nyse
 # ========================================   
-def nyse_stock_data():
-    nyse_data = ticker_data(nyse_ticker)
-    return nyse_data
-# ========================================   
-def get_ticker_data():
-    ticker_data = ticker_data(ticker_input)
-    return ticker_data
-# ========================================   
 def app():
     st.title("New York Stock Exchange (NYSE)")  
     st.markdown("### select a ticker for analysis.") 
     nyse = read_nyse_ticker()  
     ticker = nyse['ticker'].sort_values().tolist()   
     nyse_ticker = st.selectbox('New York Stock Exchange',ticker) 
-    data = nyse_stock_data().df
+    nyse_data = ticker_data(nyse_ticker)
+    data = nyse_data.df
     numeric_cols = data.select_dtypes(include=np.number).columns.tolist()
     categorical_cols = list(set(list(data.columns)) - set(numeric_cols))
     columns = []

@@ -42,8 +42,13 @@ class ticker_data:
             else:
                 self.df = self.df_ = self._ticker.history(start=start, end=end, auto_adjust=True)
         except Exception as err:
-            print(err)                
-
+            print(err)       
+            
+def pyfolio_data(ticker):
+    ticker = yf.Ticker(ticker)
+    history = ticker.history('max')
+    history.index = history.index.tz_localize('utc')
+    return history
 # ========================================
 # St APP
 # ========================================   
@@ -51,9 +56,8 @@ def app():
     st.title("Ticker Data Analysis")  
     st.markdown("### enter a ticker to start analysis.") 
     ticker_input = st.text_input('Ticker')
-    temp_ = ticker_data(ticker_input)
-    temp_df = temp_.df    
-    returns = temp_df.Close.pct_change().dropna()
+    data_ = pyfolio_data(ticker_input)
+    returns = data_.Close.pct_change().dropna()
     st.pyplot(pf.plotting.plot_annual_returns(returns))
     st.pyplot(pf.plotting.plot_monthly_returns_heatmap(returns))
     st.pyplot(pf.plotting.plot_rolling_sharpe(returns))

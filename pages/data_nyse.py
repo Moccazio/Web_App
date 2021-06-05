@@ -58,5 +58,6 @@ def app():
     ticker = nyse['ticker'].sort_values().tolist()   
     nyse_ticker = st.selectbox('New York Stock Exchange',ticker) 
     nyse_data = pf_dat(nyse_ticker)
-    data = nyse_data.df.Close
-    returns = df_1.Close.pct_change()
+    data = nyse_data.df
+    returns = data.Close.pct_change()
+    st.table(pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True))

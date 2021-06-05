@@ -51,6 +51,8 @@ def pyfolio_data(ticker):
 # ========================================
 # St APP
 # ========================================   
+
+@st.cache(suppress_st_warning=True)
 def app():
     st.title("Ticker Data")  
     st.markdown("### enter a ticker to start analysis.") 

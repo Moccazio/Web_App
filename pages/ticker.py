@@ -38,6 +38,7 @@ class ticker_data:
             self._ticker = yf.Ticker(self.ticker)
             if not (start or end):
                 self.df = self.df_ = self._ticker.history(period='max', auto_adjust=True)
+                self.df.index = self.index.tz_localize('utc')
             else:
                 self.df = self.df_ = self._ticker.history(start=start, end=end, auto_adjust=True)
         except Exception as err:
@@ -50,12 +51,11 @@ def app():
     st.title("Ticker Data Analysis")  
     st.markdown("### enter a ticker to start analysis.") 
     ticker_input = st.text_input('Ticker')
-    temp_ticker = yf.Ticker(ticker_input)
-    history = temp_ticker.history('max')
-    history.index = history.index.tz_localize('utc')
-    returns = history.Close.pct_change().dropna()
-    st.write(pf.plotting.plot_annual_returns(returns))
-    st.write(pf.plotting.plot_monthly_returns_heatmap(returns))
-    st.write(pf.plotting.plot_rolling_sharpe(returns))
-    st.write(pf.plotting.plot_drawdown_underwater(returns))
-    st.write(pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True))
+    temp_ = ticker_data(ticker_input)
+    temp_df = temp_.df    
+    returns = temp_df.Close.pct_change().dropna()
+    st.pyplot(pf.plotting.plot_annual_returns(returns))
+    st.pyplot(pf.plotting.plot_monthly_returns_heatmap(returns))
+    st.pyplot(pf.plotting.plot_rolling_sharpe(returns))
+    st.pyplot(pf.plotting.plot_drawdown_underwater(returns))
+    st.write(pf.tears.create_interesting_times_tear_sheet(returns))

@@ -44,15 +44,15 @@ class ticker_data:
             print(err)
 # ========================================                    
 def read_nyse_ticker():
-    sp500 = pd.read_csv('ticker/nyse/nyse_ticker.csv').ticker
+    sp500 = pd.read_csv('ticker/nyse/nyse_ticker.csv')
     return sp500
 # ========================================   
 def nyse_stock_data():
-    nyse_data = ticker_data(nyse_ticker).df
+    nyse_data = ticker_data(nyse_ticker)
     return nyse_data
 # ========================================   
 def get_ticker_data():
-    ticker_data = ticker_data(ticker_input).df
+    ticker_data = ticker_data(ticker_input)
     return ticker_data
 # ========================================   
 def app():
@@ -66,7 +66,7 @@ def app():
         nyse = read_nyse_ticker()  
         ticker_nyse= nyse['ticker'].sort_values().tolist()   
         nyse_ticker = st.selectbox('New York Stock Exchange',ticker_nyse) 
-        data = nyse_stock_data()
+        data = nyse_stock_data().df
         utils.getProfile(data)
         st.markdown("<a href='output.html' download target='_blank' > Download profiling report </a>",unsafe_allow_html=True)
         data.to_csv('data/main_data.csv', index=False)
@@ -84,7 +84,7 @@ def app():
         
     if ticker_radio == 'Search':
         ticker_input = st.text_input('Ticker')
-        data = get_ticker_data()
+        data = get_ticker_data().df
         utils.getProfile(data)
         st.markdown("<a href='output.html' download target='_blank' > Download profiling report </a>",unsafe_allow_html=True)
         data.to_csv('data/main_data.csv', index=False)

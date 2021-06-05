@@ -52,7 +52,7 @@ def pyfolio_data(ticker):
 # St APP
 # ========================================   
 def app():
-    st.title("Ticker Data Analysis")  
+    st.title("Ticker Data")  
     st.markdown("### enter a ticker to start analysis.") 
     ticker_input = st.text_input('Ticker')
     data_ = pyfolio_data(ticker_input)

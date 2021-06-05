@@ -134,7 +134,7 @@ app = MultiPage()
 
 st.title(":chart_with_upwards_trend: Data Application")
 # Add all your application here
-app.add_page("NYSE Data", nyse.app)
+app.add_page("Data", data.app)
 app.add_page("Change Metadata", meta.app)
 app.add_page("Data Analysis",data_visualize.app)
 app.add_page("Y-Parameter Optimization",redundant.app)

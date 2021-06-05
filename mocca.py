@@ -126,7 +126,6 @@ def predict_with_prophet_dax():
 # Launche App
 # ========================================
 # Create an instance of the app 
-@st.cache(suppress_st_warning=True)
 app = MultiPage()
 st.title(":chart_with_upwards_trend: Data Application")
 # Add all your application here

@@ -44,7 +44,7 @@ class ticker_data:
             print(err)
 # ========================================                    
 def read_nyse_ticker():
-    nyse = pd.read_csv('ticker/nyse/nyse_ticker.csv')
+    nyse = pd.read_csv('ticker/nyse/nyse_ticker.csv', index_col = None)
     return nyse
 # ========================================   
 def nyse_stock_data():
@@ -59,11 +59,10 @@ def app():
     st.title("New York Stock Exchange (NYSE)")  
     st.markdown("### select a ticker for analysis.") 
     nyse = read_nyse_ticker()  
-    ticker_nyse= nyse['ticker'].sort_values().tolist()   
-    nyse_ticker = st.selectbox('New York Stock Exchange',ticker_nyse) 
+    ticker = nyse['ticker'].sort_values().tolist()   
+    nyse_ticker = st.selectbox('New York Stock Exchange',ticker) 
     data = nyse_stock_data().df
     utils.getProfile(data)
-    data.to_csv('data/main_data.csv', index=False)
     numeric_cols = data.select_dtypes(include=np.number).columns.tolist()
     categorical_cols = list(set(list(data.columns)) - set(numeric_cols))
     columns = []

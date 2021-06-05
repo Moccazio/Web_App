@@ -63,7 +63,7 @@ def app():
 
     ticker_input = st.text_input('Ticker')
     
-    data_ = py_data(ticker_input)
+    data_ = py_data()
     returns = data_.Close.pct_change().dropna()
     
     st.pyplot(pf.plotting.plot_annual_returns(returns))

@@ -44,7 +44,7 @@ class ticker_data:
             print(err)
 # ========================================                    
 def read_nyse_ticker():
-    sp500 = pd.read_csv('ticker/nyse/nyse_ticer.csv').ticker
+    sp500 = pd.read_csv('ticker/nyse/nyse_ticker.csv').ticker
     return sp500
 # ========================================   
 def nyse_stock_data():

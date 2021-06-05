@@ -50,7 +50,6 @@ def pyfolio_data(ticker):
     history = ticker.history('max')
     history.index = history.index.tz_localize('utc')
     return history
-st.cache
 def get_vix_data():
     stk_price = ticker_data("^VIX").df
     df= stk_price.reset_index()
@@ -123,20 +122,16 @@ def predict_with_prophet_dax():
     stk_df = stk.df["2010":]
     df = prophet_df(stk_df)
     return df
-    
 # ========================================
 # Launche App
 # ========================================
-
 # Create an instance of the app 
 app = MultiPage()
-
 st.title(":chart_with_upwards_trend: Data Application")
 # Add all your application here
 app.add_page("Data", data.app)
 app.add_page("Change Metadata", meta.app)
 app.add_page("Data Analysis",data_visualize.app)
 app.add_page("Y-Parameter Optimization",redundant.app)
-
 # The main app
 app.run()

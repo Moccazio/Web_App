@@ -89,7 +89,7 @@ def main():
     
     fig = pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
     
-    st.table(df_perf_stats)
+    st.dataframe(df_perf_stats)
     st.write(fig)
     
     
@@ -100,8 +100,8 @@ def main():
         return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
     
-    if st.button('Download Dataframe as CSV'):
-        tmp_download_link = download_link(df, ticker_input+'_df.csv', 'Click here to download your data!')
+    if st.button('Download Performance Dataframe as CSV'):
+        tmp_download_link = download_link(df_perf_stats, ticker_input+'_df.csv', 'Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
         
     

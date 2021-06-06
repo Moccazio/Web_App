@@ -43,7 +43,7 @@ class ticker_data:
 def py_data():
     ticker = yf.Ticker(ticker_input)
     history = ticker.history('max')
-    history = history.tz_localize('utc')
+    history.index = history.index.tz_localize('utc')
     return history
 def get_vix_data():
     stk_price = ticker_data("^VIX").df
@@ -127,8 +127,11 @@ st.markdown("### enter a ticker to start analysis.")
 ticker_input = st.text_input('Ticker')
 data_ = py_data()
 returns = data_.Close.pct_change().dropna()
-st.pyplot(pf.plotting.plot_annual_returns(returns))
-st.pyplot(pf.plotting.plot_monthly_returns_heatmap(returns))
-st.pyplot(pf.plotting.plot_rolling_sharpe(returns))
-st.pyplot(pf.plotting.plot_drawdown_underwater(returns))
-st.write(pf.tears.create_interesting_times_tear_sheet(returns))
+heatmap = pf.plotting.plot_monthly_returns_heatmap(returns)
+st.write(heatmap)
+sharpe=pf.plotting.plot_rolling_sharpe(returns)
+st.write(sharpe)
+underwater=pf.plotting.plot_drawdown_underwater(returns)
+st.write(underwater)
+times=pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True)
+st.write(times)

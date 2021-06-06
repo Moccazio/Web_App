@@ -94,7 +94,7 @@ def download_link(object_to_download, download_filename, download_link_text):
 
 def main():
 
-    st.title(":chart_with_upwards_trend: Mocca Web Application")
+    st.title(":chart_with_upwards_trend: Mocca Application")
 
     st.sidebar.title("Model")
     ticker_input = st.text_input('Ticker')

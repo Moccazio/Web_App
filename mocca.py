@@ -85,6 +85,13 @@ def main():
     df_stk, df_pct = load_data()
     fig=pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
     st.write(fig)
+    def get_table_download_link(df):
+        csv = df.to_csv(index=False)
+        b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+        href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
+        return href
+    
+    st.markdown(get_table_download_link(stk_history), unsafe_allow_html=True)
 if __name__ == '__main__':
     main()
     

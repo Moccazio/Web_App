@@ -24,6 +24,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
 import warnings
+import base64
 # ========================================     
 # Data Funktions
 # ========================================   
@@ -73,8 +74,7 @@ def main():
 
     st.sidebar.title("Model")
     ticker_input = st.text_input('Ticker')
-
-
+    
     @st.cache(persist=True)
     def load_data():
         stk = ticker_data(ticker_input)
@@ -83,15 +83,28 @@ def main():
         return  stk_history, stk_returns
     
     df_stk, df_pct = load_data()
-    fig=pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
-    st.write(fig)
-    def get_table_download_link(df):
-        csv = df.to_csv(index=False)
-        b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-        href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
-        return href
     
-    st.markdown(get_table_download_link(stk_history), unsafe_allow_html=True)
+    df_perf_stats = pf.plotting.show_perf_stats(df_pct)
+    
+    
+    fig = pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
+    
+    st.table(df_perf_stats)
+    st.write(fig)
+    
+    
+    def download_link(object_to_download, download_filename, download_link_text):
+        if isinstance(object_to_download,pd.DataFrame):
+            object_to_download = object_to_download.to_csv(index=False)
+        b64 = base64.b64encode(object_to_download.encode()).decode()
+        return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
+
+    
+    if st.button('Download Dataframe as CSV'):
+        tmp_download_link = download_link(df, ticker_input+'_df.csv', 'Click here to download your data!')
+        st.markdown(tmp_download_link, unsafe_allow_html=True)
+        
+    
 if __name__ == '__main__':
     main()
     

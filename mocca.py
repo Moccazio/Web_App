@@ -68,8 +68,8 @@ def predict_with_prophet():
 
 def main():
 
-    st.title(":chart_with_upwards_trend: Mocca Application")
-    st.markdown('### enter a ticker to start analysis.')
+    st.title(":chart_with_upwards_trend: Mocca Web Application")
+    st.markdown('#### enter a ticker')
 
     st.sidebar.title("Model")
     ticker_input = st.text_input('Ticker')

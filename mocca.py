@@ -69,6 +69,11 @@ st.title(":chart_with_upwards_trend: Mocca Data Application")
 st.markdown("### enter a ticker to start analysis.") 
 ticker_input = st.text_input('Ticker')
 if st.checkbox("Search"):
+    @st.cache(persist=True)
+    def load_data():
+        ric_history = pd.read_excel('bist_indices_data.xlsx',  index_col='Date', parse_dates=True)
+        ric_history_pct = ric_history.pct_change().dropna()
+        return ric_history, ric_history_pct
 stk = yf.Ticker(ticker_input)
 stk_history = stk.history('max')
 stk_history.index = stk_history.index.tz_localize('utc')

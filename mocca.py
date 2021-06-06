@@ -110,6 +110,7 @@ def main():
     
     df_perf_stats = pf.timeseries.perf_stats(df_pct)
     st.write(df_perf_stats)
+    df = df_perf_stats
     
     fig = pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
     

@@ -65,10 +65,13 @@ def predict_with_prophet():
 # Launche App
 # ========================================
 # Create an instance of the app 
-st.title(":chart_with_upwards_trend: Data Application")
-st.subheader("Ticker Data")  
+st.title(":chart_with_upwards_trend: Mocca Data Application")
 st.markdown("### enter a ticker to start analysis.") 
 ticker_input = st.text_input('Ticker')
+if st.checkbox("Search"):
+stk = yf.Ticker(ticker_input)
+stk_history = stk.history('max')
+stk_history.index = stk_history.index.tz_localize('utc')
 data_ = py_data()
 returns = data_.Close.pct_change().dropna()
 heatmap = pf.plotting.plot_monthly_returns_heatmap(returns)

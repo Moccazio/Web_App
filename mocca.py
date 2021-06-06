@@ -79,7 +79,7 @@ def main():
     def load_data():
         stk = ticker_data(ticker_input)
         stk_history = stk.df.tz_localize('utc')
-        stk_returns = data_.Close.pct_change().dropna()
+        stk_returns = stk_history.Close.pct_change().dropna()
         return  stk_history, stk_returns
     
     df_stk, df_pct = load_data()

@@ -40,15 +40,14 @@ class ticker_data:
         except Exception as err:
             print(err)
 # ========================================   
+def get_ticker_data():
+    tik = ticker_data(ticker_input)
+    return tik
+
 def py_data():
-    ticker = get_data().df
-    ticker.index = ticker.index.tz_localize('utc')
+    ticker = get_ticker_data().df
+    ticker = ticker.tz_localize('utc')
     return ticker
-
-def get_data():
-    stk = ticker_data(ticker_input)
-    return stk
-
 # ========================================
 # Prophet
 # ========================================

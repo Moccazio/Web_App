@@ -70,7 +70,6 @@ def predict_with_prophet():
 def main():
 
     st.title(":chart_with_upwards_trend: Mocca Web Application")
-    st.markdown('#### enter a ticker')
 
     st.sidebar.title("Model")
     ticker_input = st.text_input('Ticker')
@@ -89,18 +88,18 @@ def main():
     
     fig = pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
     
-    st.dataframe(df_perf_stats)
+    st.write(df_perf_stats)
     st.write(fig)
     
     
     def download_link(object_to_download, download_filename, download_link_text):
         if isinstance(object_to_download,pd.DataFrame):
             object_to_download = object_to_download.to_csv(index=False)
-        b64 = base64.b64encode(object_to_download.encode()).decode()
-        return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
+            b64 = base64.b64encode(object_to_download.encode()).decode()
+            return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
     
-    if st.button('Download Performance Dataframe as CSV'):
+    if st.button('Download Dataframe as CSV'):
         tmp_download_link = download_link(df_perf_stats, ticker_input+'_df.csv', 'Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
         

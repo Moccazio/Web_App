@@ -39,11 +39,7 @@ import streamlit_theme as stt
 #secondaryBackgroundColor = "#0083B8"
 #textColor = "#C6CDD4"
 #font = "sans-serif"
-stt.set_theme({'primary': '#E694FF'})
-stt.set_theme({'background': '#00172B'})
-stt.set_theme({'text': '#C6CDD4'})
-stt.set_theme({'font': 'sans-serif'})
-# ========================================     
+stt.set_theme({'primary': '#E694FF'})    
 # Data Funktions
 # ========================================   
 class ticker_data:

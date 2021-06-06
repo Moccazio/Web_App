@@ -41,59 +41,14 @@ class ticker_data:
             print(err)
 # ========================================   
 def py_data():
-    ticker = yf.Ticker(ticker_input)
-    history = ticker.history('max')
-    history.index = history.index.tz_localize('utc')
-    return history
-def get_vix_data():
-    stk_price = ticker_data("^VIX").df
-    df= stk_price.reset_index()
-    df = df[["Date","Close"]]
-    df = df.rename(columns = {"Date":"Datum","Close":"VIX"}) 
-    df=df.set_index("Datum")
-    return df
-def get_dax_data():
-    stk_price = Stock("^GDAXI").df
-    df= stk_price.reset_index()
-    df = df[["Date","Close"]]
-    df = df.rename(columns = {"Date":"Datum","Close":"DAX"}) 
-    df=df.set_index("Datum")
-    return df
-def get_mdax_data():
-    stk_price = Stock("^MDAXI").df
-    df= stk_price.reset_index()
-    df = df[["Date","Close"]]
-    df = df.rename(columns = {"Date":"Datum","Close":"MDAX"}) 
-    df=df.set_index("Datum")
-    return df
-def get_sdax_data():
-    stk_price = Stock("^SDAXI").df
-    df= stk_price.reset_index()
-    df = df[["Date","Close"]]
-    df = df.rename(columns = {"Date":"Datum","Close":"SDAX"}) 
-    df=df.set_index("Datum")
-    return df
-def read_dax_ticker():
-    dax = pd.read_csv('index_stocks/DAX.csv', index_col='Index')
-    return dax
-def read_sp500_ticker():
-    sp500 = pd.read_csv('index_stocks/GSPC.csv', index_col='Index')
-    return sp500
-def get_stock_data():
-    stock = Stock(ticker_input)
-    return stock
-def dax_stock_data():
-    stock = Stock(DAX_ticker)
-    return stock
-def snp_stock_data():
-    stock = Stock(SNP_ticker)
-    return stock
-def get_quote_data():
-    quote = pdr.get_quote_yahoo(ticker_input)
-    return quote  
-def get_option_data():
-    options_df = Options_Chain(SNP_ticker)
-    return options_df
+    ticker = get_data().df
+    ticker.index = ticker.index.tz_localize('utc')
+    return ticker
+
+def get_data():
+    stk = ticker_data(ticker_input)
+    return stk
+
 # ========================================
 # Prophet
 # ========================================
@@ -103,17 +58,7 @@ def prophet_df(stk_price):
     df = df.rename(columns = {"Date":"ds","Close":"y"}) 
     return df
 def predict_with_prophet():
-    stk = get_stock_data()
-    stk_df = stk.df["2010":]
-    df = prophet_df(stk_df)
-    return df
-def predict_with_prophet_snp():
-    stk = snp_stock_data()
-    stk_df = stk.df["2010":]
-    df = prophet_df(stk_df)
-    return df
-def predict_with_prophet_dax():
-    stk = dax_stock_data()
+    stk = get_data()
     stk_df = stk.df["2010":]
     df = prophet_df(stk_df)
     return df
@@ -128,10 +73,6 @@ ticker_input = st.text_input('Ticker')
 data_ = py_data()
 returns = data_.Close.pct_change().dropna()
 heatmap = pf.plotting.plot_monthly_returns_heatmap(returns)
-st.write(heatmap)
-sharpe=pf.plotting.plot_rolling_sharpe(returns)
-st.write(sharpe)
-underwater=pf.plotting.plot_drawdown_underwater(returns)
-st.write(underwater)
+st.pyplot(heatmap)
 times=pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True)
 st.write(times)

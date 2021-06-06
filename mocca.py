@@ -8,6 +8,7 @@ import pandas_datareader as pdr
 from pandas_datareader.yahoo.options import Options
 from yahoo_fin import stock_info as si
 import yfinance as yf
+import pyfolio as pf
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -23,7 +24,6 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from yahoo_fin.stock_info import get_quote_table
 import warnings
-import pyfolio as pf
 # ========================================     
 # Data Funktions
 # ========================================   
@@ -65,21 +65,26 @@ def predict_with_prophet():
 # Launche App
 # ========================================
 # Create an instance of the app 
-st.title(":chart_with_upwards_trend: Mocca Data Application")
-st.markdown("### enter a ticker to start analysis.") 
-ticker_input = st.text_input('Ticker')
-if st.checkbox("Search"):
+
+def main():
+
+    st.title(":chart_with_upwards_trend: Mocca Application")
+    st.markdown('### enter a ticker to start analysis.')
+
+    st.sidebar.title("Model")
+    ticker_input = st.text_input('Ticker')
+
+
     @st.cache(persist=True)
     def load_data():
-        ric_history = pd.read_excel('bist_indices_data.xlsx',  index_col='Date', parse_dates=True)
-        ric_history_pct = ric_history.pct_change().dropna()
-        return ric_history, ric_history_pct
-stk = yf.Ticker(ticker_input)
-stk_history = stk.history('max')
-stk_history.index = stk_history.index.tz_localize('utc')
-data_ = py_data()
-returns = data_.Close.pct_change().dropna()
-heatmap = pf.plotting.plot_monthly_returns_heatmap(returns)
-st.pyplot(heatmap)
-times=pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True)
-st.write(times)
+        stk = ticker_data(ticker_input)
+        stk_history = stk.df.tz_localize('utc')
+        stk_returns = data_.Close.pct_change().dropna()
+        return  stk_history, stk_returns
+    
+    df_stk, df_pct = load_data()
+    fig=pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
+    st.write(fig)
+if __name__ == '__main__':
+    main()
+    

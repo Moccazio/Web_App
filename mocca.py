@@ -33,12 +33,6 @@ from plotly.subplots import make_subplots
 # ~/.streamlit/config.toml
 import streamlit as st
 import streamlit_theme as stt
-#[theme]
-#primaryColor = "#E694FF"
-#backgroundColor = "#00172B"
-#secondaryBackgroundColor = "#0083B8"
-#textColor = "#C6CDD4"
-#font = "sans-serif"
 stt.set_theme({'primary': '#E694FF'})    
 # Data Funktions
 # ========================================   

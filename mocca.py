@@ -1,15 +1,13 @@
 # ========================================
 # Setup & Design
 # ========================================
-# import modules for web app 
+# Modules
 import base64
 import os
 import json
 import pickle
 import uuid
 import re
-# 
-import streamlit as st 
 import time
 import pandas as pd
 import pandas_datareader as pdr
@@ -33,12 +31,18 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 # Design 
 # ~/.streamlit/config.toml
-[theme]
-primaryColor = "#E694FF"
-backgroundColor = "#00172B"
-secondaryBackgroundColor = "#0083B8"
-textColor = "#C6CDD4"
-font = "sans-serif"
+import streamlit as st
+import streamlit_theme as stt
+#[theme]
+#primaryColor = "#E694FF"
+#backgroundColor = "#00172B"
+#secondaryBackgroundColor = "#0083B8"
+#textColor = "#C6CDD4"
+#font = "sans-serif"
+stt.set_theme({'primary': '#E694FF'})
+stt.set_theme({'background': '#00172B'})
+stt.set_theme({'text': '#C6CDD4'})
+stt.set_theme({'font': 'sans-serif'})
 # ========================================     
 # Data Funktions
 # ========================================   

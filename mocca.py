@@ -176,8 +176,8 @@ def main():
     
     df_stk, df_pct = load_data()
     
-    df_perf_stats = pf.plotting.show_perf_stats(df_pct)
-    
+    df_perf_stats = pf.timeseries.perf_stats(df_pct)
+    st.dataframe(df_perf_stats)
     
     fig = pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
     

@@ -34,4 +34,3 @@ ipywidgets==7.6.3
 pickleshare==0.7.5
 urllib3==1.26.5
 python-magic==0.4.24
-streamlit-downloader==0.0.1

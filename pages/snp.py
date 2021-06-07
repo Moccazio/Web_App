@@ -72,9 +72,9 @@ def predict_with_prophet():
 # ========================================
 def app():
     
-    st.title(":chart_with_upwards_trend: S&P 500")
+    st.markdown("## S&P 500")
     
-    st.text('Analyse S&P 500 Ticker Data')
+    st.markdown('### select a company ticker to start analysis.')
     sp500 =si.tickers_sp500()
     snp_ticker = st.selectbox('S&P 500 Ticker',sp500)  
     

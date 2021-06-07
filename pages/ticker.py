@@ -69,7 +69,7 @@ def predict_with_prophet():
 # ========================================
 # Ticker App
 # ========================================
-def main():
+def app():
 
     st.title(":chart_with_upwards_trend: Ticker Data")
     st.text('Analyse Ticker Data')

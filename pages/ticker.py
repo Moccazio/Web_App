@@ -70,9 +70,9 @@ def predict_with_prophet():
 # Ticker App
 # ========================================
 def app():
-
-    st.title(":chart_with_upwards_trend: Ticker Data")
-    st.text('Analyse Ticker Data')
+    st.markdown("## Company Ticker")
+    
+    st.markdown('### search for a company ticker to start analysis.')
     
     ticker_input = st.text_input('Ticker')
     

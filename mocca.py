@@ -21,7 +21,7 @@ display = Image.open('Logo.png')
 display = np.array(display)
 col1, col2 = st.beta_columns(2)
 col1.image(display, width = 400)
-col2.text("Mocca App")
+col2.title("Mocca App")
 
 app.add_page("S&P 500 Ticker", snp.app)
 app.add_page("Company Ticker", ticker.app)

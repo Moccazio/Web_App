@@ -108,5 +108,6 @@ def app():
     if st.checkbox("Stress Event Analysis"):
         df_stk_1, df_pct_1 = load_data()
         fig = pf.tears.create_interesting_times_tear_sheet(df_pct_1, return_fig=True)
+        plt.style.use('dark_background')
         st.write(fig)
     

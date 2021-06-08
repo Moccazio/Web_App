@@ -25,8 +25,6 @@ seaborn==0.11.1
 cachetools==4.2.2
 base58==2.1.0
 click==7.1.2
-defusedxml==0.7.1
-importlib-metadata==4.0.1
 ipykernel==5.5.5
 ipython==7.16.1
 ipython-genutils==0.2.0

@@ -16,7 +16,6 @@ from pages import ticker, snp
 # ========================================
 # Main App
 # ========================================
-st.set_page_config(layout="wide")
 app = MultiPage()
 
 display = Image.open('Logo.png')

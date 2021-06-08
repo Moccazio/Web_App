@@ -12,7 +12,7 @@ stt.set_theme({'primary': '#E694FF'})
 # Custom imports 
 # ========================================   
 from multipage import MultiPage
-from pages import ticker
+from pages import ticker, snp
 # ========================================
 # Main App
 # ========================================

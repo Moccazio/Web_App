@@ -86,13 +86,8 @@ def app():
     df_stk, df_pct = load_data()
     
     if ticker_input is not None:
-        try:
+        try: st.write(pf.timeseries.perf_stats(df_pct))
             
-        
-    
-    df_perf_stats = pf.timeseries.perf_stats(df_pct)
-    st.write(df_perf_stats)
-    df = df_perf_stats
     
     if st.checkbox("Buy & Hold Return"):
         year = st.date_input("Buy-In Date (YYYY-MM-D)") 

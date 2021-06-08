@@ -76,7 +76,7 @@ def app():
     
     ticker_input = st.text_input('Ticker')
     
-    @st.cache(persist=True)
+    @st.cache()
     def load_data():
         stk = ticker_data(ticker_input)
         stk_history = stk.df.tz_localize('utc')

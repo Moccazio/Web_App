@@ -54,8 +54,6 @@ def predict_with_prophet():
 # ========================================
 def main():
     
-    app = MultiPage()
-
     display = Image.open('Logo.png')
     display = np.array(display)
     col1, col2 = st.beta_columns(2)

@@ -85,6 +85,11 @@ def app():
     
     df_stk, df_pct = load_data()
     
+    if ticker_input is not None:
+        try:
+            
+        
+    
     df_perf_stats = pf.timeseries.perf_stats(df_pct)
     st.write(df_perf_stats)
     df = df_perf_stats
@@ -99,7 +104,7 @@ def app():
         font_1 = {'family' : 'Arial', 'size' : 12}
         fig2 = plt.figure()
         plt.style.use('dark_background')
-        plt.title(SNP_ticker + ' Buy & Hold', fontdict = font_1)
+        plt.title(ticker_input + ' Buy & Hold', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Return']])
         st.pyplot(fig2)
         st.dataframe(stock_df[['Buy&Hold_Rendite']])   

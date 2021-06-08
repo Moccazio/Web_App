@@ -85,10 +85,11 @@ def app():
     
     df_stk, df_pct = load_data()
     
-    if ticker_input is not None:
-        try: st.write(pf.timeseries.perf_stats(df_pct))
-            
     
+    perf_stats = pf.timeseries.perf_stats(df_pct)
+   
+    st.table(pf.timeseries.perf_stats(df_pct))
+            
     if st.checkbox("Buy & Hold Return"):
         year = st.date_input("Buy-In Date (YYYY-MM-D)") 
         stock = ticker_data(ticker_input)
@@ -105,6 +106,7 @@ def app():
         st.dataframe(stock_df[['Buy&Hold_Rendite']])   
         
     if st.checkbox("Stress Event Analysis"):
-        fig = pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
+        df_stk_1, df_pct_1 = load_data()
+        fig = pf.tears.create_interesting_times_tear_sheet(df_pct_1, return_fig=True)
         st.write(fig)
     

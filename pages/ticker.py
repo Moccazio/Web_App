@@ -92,7 +92,7 @@ def app():
     @st.cache()
     if st.checkbox("Buy & Hold Return"):
         year = st.date_input("Buy-In Date (YYYY-MM-D)") 
-        stock_df = ticker_data(ticker_input)
+        stock = ticker_data(ticker_input)
         stock_df = stock.df[year:]
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
         stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()

@@ -76,8 +76,8 @@ def main():
     df_stk, df_pct = load_data()
     if st.checkbox("Buy & Hold Return"):
         year = st.date_input("Buy-In Date (YYYY-MM-D)") 
-        stock = ticker_data(ticker_input)
-        stock_df = stock.df[year:]
+        stock = df_stk
+        stock_df = stock[year:]
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
         stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
         stock_df['Buy&Hold_Return'] = np.exp(stock_df['Buy&Hold_Log_Ret'])

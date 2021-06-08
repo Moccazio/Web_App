@@ -78,7 +78,7 @@ def app():
     sp500 =si.tickers_sp500()
     snp_ticker = st.selectbox('S&P 500 Ticker',sp500)  
     
-    @st.cache(persist=True)
+    @st.cache()
     def load_data():
         stk = ticker_data(snp_ticker)
         stk_history = stk.df.tz_localize('utc')

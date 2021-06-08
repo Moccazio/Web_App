@@ -27,7 +27,7 @@ def main():
     col2.subheader("Mocca Application")
     
     app.add_page("Company Ticker", ticker.app)
-    app.add_page("S&P 500 Ticker", snp.app)
+    #app.add_page("S&P 500 Ticker", snp.app)
 
     app.run()
 

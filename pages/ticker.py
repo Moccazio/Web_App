@@ -89,7 +89,6 @@ def app():
     st.write(df_perf_stats)
     df = df_perf_stats
     
-    @st.cache()
     if st.checkbox("Buy & Hold Return"):
         year = st.date_input("Buy-In Date (YYYY-MM-D)") 
         stock = ticker_data(ticker_input)
@@ -103,9 +102,9 @@ def app():
         plt.title(SNP_ticker + ' Buy & Hold', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Return']])
         st.pyplot(fig2)
-        st.dataframe(stock_df[['Buy&Hold_Rendite']])        
-    @st.cache()    
-    if st.checkbox("Stress Events"):
+        st.dataframe(stock_df[['Buy&Hold_Rendite']])   
+        
+    if st.checkbox("Stress Event Analysis"):
         fig = pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
         st.write(fig)
     

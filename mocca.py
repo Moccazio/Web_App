@@ -2,14 +2,10 @@
 # Setup & Design
 # ========================================
 import os
+import time
 import numpy as np
 from PIL import  Image
 import streamlit as st
-import streamlit as st
-from streamlit.hashing import _CodeHasher
-import time
-import sqlite3
-from sqlite3 import Error
 import streamlit_theme as stt
 stt.set_theme({'primary': '#E694FF'})    
 # ========================================   

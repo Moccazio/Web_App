@@ -5,9 +5,7 @@ import os
 import time
 import numpy as np
 from PIL import  Image
-import streamlit as st
-import streamlit_theme as stt
-stt.set_theme({'primary': '#E694FF'})    
+import streamlit as st 
 # ========================================   
 # Custom imports 
 # ========================================   

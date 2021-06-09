@@ -38,7 +38,7 @@ stt.set_theme({'primary': '#E694FF'})
 # ========================================   
 class ticker_data:
     def __init__(self, ticker, start=None, end=None):
-        time.sleep(6) 
+        time.sleep(0.5) 
         self.ticker = ticker
         try:
             self._ticker = yf.Ticker(self.ticker)
@@ -76,7 +76,7 @@ def app():
     
     ticker_input = st.text_input('Ticker')
     
-    @st.cache()
+    @st.cache(persist=True)
     def load_data():
         stk = ticker_data(ticker_input)
         stk_history = stk.df.tz_localize('utc')

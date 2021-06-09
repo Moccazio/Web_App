@@ -95,9 +95,9 @@ def app():
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
         stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
         stock_df['Buy&Hold_Return'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
-        font_1 = {'family' : 'Arial', 'size' : 12}
+        font_1 = {'family' : 'Arial', 'size' : 9}
         fig2 = plt.figure()
-        plt.style.use('ggplot')
+        plt.style.use('fivethirtyeight')
         plt.title(ticker_input + ' Buy & Hold', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Return']])
         st.pyplot(fig2)
@@ -106,6 +106,6 @@ def app():
     if st.checkbox("Stress Event Analysis"):
         df_stk_1, df_pct_1 = load_data()
         fig = pf.tears.create_interesting_times_tear_sheet(df_pct_1, return_fig=True)
-        plt.style.use('ggplot')
+        plt.style.use('fivethirtyeight')
         st.write(fig)
     

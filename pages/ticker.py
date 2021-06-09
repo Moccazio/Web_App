@@ -70,9 +70,9 @@ def predict_with_prophet():
 def app():
     st.markdown("## Company Ticker")
     
-    st.markdown('### search for a company ticker to start analysis.')
+    st.markdown('### enter a company ticker to start analysis.')
     
-    ticker_input = st.text_input('Ticker')
+    ticker_input = st.text_input('ticker')
     
     @st.cache(persist=True)
     def load_data():
@@ -97,7 +97,7 @@ def app():
         stock_df['Buy&Hold_Return'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
         font_1 = {'family' : 'Arial', 'size' : 12}
         fig2 = plt.figure()
-        plt.style.use('dark_background')
+        plt.style.use('ggplot')
         plt.title(ticker_input + ' Buy & Hold', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Return']])
         st.pyplot(fig2)
@@ -106,6 +106,6 @@ def app():
     if st.checkbox("Stress Event Analysis"):
         df_stk_1, df_pct_1 = load_data()
         fig = pf.tears.create_interesting_times_tear_sheet(df_pct_1, return_fig=True)
-        plt.style.use('dark_background')
+        plt.style.use('ggplot')
         st.write(fig)
     

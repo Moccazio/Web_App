@@ -31,8 +31,6 @@ import os
 import numpy as np
 from PIL import  Image
 import streamlit as st
-import streamlit_theme as stt
-stt.set_theme({'primary': '#E694FF'})    
 # ========================================   
 # Data Funktions
 # ========================================   
@@ -103,7 +101,7 @@ def app():
         plt.title(ticker_input + ' Buy & Hold', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Return']])
         st.pyplot(fig2)
-        st.dataframe(stock_df[['Buy&Hold_Rendite']])   
+        st.dataframe(stock_df[['Buy&Hold_Return']])   
         
     if st.checkbox("Stress Event Analysis"):
         df_stk_1, df_pct_1 = load_data()

@@ -30,7 +30,6 @@ def main():
     #app.add_page("S&P 500 Ticker", snp.app)
 
     app.run()
-    app.sync()
 
 if __name__ == '__main__':
     main()    

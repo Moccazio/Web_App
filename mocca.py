@@ -159,14 +159,13 @@ def main():
     col1.image(display, width = 300)
     col2.subheader("Mocca Application")
     
-    app.add_page("Company Ticker", ticker.app)
     app.add_page("Dashboard", app_dashboard.app)
+    app.add_page("Ticker", ticker.app)
 
     #Removing and add pages 
 
     create_connection(DATABASE_FILE_LOCATION) 
 
-    st.sidebar.title(":floppy_disk:")
 
     app.run()
     

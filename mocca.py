@@ -149,15 +149,13 @@ def _get_state(hash_funcs=None):
 
 
 st.set_page_config(layout="wide")
-    
 app = MultiPage()
 display = Image.open('Logo.png')
 display = np.array(display)
 col1, col2 = st.beta_columns(2)
 col1.image(display, width = 300)
 col2.subheader("Mocca App")
-create_connection(DATABASE_FILE_LOCATION) 
-app.add_page("Dashboard", app_dashboard.app)
+#app.add_page("Dashboard", app_dashboard.app)
 app.add_page("Ticker", ticker.app)
 app.run()
     

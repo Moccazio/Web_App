@@ -29,7 +29,7 @@ except ModuleNotFoundError:
 # Custom imports 
 # ========================================   
 from multipage import MultiPage
-from pages import ticker, snp, app_dashboard
+from pages import app_dashboard, ticker
 # ========================================
 # Main App
 # ========================================
@@ -147,30 +147,19 @@ def _get_state(hash_funcs=None):
 
     return session._custom_session_state    
 
-def main():
+
+st.set_page_config(layout="wide")
     
-    st.set_page_config(layout="wide")
-    
-    app = MultiPage()
+app = MultiPage()
 
-    display = Image.open('Logo.png')
-    display = np.array(display)
-    col1, col2 = st.beta_columns(2)
-    col1.image(display, width = 300)
-    col2.subheader("Mocca Application")
-    
-    app.add_page("Dashboard", app_dashboard.app)
-    app.add_page("Ticker", ticker.app)
-
-    #Removing and add pages 
-
-    create_connection(DATABASE_FILE_LOCATION) 
-
-
-    app.run()
+display = Image.open('Logo.png')
+display = np.array(display)
+col1, col2 = st.beta_columns(2)
+col1.image(display, width = 300)
+col2.subheader("Mocca App")
+app.add_page("Dashboard", app_dashboard.app)
+app.add_page("Ticker", ticker.app)
+create_connection(DATABASE_FILE_LOCATION) 
+ app.run()
     
     
-    
-
-if __name__ == '__main__':
-    main()    

@@ -6,7 +6,8 @@ from yahoo_fin.stock_info import get_live_price
 from botocore.exceptions import ClientError
 from boto3.dynamodb.conditions import Key
 import plotly.express as px
-from main_stock_app import DATABASE_FILE_LOCATION
+import os 
+DATABASE_FILE_LOCATION = os.getcwd()+"\pythonsqlite.db" 
 import sqlite3
 import pandas as pd
 from sqlite3 import Error

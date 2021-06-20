@@ -68,7 +68,7 @@ def predict_with_prophet():
 # Ticker App
 # ========================================
 def app():
-    st.markdown("## Company Ticker")
+    st.markdown("## Analysis")
     
     st.markdown('### enter a company ticker to start analysis.')
     

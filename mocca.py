@@ -33,7 +33,7 @@ from pages import app_dashboard, ticker
 # ========================================
 # Main App
 # ========================================
-#st.set_page_config(layout="wide")
+st.set_page_config(layout="wide")
 app = MultiPage()
 display = Image.open('Logo.png')
 display = np.array(display)

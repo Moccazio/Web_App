@@ -24,6 +24,7 @@ except ModuleNotFoundError:
     
 import mocca_dashboard
 import mocca_testing
+import mocca_login
 
 DATABASE_FILE_LOCATION = os.getcwd()+"\pythonsqlite.db" 
 
@@ -86,9 +87,7 @@ def main(test):
     state = _get_state()
 
     #Removing and add pages 
-    pages = {
-        "Login": page_login,
-    }
+    pages = {"Login": page_login}
 
     create_connection(DATABASE_FILE_LOCATION) 
 
@@ -110,6 +109,9 @@ def main(test):
 
     # Mandatory to avoid rollbacks with widgets, must be called at the end of your app
     state.sync()
+    
+def page_login(state):
+    mocca_login.login_process(state)    
 
 def page_dashboard(state):
     mocca_dashboard.dashboard_process(state)

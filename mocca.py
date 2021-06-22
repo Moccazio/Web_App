@@ -105,7 +105,7 @@ def main(test):
     page = st.sidebar.radio("Select your page", tuple(pages.keys()))
 
     # Display the selected page with the session state
-    pages[page]
+    pages[page](state)
 
     # Mandatory to avoid rollbacks with widgets, must be called at the end of your app
     state.sync()

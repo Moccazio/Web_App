@@ -9,7 +9,7 @@ import pandas as pd
 from botocore.exceptions import ClientError
 from boto3.dynamodb.conditions import Key
 import plotly.express as px
-from mocca_main import DATABASE_FILE_LOCATION
+from mocca import DATABASE_FILE_LOCATION
 import sqlite3
 from sqlite3 import Error
 

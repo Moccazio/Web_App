@@ -15,13 +15,12 @@ from pages import ticker, snp
 # Main App
 # ========================================
 def main():
-    
+    st.set_page_config(layout="wide")
     app = MultiPage()
-
     display = Image.open('Logo.png')
     display = np.array(display)
     col1, col2 = st.beta_columns(2)
-    col1.image(display, width = 250)
+    col1.image(display, width = 350)
     col2.subheader("Mocca Application")
     
     app.add_page("Company Ticker", ticker.app)

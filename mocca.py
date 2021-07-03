@@ -21,7 +21,7 @@ def main():
     display = np.array(display)
     col1, col2 = st.beta_columns(2)
     col1.image(display, width = 250)
-    col2.subheader("Mocca App")
+    col2.subheader("Mocca Web App")
     
     app.add_page("Probabilistic Programming", probability.app)
     app.add_page("Ticker", ticker.app)

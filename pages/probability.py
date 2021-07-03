@@ -77,9 +77,9 @@ def load_snp_stocks():
 def app():
     st.markdown('## Probabilistic Programming in Finance')
     st.markdown('### 1. Risk Management with Kelly Criterion')     
-    st.markdown('There are two main parts to the Kelly Criterion (KC): win probability and win/loss ratio. In math formula form, that would be: $$K_{pct}=W-\frac{(1-W)}{R}$$') 
-    st.markdown('**where**') 
-
+    st.markdown('There are two main parts to the Kelly Criterion (KC): win probability and win/loss ratio. In math formula form, that would be:
+    st.markdown('$K_{pct}=W-\frac{(1-W)}{R}$') 
+    st.markdown('**where**')
     st.markdown('$K_{pct}$ = The Kelly percentage')
     st.markdown('$W$ = Winning probability')
     st.markdown('$R$ = Win/loss ratio')

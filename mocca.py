@@ -10,7 +10,7 @@ import streamlit as st
 # Custom imports 
 # ========================================   
 from multipage import MultiPage
-from pages import ticker, nasdaq
+from pages import ticker, snp
 # ========================================
 # Main App
 # ========================================

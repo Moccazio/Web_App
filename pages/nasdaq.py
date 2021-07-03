@@ -11,8 +11,7 @@ import pandas as pd
 import pandas_datareader as pdr
 from pandas_datareader.yahoo.options import Options
 from yahoo_fin import stock_info as si
-from yahoo_fin.stock_info import tickers_nasdaq
-from yahoo_fin.stock_info import tickers_snp
+from yahoo_fin.stock_info import *
 from yahoo_fin.stock_info import get_quote_table
 import yahoo_fin.stock_info as si
 import yfinance as yf

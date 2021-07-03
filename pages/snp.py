@@ -83,14 +83,12 @@ def app():
     
     df_stk, df_pct = load_data()
     
-    df_perf_stats = pf.timeseries.perf_stats(df_pct)
-    st.write(df_perf_stats)
     df = df_perf_stats
     
     if st.checkbox("Buy & Hold Return"):
         year = st.date_input("Buy-In Date (YYYY-MM-D)") 
         stock_df = ticker_data(snp_ticker)
-        stock_df = stock.df[year:]
+        stock_df = stock_df.df[year:]
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
         stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
         stock_df['Buy&Hold_Return'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
@@ -102,5 +100,9 @@ def app():
         st.pyplot(fig2)
         st.dataframe(stock_df[['Buy&Hold_Return']])      
         
-    fig = pf.tears.create_interesting_times_tear_sheet(df_pct, return_fig=True)
-    st.write(fig)
+    if st.checkbox("Stress Event Analysis"):
+        df_stk_1, df_pct_1 = load_data()
+        fig = pf.tears.create_interesting_times_tear_sheet(df_pct_1, return_fig=True)
+        plt.style.use('fivethirtyeight')
+        st.write(fig)
+    

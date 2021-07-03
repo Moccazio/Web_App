@@ -38,7 +38,7 @@ import streamlit as st
 # ========================================   
 class ticker_data:
     def __init__(self, ticker, start=None, end=None):
-        time.sleep(6) 
+        time.sleep(0.3) 
         self.ticker = ticker
         try:
             self._ticker = yf.Ticker(self.ticker)
@@ -80,10 +80,9 @@ def app():
         stk_history = stk.df.tz_localize('utc')
         stk_returns = stk_history.Close.pct_change().dropna()
         return  stk_history, stk_returns
-    
-    df_stk, df_pct = load_data()
-    
-    df = df_perf_stats
+   
+    st.table(pf.timeseries.perf_stats(df_pct))
+            
     
     if st.checkbox("Buy & Hold Return"):
         year = st.date_input("Buy-In Date (YYYY-MM-D)") 

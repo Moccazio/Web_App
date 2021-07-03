@@ -70,7 +70,7 @@ def predict_with_prophet():
 def app():
     st.markdown("## Analysis")
     
-    st.markdown('### enter a company ticker to start analysis.')
+    st.markdown('### enter a company ticker to start.')
     
     ticker_input = st.text_input('ticker')
     

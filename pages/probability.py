@@ -75,26 +75,22 @@ def load_snp_stocks():
 # SP 500 App
 # =======================================
 def app():
-    st.markdown('## Probabilistic Programming' \ 
-               'in Finance')
+    st.markdown('## Probabilistic Programming in Finance')
     st.markdown('### 1. Risk Management with Kelly Criterion')     
-    st.markdown('There are two main parts to the Kelly Criterion (KC): win probability and win/loss ratio. In math formula form, that would be:' \
-    '$$K_{pct}=W-\frac{(1-W)}{R}$$' \
-    '**where**' \
-    '$K_{pct}$ = The Kelly percentage' \
-    '$W$ = Winning probability' \
-    '$R$ = Win/loss ratio')
+    st.markdown('There are two main parts to the Kelly Criterion (KC): win probability and win/loss ratio. In math formula form, that would be: $$K_{pct}=W-\frac{(1-W)}{R}$$') 
+    st.markdown('**where**') 
+
+    st.markdown('$K_{pct}$ = The Kelly percentage')
+    st.markdown('$W$ = Winning probability')
+    st.markdown('$R$ = Win/loss ratio')
     st.markdown('The KC has more applications than just gambling. It can apply to any decision where we know the values of the variables.')
     st.markdown('#### 1.1. Rigged Coin Flip')
-    st.markdown('Enough background talk, let’s get to some coding examples! Now, we’ll go over how to apply KC, when you bet with a coin flip that is' \
-                'favored to you by 55% (a fair coin would have a 50% win chance). For our example, let’s assume you win $1 or lose $1 for the heads' \                
-                'tails outcome that is related to how much risked. In other words, we are assuming 1 to 1 payoff relative to our KC or risked amount per bet.')
+    st.markdown('Enough background talk, let’s get to some coding examples! Now, we’ll go over how to apply KC, when you bet with a coin flip that is favored to you by 55% (a fair coin would have a 50% win chance). For our example, let’s assume you win $1 or lose $1 for the heads tails outcome that is related to how much risked. In other words, we are assuming 1 to 1 payoff relative to our KC or risked amount per bet.')
     p = 0.55
     st.markdown("p = 0.55 fixes the probability for heads.")
     f = p - (1-p)
     st.markdown("f = p - (1-p)")
     st.write(f)
-    st.markdown("The above is optimal Kelly Criterion bet size (f). This means that for a 1 to 1 payoff and a 55% favored chance to win, we should risk 10%" \ 
-                "of our total capital for maximizing our profit.")
+    st.markdown("The above is optimal Kelly Criterion bet size (f). This means that for a 1 to 1 payoff and a 55% favored chance to win, we should risk 10% of our total capital for maximizing our profit.")
 
     

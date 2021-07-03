@@ -68,13 +68,7 @@ def predict_with_prophet():
     return df
 # ========================================
 # SP 500 App
-# ========================================
-
-def read_sp500_ticker():
-    tickers = tickers_nasdaq()
-    return sp500
-
-
+# =======================================
 def app():
     st.markdown("## S&P 500")
     st.markdown('### select a company ticker to start analysis.')

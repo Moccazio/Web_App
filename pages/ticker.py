@@ -36,7 +36,7 @@ import streamlit as st
 # ========================================   
 class ticker_data:
     def __init__(self, ticker, start=None, end=None):
-        time.sleep(0.5) 
+        time.sleep(0.3) 
         self.ticker = ticker
         try:
             self._ticker = yf.Ticker(self.ticker)

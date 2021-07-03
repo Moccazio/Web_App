@@ -20,7 +20,7 @@ def main():
     display = Image.open('Logo.png')
     display = np.array(display)
     col1, col2 = st.beta_columns(2)
-    col1.image(display, width = 190)
+    col1.image(display, width = 200)
     col2.subheader("Mocca Web App")
     
     app.add_page("Ticker", ticker.app)

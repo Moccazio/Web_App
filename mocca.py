@@ -10,7 +10,7 @@ import streamlit as st
 # Custom imports 
 # ========================================   
 from multipage import MultiPage
-from pages import ticker, snp
+from pages import ticker, probability
 # ========================================
 # Main App
 # ========================================
@@ -20,11 +20,11 @@ def main():
     display = Image.open('Logo.png')
     display = np.array(display)
     col1, col2 = st.beta_columns(2)
-    col1.image(display, width = 200)
+    col1.image(display, width = 300)
     col2.subheader("Mocca Web App")
     
     app.add_page("Ticker", ticker.app)
-    app.add_page("S&P 500", snp.app)
+    app.add_page("Probabilistic Programming", probability.app)
 
     app.run()
 

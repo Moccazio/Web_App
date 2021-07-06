@@ -20,7 +20,7 @@ def main():
     display = Image.open('Logo.png')
     display = np.array(display)
     col1, col2 = st.beta_columns(2)
-    col1.image(display, width = 300)
+    col1.image(display, width = 250)
     col2.subheader("Mocca Application")
     
     app.add_page("Probabilistic Programming", probability.app)

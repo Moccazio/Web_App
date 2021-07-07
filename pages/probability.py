@@ -92,5 +92,24 @@ def app():
     st.markdown("f = p - (1-p)")
     st.write(f)
     st.markdown("The above is optimal Kelly Criterion bet size (f). This means that for a 1 to 1 payoff and a 55% favored chance to win, we should risk 10% of our total capital for maximizing our profit.")
+    st.markdown('#### 1.2. Simulation of Coin Flips with Variables')
+    st.markdown("Number of series to be simulated: 50")
+    st.markdown("Number of trials per series: 100")
+    def run_simulation(f):
+        c = np.zeros((n, I)) #Instantiates an ndarray object to store the simulation results.
+        c[0] = 100 #Initializes the starting capital with 100.
+        for i in range(I): #Outer loop for the series simulations.
+            for t in range(1,n): #Inner loop for the series itself.
+                o = np.random.binomial(1, p) #Simulates the tossing of a coin.
+                if o > 0: #If 1, i.e., heads …
+                    c[t, i] = (1+f) * c[t-1,i] #… then add the win to the capital.
+                else: #If 0, i.e., tails …
+                    c[t, i] = (1-f) * c[t-1,i] #… then subtract the loss from the capital.
+        return c
+    # Preparing our simulation of coin flips with variables
+    I = 50 #The number of series to be simulated.
+    n = 100 #The number of trials per series.
+    c_1 = run_simulation(f)
+    st.write(c_1.round(2))
 
     

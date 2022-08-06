@@ -324,10 +324,8 @@ def read_sp500_ticker():
 
 
 
-
 def get_stock_data():
-    stock = Stock(ticker_input)
-    #stock = yf.download(ticker_input, period='max', auto_adjust=True)
+    stock = yf.download(ticker_input, period='max', auto_adjust=True)
     return stock
 
 def dax_stock_data():
@@ -430,8 +428,7 @@ if ticker_radio == 'Tickersuche':
             company = get_company_data()
             st.dataframe(company.inputs.fillna(0))  
 
-        #stock = yf.download(ticker_input, period='max', auto_adjust=True)    
-        stock = get_stock_data().df
+        stock = yf.download(ticker_input, period='max', auto_adjust=True)    
         close = stock.Close
         if st.checkbox("Graphischer Kursverlauf"):
             font_1 = {
@@ -446,9 +443,8 @@ if ticker_radio == 'Tickersuche':
         
         if st.checkbox("Renditerechner"):
             year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-            #stock = yf.download(ticker_input, period='max', auto_adjust=True)
-            stock = get_stock_data().df
-            stock_df = stock[year:]
+            stock = yf.download(ticker_input, period='max', auto_adjust=True)
+            stock_df = stock.df[year:]
             stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
             stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
             stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
@@ -546,20 +542,20 @@ if ticker_radio_1 == 'DAX':
     DAX_ticker = st.selectbox(
     'DAX Aktien',
       dax_ticker)  
-    st.subheader("Ticker Info")
+    #st.subheader("Ticker Info")
     stock_i = yf.Ticker(DAX_ticker)
     info = stock_i.info 
     #to_translate_1 = info['sector']
     #to_translate_2 = info['industry']
     #translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
-    #translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    #rranslated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
     #st.subheader(info['longName'])
     #st.markdown('** Sektor **: ' + translated_1)
     #st.markdown('** Industrie **: ' + translated_2)
-    st.header('Datenanalyse')
-    
-    stock = dax_stock_data()   
-    close = stock.df.Close
+    st.subheader('Datenanalyse')
+    #stock = dax_stock_data()   
+    stock = stock_i.history(period='max', auto_adjust=True) 
+    close = stock.Close
     if st.checkbox("Graphischer Kursverlauf"):
         font_1 = {
                     'family' : 'Arial',

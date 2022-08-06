@@ -140,36 +140,36 @@ app.add_page("Y-Parameter Optimization",redundant.app)
 # The main app
 app.run()
 
-    st.markdown('...............................................................................................................................................................')
-    st.header("Stress Events")                   
-    st.markdown('...............................................................................................................................................................')     
-    df_1 = get_sp500_data()
-    returns = df_1.Close.pct_change()
-    times=pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True)
-    st.write(times)
+st.markdown('...............................................................................................................................................................')
+st.header("Stress Events")                   
+st.markdown('...............................................................................................................................................................')     
+df_1 = get_sp500_data()
+returns = df_1.Close.pct_change()
+times=pf.tears.create_interesting_times_tear_sheet(returns, return_fig=True)
+st.write(times)
         
         
-    st.subheader("CBOE Volatility Index Historische Wertentwicklung")
-    st.markdown('Der Volatility Index (VIX) ist eine Zahl, die von den Preisen der Optionsprämie im S&P 500-Index abgeleitet ist. Liegt der VIX unter 20, wird für den Markt ein eher  gesundes und risikoarmes Umfeld prognostiziert.\
+st.subheader("CBOE Volatility Index Historische Wertentwicklung")
+st.markdown('Der Volatility Index (VIX) ist eine Zahl, die von den Preisen der Optionsprämie im S&P 500-Index abgeleitet ist. Liegt der VIX unter 20, wird für den Markt ein eher  gesundes und risikoarmes Umfeld prognostiziert.\
     Wenn der VIX jedoch zu tief fällt, ist dies Ausdruck von stark optimistisch gestimmten Investoren. Wenn der VIX auf über 20 steigt, dann beginnt die Angst in den Markt einzutreten und es wird ein höheres Risikoumfeld\
     prognostiziert.')
-    df_2 = get_vix_data()
-    st.line_chart(df_2)
-    st.table(df_2.tail())
+df_2 = get_vix_data()
+st.line_chart(df_2)
+st.table(df_2.tail())
     
     
     
-    st.markdown('...............................................................................................................................................................')
-    st.subheader("DAX Historische Wertentwicklung")
-    df_3 = get_dax_data()
-    st.area_chart(df_3)
-    st.subheader("MDAX Historische Wertentwicklung")
-    df_4 = get_mdax_data()
-    st.area_chart(df_4)
-    st.subheader("SDAX Historische Wertentwicklung")
-    df_5 = get_sdax_data()
-    st.area_chart(df_5)
-    st.markdown('...............................................................................................................................................................')
+st.markdown('...............................................................................................................................................................')
+st.subheader("DAX Historische Wertentwicklung")
+df_3 = get_dax_data()
+st.area_chart(df_3)
+st.subheader("MDAX Historische Wertentwicklung")
+df_4 = get_mdax_data()
+st.area_chart(df_4)
+st.subheader("SDAX Historische Wertentwicklung")
+df_5 = get_sdax_data()
+st.area_chart(df_5)
+st.markdown('...............................................................................................................................................................')
         
 if ticker_radio == 'Aktienanalyse':
     st.subheader('Aktienanalyse')

@@ -1,0 +1,17 @@
+streamlit==1.11.1
+QuantLib==1.27
+prophet==1.1
+nltk==3.7
+bs4==0.0.1 
+pyfolio-reloaded==0.9.4
+matplotlib==3.3.2
+pandas==1.4.3
+pandas-datareader==0.10.0
+yahoo-fin==0.8.9.1
+yfinance==0.1.74
+numpy==1.23.1
+yahoo-finance==1.4.0
+plotly==5.9.0
+scikit-learn==1.1.2
+scipy==1.9.0
+lxml==4.9.1

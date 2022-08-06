@@ -4,7 +4,7 @@ yahoo-fin==0.8.9.1
 pandas-datareader==0.10.0
 yahoofinancials==1.6
 yfinance==0.1.74
-prophet==1.1
+prophet==1.0.1
 plotly==5.9.0
 QuantLib==1.27
 pyfolio-reloaded==0.9.4

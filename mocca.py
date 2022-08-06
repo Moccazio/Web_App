@@ -360,32 +360,20 @@ def prophet_df(stk_price):
     return df
 
 def predict_with_prophet():
-    stk = get_stock_data()
-    stk_df = stk.df["2010":]
+    stk = yf.download(ticker_input, period='max', auto_adjust=True)
+    stk_df = stk["2010":]
     df = prophet_df(stk_df)
     return df
 
 def predict_with_prophet_snp():
-    stk = snp_stock_data()
-    stk_df = stk.df["2010":]
+    stk = yf.download(SNP_ticker, period='max', auto_adjust=True)
+    stk_df = stk["2010":]
     df = prophet_df(stk_df)
     return df
 
 def predict_with_prophet_dax():
-    stk = dax_stock_data()
-    stk_df = stk.df["2010":]
-    df = prophet_df(stk_df)
-    return df
-
-def predict_with_prophet_internet():
-    stk = internet_stock_data()
-    stk_df = stk.df["2010":]
-    df = prophet_df(stk_df)
-    return df
-
-def predict_with_prophet_software():
-    stk = software_stock_data()
-    stk_df = stk.df["2010":]
+    stk = yf.download(DAX_ticker, period='max', auto_adjust=True)
+    stk_df = stk["2010":]
     df = prophet_df(stk_df)
     return df
 
@@ -479,8 +467,8 @@ if ticker_radio_1 == 'S&P500':
     'S&P 500 Ticker auswählen',
       ticker_snp)  
     st.subheader("Ticker Info")
-    stock_i = yf.Ticker(SNP_ticker)
-    info = stock_i.info 
+    stock_i_snp = yf.Ticker(SNP_ticker)
+    info = stock_i_snp.info 
     to_translate_1 = info['sector']
     to_translate_2 = info['industry']
     translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
@@ -489,9 +477,7 @@ if ticker_radio_1 == 'S&P500':
     st.markdown('** Sektor **: ' + translated_1)
     st.markdown('** Industrie **: ' + translated_2)
     st.header('Datenanalyse')
-    
-        
-    stock = snp_stock_data()    
+    stock = stock_i_snp.history(period='max', auto_adjust=True)     
     close = stock.Close
     if st.checkbox("Graphischer Kursverlauf"):
         font_1 = {
@@ -510,8 +496,8 @@ if ticker_radio_1 == 'S&P500':
         
     if st.checkbox("Renditerechner"):
         year = st.date_input("Datum an den die Aktie gekauft wurde (YYYY-MM-D)") 
-        stock = snp_stock_data()
-        stock_df = stock.df[year:]
+        stock = yf.download(SNP_ticker, period='max', auto_adjust=True)
+        stock_df = stock[year:]
         stock_df ['LogRets'] = np.log(stock_df['Close'] / stock_df['Close'].shift(1))
         stock_df['Buy&Hold_Log_Ret'] = stock_df['LogRets'].cumsum()
         stock_df['Buy&Hold_Rendite'] = np.exp(stock_df['Buy&Hold_Log_Ret'])
@@ -524,7 +510,7 @@ if ticker_radio_1 == 'S&P500':
         plt.title(SNP_ticker + ' Kaufen und Halten', fontdict = font_1)
         plt.plot(stock_df[['Buy&Hold_Rendite']])
         st.pyplot(fig2)
-        st.dataframe(stock_df[['Buy&Hold_Rendite']])    
+        st.dataframe(stock_df[['Buy&Hold_Rendite']].fillna(0))    
         
     if st.checkbox("Aktienkursprognose (Markov Chain Monte Carlo)"):
         df  = predict_with_prophet_snp()

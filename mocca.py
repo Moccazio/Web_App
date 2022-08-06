@@ -428,13 +428,13 @@ if ticker_radio == 'Tickersuche':
         
         stock_i = yf.Ticker(ticker_input)
         info = stock_i.info 
-        to_translate_1 = info['sector']
-        to_translate_2 = info['industry']
-        translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
-        translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
-        st.subheader(info['longName'])
-        st.markdown('** Sektor **: ' + translated_1)
-        st.markdown('** Industrie **: ' + translated_2)
+        #to_translate_1 = info['sector']
+        #to_translate_2 = info['industry']
+        #translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+        #translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+        #st.subheader(info['longName'])
+        #st.markdown('** Sektor **: ' + translated_1)
+        #st.markdown('** Industrie **: ' + translated_2)
         
         st.header('Datenanalyse')
         

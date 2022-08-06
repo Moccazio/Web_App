@@ -149,18 +149,13 @@ class Company:
 # ========================================    
 class Stock:
     def __init__(self, ticker, start=None, end=None):
-
         self.ticker = ticker
-
         try:
             self._ticker = yf.Ticker(self.ticker)
-
             if not (start or end):
                 self.df = self.df_ = self._ticker.history(period='max', auto_adjust=True)
-                
             else:
                 self.df = self.df_ = self._ticker.history(start=start, end=end, auto_adjust=True)
-
         except Exception as err:
             print(err)
 # ========================================    
@@ -261,11 +256,11 @@ def Option(ticker):
 # Economic Data Funktions
 # ========================================   
 def get_sp500_data():
-    sp500 = Stock("^GSPC").df.Close
+    sp500 = yf.download("^GSPC", period='max', auto_adjust=True)
     return sp500
 
 def get_dax_data():
-    dax = Stock("^GDAXI").df.Close
+    dax =  yf.download("^GDAXI", period='max', auto_adjust=True)
     return dax
 
 def get_wti_data():
@@ -330,23 +325,15 @@ def read_sp500_ticker():
 
 
 def get_stock_data():
-    stock = Stock(ticker_input)
+    stock = yf.download(ticker_input, period='max', auto_adjust=True)
     return stock
 
 def dax_stock_data():
-    stock = Stock(DAX_ticker)
+    stock =  yf.download(DAX_ticker, period='max', auto_adjust=True)
     return stock
 
 def snp_stock_data():
-    stock = Stock(SNP_ticker)
-    return stock
-
-def internet_stock_data():
-    stock = Stock(internet_ticker)
-    return stock
-
-def software_stock_data():
-    stock = Stock(software_ticker)
+    stock =  yf.download(SNP_ticker, period='max', auto_adjust=True)
     return stock
     
 def get_quote_data():
@@ -440,9 +427,10 @@ if ticker_radio == 'Tickersuche':
         
         if st.checkbox("Finanzkennzahlen"):
             company = get_company_data()
-            st.dataframe(company.inputs)  
+            st.dataframe(company.inputs.fillna(0))  
+            
         stock = get_stock_data()    
-        close = stock.df.Close
+        close = stock.Close
         if st.checkbox("Graphischer Kursverlauf"):
             font_1 = {
                     'family' : 'Arial',
@@ -505,7 +493,7 @@ if ticker_radio_1 == 'S&P500':
     
         
     stock = snp_stock_data()    
-    close = stock.df.Close
+    close = stock.Close
     if st.checkbox("Graphischer Kursverlauf"):
         font_1 = {
                     'family' : 'Arial',
@@ -558,13 +546,13 @@ if ticker_radio_1 == 'DAX':
     st.subheader("Ticker Info")
     stock_i = yf.Ticker(DAX_ticker)
     info = stock_i.info 
-    to_translate_1 = info['sector']
-    to_translate_2 = info['industry']
-    translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
-    translated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
-    st.subheader(info['longName'])
-    st.markdown('** Sektor **: ' + translated_1)
-    st.markdown('** Industrie **: ' + translated_2)
+    #to_translate_1 = info['sector']
+    #to_translate_2 = info['industry']
+    #translated_1 = GoogleTranslator(source='auto', target='de').translate(to_translate_1)
+    t#ranslated_2 = GoogleTranslator(source='auto', target='de').translate(to_translate_2)
+    #st.subheader(info['longName'])
+    #st.markdown('** Sektor **: ' + translated_1)
+    #st.markdown('** Industrie **: ' + translated_2)
     st.header('Datenanalyse')
     
     stock = dax_stock_data()   
